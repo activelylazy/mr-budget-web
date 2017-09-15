@@ -1,0 +1,44 @@
+.tab-container {
+  xheight: 100%;
+}
+
+.tabs {
+  xposition: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+}
+
+.tab-content {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding-top: 30px;
+  width: 100%;
+  height: 100%;
+}
+
+.tab {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.tabs > .nav > li > a {
+  padding: 3px 4px !important;
+  font-size: 9pt;
+  cursor: pointer;
+}
+
+.tabs > .nav > li > a:focus {
+  outline: 0px;
+}
+
+.tab-info-button {
+  float: right;
+  cursor: pointer;
+}
+
+.tab-info-button:focus {
+  outline: 0px;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Tabs, Tab } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { Tabs, Tab } from './tabs';
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,7 +8,18 @@ class App extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <Button bsStyle="primary" bsSize="large">Large button</Button>
+        <div className="row">
+          <div className="col-md-6">
+              <Tabs>
+                <Tab title="Accounts">
+                  <div>Some content</div>
+                </Tab>
+                <Tab title="Categories">
+                  <div>More content</div>
+                </Tab>
+              </Tabs>
+          </div>
+        </div>
       </div>
     );
   }
