@@ -7,21 +7,24 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar fixedTop='true'>
+        <Navbar fixedTop='true' collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
               <a href="#">Mr. Budget</a>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
-          <Nav>
-            <NavItem eventKey={1} href="#">Accounts</NavItem>
-            <NavItem eventKey={2} href="#">Categories</NavItem>
-            <NavItem eventKey={3} href="#">Review</NavItem>
-            <NavItem eventKey={4} href="#">Import</NavItem>
-          </Nav>
-          <Navbar.Text pullRight>
-            Signed in as <u>Demo User</u>.
-          </Navbar.Text>
+          <Navbar.Collapse>
+            <Nav>
+              <NavItem eventKey={1} onClick={() => { /* nothing */} }>Accounts</NavItem>
+              <NavItem eventKey={2} onClick={() => { /* nothing */} }>Categories</NavItem>
+              <NavItem eventKey={3} onClick={() => { /* nothing */} }>Review</NavItem>
+              <NavItem eventKey={4} onClick={() => { /* nothing */} }>Import</NavItem>
+            </Nav>
+            <Navbar.Text pullRight>
+              Signed in as <u>Demo User</u>.
+            </Navbar.Text>
+          </Navbar.Collapse>
         </Navbar>
         <div className="container-fluid">
           <div className="row">
