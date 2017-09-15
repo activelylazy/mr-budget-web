@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Navbar, Nav, NavItem } from 'react-bootstrap';
-import { Tabs, Tab } from './tabs';
 import logo from './logo.svg';
 import './App.css';
 
