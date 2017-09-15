@@ -1,21 +1,13 @@
 .tab-container {
-  xheight: 100%;
+  
 }
 
 .tabs {
-  xposition: absolute;
-  left: 0px;
-  top: 0px;
   width: 100%;
 }
 
 .tab-content {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  padding-top: 30px;
   width: 100%;
-  height: 100%;
 }
 
 .tab {
@@ -25,8 +17,8 @@
 }
 
 .tabs > .nav > li > a {
-  padding: 3px 4px !important;
-  font-size: 9pt;
+  padding: 8px 12px !important;
+  font-size: 11pt;
   cursor: pointer;
 }
 

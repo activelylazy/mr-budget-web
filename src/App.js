@@ -15,7 +15,40 @@ class App extends Component {
                   <div>Some content</div>
                 </Tab>
                 <Tab title="Categories">
-                  <div>More content</div>
+                  <div>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                    More content<br/>
+                  </div>
                 </Tab>
               </Tabs>
           </div>

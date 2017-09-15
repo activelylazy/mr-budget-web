@@ -32,13 +32,13 @@ export class Tabs extends React.Component {
 
     return (
       <div className="tab-container">
-        <div className="tab-content">
-          {React.cloneElement(activeTab)}
-        </div>
         <div className="tabs">
           <ul className="nav nav-tabs">
             {titles}
           </ul>
+        </div>
+        <div className="tab-content">
+          {React.cloneElement(activeTab)}
         </div>
       </div>
     );
