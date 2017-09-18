@@ -10,6 +10,7 @@ import configureStore from './configureStore';
 const store = configureStore();
 
 ReactDOM.render(
+  // eslint-disable-next-line
   <Provider store={store}>
     <App />
   </Provider>,

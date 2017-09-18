@@ -1,5 +1,4 @@
 import { assert, should } from 'chai';
-import { fromJS } from 'immutable';
 import navigationReducer from './navigation-reducer';
 import * as areas from './navigation-areas';
 import * as actions from './navigation-actions';
