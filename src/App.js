@@ -6,7 +6,7 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className="full-height">
         <Navbar fixedTop='true' collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
@@ -26,41 +26,19 @@ class App extends Component {
             </Navbar.Text>
           </Navbar.Collapse>
         </Navbar>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-6">
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
-              More content<br/>
+        <div className="container-fluid container-no-padding full-height">
+          <div className="row" className="full-height">
+            <div className="col-md-3 col-sm-12 full-height left-list">
+              <ul>
+                <li>Account one</li>
+                <li>Account two</li>
+              </ul>
+            </div>
+            <div className="col-md-9 right-list">
+              <ul>
+                <li>A transaction</li>
+                <li>Another transaction</li>
+              </ul>
             </div>
           </div>
         </div>
