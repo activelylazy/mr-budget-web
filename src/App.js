@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="full-height">
-        <Navbar fixedTop='true' collapseOnSelect>
+        <Navbar fixedTop={true} collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
               <a href="#">Mr. Budget</a>
@@ -16,7 +16,7 @@ class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} onClick={() => { /* nothing */} }>Accounts</NavItem>
+              <NavItem eventKey={1} active={true} onClick={() => { /* nothing */} }>Accounts</NavItem>
               <NavItem eventKey={2} onClick={() => { /* nothing */} }>Categories</NavItem>
               <NavItem eventKey={3} onClick={() => { /* nothing */} }>Review</NavItem>
               <NavItem eventKey={4} onClick={() => { /* nothing */} }>Import</NavItem>
