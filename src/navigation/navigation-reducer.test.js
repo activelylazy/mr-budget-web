@@ -8,11 +8,11 @@ should();
 describe('navigation reducer', () => {
   it('selected area is accounts by default', () => {
     const state = navigationReducer(undefined, {});
-    assert(state.get('area').should.equal(areas.ACCOUNTS));
+    assert(state.area.should.equal(areas.ACCOUNTS));
   });
 
   it('should select a different area', () => {
     const state = navigationReducer(undefined, actions.navigateTo(areas.CATEGORIES));
-    assert(state.get('area').should.equal(areas.CATEGORIES));
+    assert(state.area.should.equal(areas.CATEGORIES));
   });
 });
