@@ -9,7 +9,7 @@ const defaultState = fromJS({
 export default (state = defaultState, action) => {
   switch (action.type) {
     case types.NAVIGATE:
-        return state;
+        return state.set('area', action.area);
     default:
         return state;
   }
