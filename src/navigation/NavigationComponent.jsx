@@ -11,10 +11,10 @@ export default () => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem eventKey={1} active>Accounts</NavItem>
-        <NavItem eventKey={2}>Categories</NavItem>
-        <NavItem eventKey={3}>Review</NavItem>
-        <NavItem eventKey={4}>Import</NavItem>
+        <NavItem eventKey={1} active className="accounts">Accounts</NavItem>
+        <NavItem eventKey={2} className="categories">Categories</NavItem>
+        <NavItem eventKey={3} className="review">Review</NavItem>
+        <NavItem eventKey={4} className="import">Import</NavItem>
       </Nav>
       <Navbar.Text pullRight>
             Signed in as <u>Demo User</u>.
