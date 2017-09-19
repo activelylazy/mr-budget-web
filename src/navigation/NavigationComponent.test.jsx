@@ -1,13 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
+import sinon from 'sinon';
 import Navigation from './NavigationComponent';
 
 should();
 
 describe('navigation component', () => {
   it('renders links', () => {
-    const navigation = shallow(<Navigation />);
+    const navigation = shallow(<Navigation changeArea={sinon.stub()} />);
 
     assert(navigation.find('NavItem').length.should.equal(4));
     assert(navigation.find('.accounts').children().text().should.equal('Accounts'));
@@ -21,5 +22,13 @@ describe('navigation component', () => {
 
     assert(navigation.find('.import').children().text().should.equal('Import'));
     assert(navigation.find('.import').prop('active').should.equal(false));
+  });
+
+  it('changes to accounts area', () => {
+    const changeArea = sinon.spy();
+    const navigation = shallow(<Navigation changeArea={changeArea} />);
+
+    navigation.find('.accounts').simulate('click');
+    assert(changeArea.calledOnce);
   });
 });

@@ -1,7 +1,9 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import * as areas from './navigation-areas';
 
-export default () => (
+const Navigation = ({ changeArea }) => (
   <Navbar fixedTop collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
@@ -11,7 +13,14 @@ export default () => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem eventKey={1} active className="accounts">Accounts</NavItem>
+        <NavItem
+          eventKey={1}
+          active
+          className="accounts"
+          onClick={() => changeArea(areas.ACCOUNTS)}
+        >
+          Accounts
+        </NavItem>
         <NavItem eventKey={2} className="categories">Categories</NavItem>
         <NavItem eventKey={3} className="review">Review</NavItem>
         <NavItem eventKey={4} className="import">Import</NavItem>
@@ -22,3 +31,9 @@ export default () => (
     </Navbar.Collapse>
   </Navbar>
 );
+
+Navigation.propTypes = {
+  changeArea: PropTypes.func.isRequired,
+};
+
+export default Navigation;
