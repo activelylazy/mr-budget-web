@@ -4,6 +4,8 @@ import './App.css';
 import Navigation from './navigation/NavigationContainer';
 import Accounts from './accounts/AccountsComponent';
 import Categories from './categories/CategoriesComponent';
+import Review from './review/ReviewComponent';
+import Import from './import/ImportComponent';
 import * as areas from './navigation/navigation-areas';
 
 function componentFor(area) {
@@ -12,6 +14,12 @@ function componentFor(area) {
   }
   if (area === areas.CATEGORIES) {
     return (<Categories />);
+  }
+  if (area === areas.REVIEW) {
+    return (<Review />);
+  }
+  if (area === areas.IMPORT) {
+    return (<Import />);
   }
   return (<div />);
 }
