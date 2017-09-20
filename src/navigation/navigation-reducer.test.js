@@ -12,7 +12,7 @@ describe('navigation reducer', () => {
   });
 
   it('should select a different area', () => {
-    const state = navigationReducer(undefined, actions.navigateTo(areas.CATEGORIES));
+    const state = navigationReducer(undefined, actions.changeArea(areas.CATEGORIES));
     assert(state.area.should.equal(areas.CATEGORIES));
   });
 });

@@ -2,10 +2,10 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Navigation from './NavigationComponent';
-import * as actions from './navigation-actions';
+import { changeArea } from './navigation-actions';
 
-const NavigationContainer = ({ changeArea }) => (
-  <Navigation changeArea={changeArea} />
+const NavigationContainer = props => (
+  <Navigation changeArea={props.changeArea} />
 );
 
 NavigationContainer.propTypes = {
@@ -18,10 +18,4 @@ function mapStateToProps() {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    changeArea: area => dispatch(actions.navigateTo(area)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationContainer);
+export default connect(mapStateToProps, { changeArea })(NavigationContainer);
