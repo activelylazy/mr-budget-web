@@ -29,6 +29,30 @@ describe('navigation component', () => {
     const navigation = shallow(<Navigation changeArea={changeArea} />);
 
     navigation.find('.accounts').simulate('click');
-    assert(changeArea.calledOnce);
+    assert(changeArea.calledWith('ACCOUNTS'));
+  });
+
+  it('changes to categories area', () => {
+    const changeArea = sinon.spy();
+    const navigation = shallow(<Navigation changeArea={changeArea} />);
+
+    navigation.find('.categories').simulate('click');
+    assert(changeArea.calledWith('CATEGORIES'));
+  });
+
+  it('changes to review area', () => {
+    const changeArea = sinon.spy();
+    const navigation = shallow(<Navigation changeArea={changeArea} />);
+
+    navigation.find('.review').simulate('click');
+    assert(changeArea.calledWith('REVIEW'));
+  });
+
+  it('changes to import area', () => {
+    const changeArea = sinon.spy();
+    const navigation = shallow(<Navigation changeArea={changeArea} />);
+
+    navigation.find('.import').simulate('click');
+    assert(changeArea.calledWith('IMPORT'));
   });
 });

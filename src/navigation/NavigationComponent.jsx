@@ -21,9 +21,27 @@ const Navigation = ({ changeArea }) => (
         >
           Accounts
         </NavItem>
-        <NavItem eventKey={2} className="categories">Categories</NavItem>
-        <NavItem eventKey={3} className="review">Review</NavItem>
-        <NavItem eventKey={4} className="import">Import</NavItem>
+        <NavItem
+          eventKey={2}
+          className="categories"
+          onClick={() => changeArea(areas.CATEGORIES)}
+        >
+          Categories
+        </NavItem>
+        <NavItem
+          eventKey={3}
+          className="review"
+          onClick={() => changeArea(areas.REVIEW)}
+        >
+          Review
+        </NavItem>
+        <NavItem
+          eventKey={4}
+          className="import"
+          onClick={() => changeArea(areas.IMPORT)}
+        >
+          Import
+        </NavItem>
       </Nav>
       <Navbar.Text pullRight>
             Signed in as <u>Demo User</u>.
