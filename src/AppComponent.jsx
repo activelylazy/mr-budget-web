@@ -10,7 +10,7 @@ import * as areas from './navigation/navigation-areas';
 
 function componentFor(area) {
   if (area === areas.ACCOUNTS) {
-    return (<Accounts />);
+    return (<Accounts addAccount={() => { }} />);
   }
   if (area === areas.CATEGORIES) {
     return (<Categories />);

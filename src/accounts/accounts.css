@@ -1,0 +1,21 @@
+.account-list {
+  padding: 16px;
+}
+
+.account-list-transition-enter {
+  opacity: 0.01;
+}
+
+.account-list-transition-enter.account-list-transition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.account-list-transition-leave {
+  opacity: 1;
+}
+
+.account-list-transition-leave.account-list-transition-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
