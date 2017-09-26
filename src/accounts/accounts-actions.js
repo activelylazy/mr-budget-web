@@ -23,7 +23,7 @@ export const addAccount = accountName => (dispatch) => {
   };
   console.log('sending request...');
   return request(options)
-    .then(dispatch(addAccountCompleted(accountName)))
+    .then(() => dispatch(addAccountCompleted(accountName)))
     .catch((err) => {
       console.log(`Error adding account: ${err}`);
     });
