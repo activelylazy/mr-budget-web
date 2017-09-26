@@ -20,7 +20,7 @@ describe('accounts component', () => {
     assert(accountNameInput.exists().should.equal(true));
     accountNameInput.simulate('change', { target: { value: 'my account' } });
 
-    accounts.find('#add-account-submit').simulate('click');
+    accounts.find('form').simulate('submit', { preventDefault: () => {} });
 
     assert(addAccount.calledWith('my account'));
   });
@@ -38,8 +38,8 @@ describe('accounts component', () => {
     assert(accountNameInput.exists().should.equal(true));
     accountNameInput.simulate('change', { target: { value: 'x' } });
 
-    accounts.find('#add-account-submit').simulate('click');
+    accounts.find('form').simulate('submit', { preventDefault: () => {} });
 
-    assert(addAccount.notCalled());
+    assert(addAccount.notCalled);
   });
 });
