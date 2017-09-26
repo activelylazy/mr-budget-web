@@ -1,1 +1,1 @@
-export const NAVIGATE = 'NAVIGATE_AREA'; // eslint-disable-line
+export const NAVIGATE = 'NAVIGATE_AREA';

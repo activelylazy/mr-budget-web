@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import './App.css';
 import Navigation from './navigation/NavigationContainer';
-import Accounts from './accounts/AccountsComponent';
+import Accounts from './accounts/AccountsContainer';
 import Categories from './categories/CategoriesComponent';
 import Review from './review/ReviewComponent';
 import Import from './import/ImportComponent';
