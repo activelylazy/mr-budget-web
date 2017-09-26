@@ -6,4 +6,4 @@ export default initialState => createStore(rootReducer,
   initialState,
   compose(
     applyMiddleware(thunkMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())); // eslint-disable-line
+    window.devToolsExtension ? window.devToolsExtension() : f => f)); // eslint-disable-line

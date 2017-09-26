@@ -11,15 +11,15 @@ describe('accounts reducer', () => {
   });
 
   it('adds an account', () => {
-    const state = accountsReducer(undefined, actions.addAccountCompleted('new account'));
+    const state = accountsReducer(undefined, actions.addAccountToState('new account'));
 
     assert(state.accounts.length.should.equal(1));
     assert(state.accounts[0].name.should.equal('new account'));
   });
 
   it('adds another account', () => {
-    const initialState = accountsReducer(undefined, actions.addAccountCompleted('new account'));
-    const state = accountsReducer(initialState, actions.addAccountCompleted('second account'));
+    const initialState = accountsReducer(undefined, actions.addAccountToState('new account'));
+    const state = accountsReducer(initialState, actions.addAccountToState('second account'));
 
     assert(state.accounts.length.should.equal(2));
     assert(state.accounts[0].name.should.equal('new account'));

@@ -1,7 +1,7 @@
 import request from 'request-promise-native';
 
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
-export function addAccountCompleted(accountName) {
+export function addAccountToState(accountName) {
   return ({
     type: ADD_ACCOUNT,
     accountName,
@@ -10,6 +10,7 @@ export function addAccountCompleted(accountName) {
 
 export const addAccount = accountName => (dispatch) => {
   // todo: we could dispatch an updating action here
+  dispatch(addAccountToState(accountName));
 
   const body = {
     salt: 'abc123',
@@ -23,7 +24,7 @@ export const addAccount = accountName => (dispatch) => {
   };
   console.log('sending request...');
   return request(options)
-    .then(() => dispatch(addAccountCompleted(accountName)))
+    .then(() => console.log('state saved'))
     .catch((err) => {
       console.log(`Error adding account: ${err}`);
     });
