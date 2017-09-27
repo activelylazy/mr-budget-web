@@ -10,10 +10,6 @@ export function addAccountToState(accountName) {
 }
 
 function saveUserData(state) {
-  // const body = {
-  //   salt: 'abc123',
-  //   base64Bytes: 'base64Bytes',
-  // };
   console.log(`saving state ${JSON.stringify(state)}`);
   pack(state, 'Password1!')
     .then((packed) => {

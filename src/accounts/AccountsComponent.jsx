@@ -104,7 +104,7 @@ class AccountsComponent extends Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
           >
-            {this.props.accounts.map(account => (<AccountSelector key={account} account={account} />))}
+            {this.props.accounts.map(account => (<AccountSelector key={account.name} account={account} />))}
             {this.renderAddInput()}
             {this.renderAddButton()}
           </ReactCSSTransitionGroup>
