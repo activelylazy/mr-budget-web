@@ -1,5 +1,5 @@
 .account-list {
-  padding: 16px;
+  padding-left: 16px;
 }
 
 .account-list-transition-enter {
@@ -19,4 +19,20 @@
   opacity: 0.01;
   height: 0px;
   transition: height 300ms, opacity 300ms ease-in;
+}
+
+.account {
+  padding-bottom: 4px;
+}
+
+.account > button:focus {
+  outline: 0px;
+}
+
+.account-selector-table {
+  width: 100%;
+}
+
+.account-balance {
+  text-align: right;
 }
