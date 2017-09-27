@@ -3,7 +3,7 @@ body {
 }
 
 .full-height-root {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 66px);
 }
 
 .container-no-padding {
@@ -20,6 +20,7 @@ body {
     background: #F0F080;
     border-bottom: 1px solid #B0B030;
     padding-top: 15px;
+    padding-bottom: 15px;
   }
 }
 
