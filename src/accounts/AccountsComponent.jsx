@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Button, FormControl, InputGroup, Glyphicon, FormGroup } from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './accounts.css';
+import AccountSelector from './AccountSelector';
 
 class AccountsComponent extends Component {
   constructor() {
@@ -98,14 +99,12 @@ class AccountsComponent extends Component {
     return (
       <div className="row full-height account-list">
         <div className="col-md-3 col-sm-12 full-height left-list">
-          <ul>
-            <li>Account one</li>
-          </ul>
           <ReactCSSTransitionGroup
             transitionName="account-list-transition"
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
           >
+            {this.props.accounts.map(account => (<AccountSelector key={account} account={account} />))}
             {this.renderAddInput()}
             {this.renderAddButton()}
           </ReactCSSTransitionGroup>
@@ -123,6 +122,7 @@ class AccountsComponent extends Component {
 
 AccountsComponent.propTypes = {
   addAccount: PropTypes.func.isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AccountsComponent;

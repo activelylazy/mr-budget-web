@@ -5,16 +5,17 @@ import Accounts from './AccountsComponent';
 import { addAccount } from './accounts-actions';
 
 const AccountsContainer = props => (
-  <Accounts addAccount={props.addAccount} />
+  <Accounts addAccount={props.addAccount} accounts={props.accounts} />
 );
 
 AccountsContainer.propTypes = {
   addAccount: PropTypes.func.isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
-
+    accounts: state.accounts.accounts,
   };
 }
 
