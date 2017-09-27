@@ -9,17 +9,19 @@ const AccountsSelector = ({ account }) => (
       block
     >
       <table className="account-selector-table">
-        <tr>
-          <td>{account.name}</td>
-          <td rowSpan="2" className="account-balance">
-            £ 123.45
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span style={{ fontSize: '8pt' }}>last updated yesterday</span>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>{account.name}</td>
+            <td rowSpan="2" className="account-balance">
+              £ 123.45
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span style={{ fontSize: '8pt' }}>last updated yesterday</span>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </Button>
   </div>
