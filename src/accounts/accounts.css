@@ -8,7 +8,7 @@
 
 .account-list-transition-enter.account-list-transition-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  transition: height 300ms, opacity 500ms ease-in;
 }
 
 .account-list-transition-leave {
@@ -17,5 +17,6 @@
 
 .account-list-transition-leave.account-list-transition-leave-active {
   opacity: 0.01;
-  transition: opacity 300ms ease-in;
+  height: 0px;
+  transition: height 300ms, opacity 300ms ease-in;
 }
