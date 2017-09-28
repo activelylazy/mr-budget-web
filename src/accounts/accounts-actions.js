@@ -21,7 +21,7 @@ function fetchUserData() {
   console.log('loading user data');
   const options = {
     method: 'GET',
-    uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f/2017/10',
+    uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
     json: true,
   };
   return request(options)
@@ -37,7 +37,7 @@ function saveUserData(state) {
     .then((packed) => {
       const options = {
         method: 'POST',
-        uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f/2017/10',
+        uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
         body: packed,
         json: true,
       };
