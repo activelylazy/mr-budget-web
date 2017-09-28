@@ -11,26 +11,26 @@ should();
 
 describe('app component', () => {
   it('shows accounts when accounts area selected', () => {
-    const app = shallow(<App area="ACCOUNTS" />);
+    const app = shallow(<App area="ACCOUNTS" loadUserData={() => {}} />);
 
     assert(app.find(Accounts).exists());
     assert(!app.find(Categories).exists());
   });
 
   it('shows categories when categories area selected', () => {
-    const app = shallow(<App area="CATEGORIES" />);
+    const app = shallow(<App area="CATEGORIES" loadUserData={() => {}} />);
 
     assert(app.find(Categories).exists());
   });
 
   it('shows review when review area selected', () => {
-    const app = shallow(<App area="REVIEW" />);
+    const app = shallow(<App area="REVIEW" loadUserData={() => {}} />);
 
     assert(app.find(Review).exists());
   });
 
   it('shows import when import area selected', () => {
-    const app = shallow(<App area="IMPORT" />);
+    const app = shallow(<App area="IMPORT" loadUserData={() => {}} />);
 
     assert(app.find(Import).exists());
   });
