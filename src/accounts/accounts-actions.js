@@ -10,7 +10,7 @@ export function addAccountToState(accountName) {
 }
 
 export const USER_DATA_LOADED = 'USER_DATA_LOADED';
-function userDataLoaded(userData) {
+export function userDataLoaded(userData) {
   return ({
     type: USER_DATA_LOADED,
     userData,
@@ -51,11 +51,11 @@ function saveUserData(state) {
 
 export const loadUserData = () => (dispatch) => {
   fetchUserData()
-    .then(userData => dispatch(userDataLoaded(userData))
-    .catch(err => {
+    .then(userData => dispatch(userDataLoaded(userData)))
+    .catch((err) => {
       console.log(`Error loading user data: ${err}`);
-    })
-}
+    });
+};
 
 export const addAccount = accountName => (dispatch, getState) => {
   dispatch(addAccountToState(accountName));

@@ -25,4 +25,16 @@ describe('accounts reducer', () => {
     assert(state.accounts[0].name.should.equal('new account'));
     assert(state.accounts[1].name.should.equal('second account'));
   });
+
+  it('loads user data', () => {
+    const userData = {
+      accounts: [{
+        name: 'my account',
+      }],
+    };
+    const state = accountsReducer(undefined, actions.userDataLoaded(userData));
+
+    assert(state.accounts.length.should.equal(1));
+    assert(state.accounts[0].name.should.equal('my account'));
+  });
 });
