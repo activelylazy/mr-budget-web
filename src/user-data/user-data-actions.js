@@ -59,5 +59,5 @@ export const loadUserData = () => (dispatch) => {
 
 export const addAccount = accountName => (dispatch, getState) => {
   dispatch(addAccountToState(accountName));
-  saveUserData(getState().accounts);
+  saveUserData(getState().userData);
 };
