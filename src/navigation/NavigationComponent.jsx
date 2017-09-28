@@ -3,7 +3,30 @@ import { PropTypes } from 'prop-types';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import * as areas from './navigation-areas';
 
-const Navigation = ({ changeArea }) => (
+const renderNavItem = (name, number, changeArea, currentArea, area, label) => {
+  if (currentArea === area) {
+    return (
+      <NavItem
+        eventKey={number}
+        active
+        className={name}
+        onClick={() => changeArea(area)}
+      >
+        {label}
+      </NavItem>
+    );
+  }
+  return (
+    <NavItem
+      eventKey={number}
+      className={name}
+      onClick={() => changeArea(area)}
+    >
+      {label}
+    </NavItem>
+  );
+};
+const Navigation = ({ changeArea, currentArea }) => (
   <Navbar fixedTop collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
@@ -13,35 +36,10 @@ const Navigation = ({ changeArea }) => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem
-          eventKey={1}
-          active
-          className="accounts"
-          onClick={() => changeArea(areas.ACCOUNTS)}
-        >
-          Accounts
-        </NavItem>
-        <NavItem
-          eventKey={2}
-          className="categories"
-          onClick={() => changeArea(areas.CATEGORIES)}
-        >
-          Categories
-        </NavItem>
-        <NavItem
-          eventKey={3}
-          className="review"
-          onClick={() => changeArea(areas.REVIEW)}
-        >
-          Review
-        </NavItem>
-        <NavItem
-          eventKey={4}
-          className="import"
-          onClick={() => changeArea(areas.IMPORT)}
-        >
-          Import
-        </NavItem>
+        {renderNavItem('accounts', 1, changeArea, currentArea, areas.ACCOUNTS, 'Accounts')}
+        {renderNavItem('categories', 2, changeArea, currentArea, areas.CATEGORIES, 'Categories')}
+        {renderNavItem('review', 3, changeArea, currentArea, areas.REVIEW, 'Review')}
+        {renderNavItem('import', 4, changeArea, currentArea, areas.IMPORT, 'Import')}
       </Nav>
       <Navbar.Text pullRight>
             Signed in as <u>Demo User</u>.
@@ -52,6 +50,7 @@ const Navigation = ({ changeArea }) => (
 
 Navigation.propTypes = {
   changeArea: PropTypes.func.isRequired,
+  currentArea: PropTypes.string.isRequired,
 };
 
 export default Navigation;
