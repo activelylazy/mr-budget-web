@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import './App.css';
 import Navigation from './navigation/NavigationContainer';
@@ -23,17 +23,26 @@ function componentFor(area) {
   }
   return (<div />);
 }
-const AppComponent = ({ area }) => (
-  <div className="full-height">
-    <Navigation />
-    <div className="container-fluid container-no-padding full-height">
-      {componentFor(area)}
-    </div>
-  </div>
-);
+class AppComponent extends Component {
+  componentDidMount() {
+    this.props.loadUserData();
+  }
+  render() {
+    const { area } = this.props;
+    return (
+      <div className="full-height">
+        <Navigation />
+        <div className="container-fluid container-no-padding full-height">
+          {componentFor(area)}
+        </div>
+      </div>
+    );
+  }
+}
 
 AppComponent.propTypes = {
   area: PropTypes.string.isRequired,
+  loadUserData: PropTypes.func.isRequired,
 };
 
 export default AppComponent;
