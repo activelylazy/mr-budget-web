@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { ADD_ACCOUNT, USER_DATA_LOADED } from './accounts-actions';
+import { ADD_ACCOUNT, USER_DATA_LOADED } from './user-data-actions';
 
 const defaultState = Immutable.from({
   accounts: [],

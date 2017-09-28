@@ -1,6 +1,6 @@
 import { assert, should } from 'chai';
-import accountsReducer from './accounts-reducer';
-import * as actions from './accounts-actions';
+import accountsReducer from './user-data-reducer';
+import * as actions from './user-data-actions';
 
 should();
 

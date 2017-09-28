@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import App from './AppComponent';
-import { loadUserData } from './accounts/accounts-actions';
+import { loadUserData } from './user-data/user-data-actions';
 
 const AppContainer = props => (
   <App

@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Accounts from './AccountsComponent';
-import { addAccount } from './accounts-actions';
+import { addAccount } from '../user-data/user-data-actions';
 
 const AccountsContainer = props => (
   <Accounts addAccount={props.addAccount} accounts={props.accounts} />
@@ -15,7 +15,7 @@ AccountsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    accounts: state.accounts.accounts,
+    accounts: state.userData.accounts,
   };
 }
 
