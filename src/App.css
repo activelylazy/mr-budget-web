@@ -2,6 +2,25 @@ body {
   padding-top: 50px;
 }
 
+.navbar {
+  background: #B0B0FF;
+  border-bottom: 1px solid #808090;
+}
+
+.navbar-brand {
+  color: #000040 !important;
+}
+
+.navbar-nav > li > a {
+  color: #606080 !important;
+}
+
+.navbar-nav > .active > a {
+  color: #000040 !important;
+  border-bottom: 1px solid #e7e7e7;
+  margin-bottom: -1px;
+}
+
 .full-height-root {
   height: calc(100vh - 66px);
 }
