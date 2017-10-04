@@ -39,7 +39,7 @@ export function decryptUsingPassword(payload, password) {
         reject(err);
         return;
       }
-      const aesCtr = new aesjs.ModeOfOperation.ctr(key);
+      const aesCtr = new aesjs.ModeOfOperation.ctr(key); // eslint-disable-line
       const decryptedBytes = aesCtr.decrypt(encryptedBytes);
 
       resolve(new Buffer(decryptedBytes));
