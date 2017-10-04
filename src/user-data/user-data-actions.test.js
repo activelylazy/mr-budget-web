@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import request from 'request-promise-native';
-import { loadUserData, __RewireAPI__ as rewireApi } from './user-data-actions';
+import { loadUserData, USER_DATA_LOADED, __RewireAPI__ as rewireApi } from './user-data-actions';
 
 should();
 
@@ -22,14 +22,19 @@ describe('load user data', () => {
   it('fetches user data and dispatches user data loaded', (done) => {
     const dispatch = sinon.stub();
     const response = '{response: true}';
+    const userData = { unpackedData: true };
+    const auth = {
+      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+      password: 'my password',
+    };
     requestStub.returns(Promise.resolve(response));
-    unpackStub.returns({ unpackedData: true });
+    unpackStub.returns(userData);
 
-    loadUserData()(dispatch)
+    loadUserData(auth)(dispatch)
       .then(() => {
-        assert(requestStub.calledWith(sinon.match({ uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f' })));
-        assert(unpackStub.calledWith(response));
-        assert(dispatch.calledOnce);
+        assert(requestStub.calledWith(sinon.match({ uri: `http://localhost:7000/${auth.userId}` })));
+        assert(unpackStub.calledWith(response, auth.password));
+        assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
         done();
       })
       .catch(done);

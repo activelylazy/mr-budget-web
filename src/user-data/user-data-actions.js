@@ -17,13 +17,13 @@ export function userDataLoaded(userData) {
   });
 }
 
-function fetchUserData() {
+function fetchUserData(auth) {
   const options = {
-    uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
+    uri: `http://localhost:7000/${auth.userId}`,
     json: true,
   };
   return request.get(options)
-    .then(response => unpack(response, 'Password1!'));
+    .then(response => unpack(response, auth.password));
 }
 
 function saveUserData(state) {
@@ -44,7 +44,7 @@ function saveUserData(state) {
     });
 }
 
-export const loadUserData = () => dispatch => fetchUserData()
+export const loadUserData = auth => dispatch => fetchUserData(auth)
   .then(userData => dispatch(userDataLoaded(userData)))
   .catch((err) => {
     console.log(`Error loading user data: ${err}`);

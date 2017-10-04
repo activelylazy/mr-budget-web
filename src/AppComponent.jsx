@@ -25,7 +25,11 @@ function componentFor(area) {
 }
 class AppComponent extends Component {
   componentDidMount() {
-    this.props.loadUserData();
+    const auth = {
+      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
+      password: 'Password1!',
+    };
+    this.props.loadUserData(auth);
   }
   render() {
     const { area } = this.props;
