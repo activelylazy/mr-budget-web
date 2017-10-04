@@ -18,17 +18,12 @@ export function userDataLoaded(userData) {
 }
 
 function fetchUserData() {
-  console.log('loading user data');
   const options = {
-    method: 'GET',
     uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
     json: true,
   };
-  return request(options)
-    .then((response) => {
-      console.log(`downloaded ${JSON.stringify(response)}`);
-      return unpack(response, 'Password1!');
-    });
+  return request.get(options)
+    .then(response => unpack(response, 'Password1!'));
 }
 
 function saveUserData(state) {
@@ -49,13 +44,11 @@ function saveUserData(state) {
     });
 }
 
-export const loadUserData = () => (dispatch) => {
-  fetchUserData()
-    .then(userData => dispatch(userDataLoaded(userData)))
-    .catch((err) => {
-      console.log(`Error loading user data: ${err}`);
-    });
-};
+export const loadUserData = () => dispatch => fetchUserData()
+  .then(userData => dispatch(userDataLoaded(userData)))
+  .catch((err) => {
+    console.log(`Error loading user data: ${err}`);
+  });
 
 export const addAccount = accountName => (dispatch, getState) => {
   dispatch(addAccountToState(accountName));
