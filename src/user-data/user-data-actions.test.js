@@ -32,7 +32,7 @@ describe('load user data', () => {
 
     loadUserData(auth)(dispatch)
       .then(() => {
-        assert(requestStub.calledWith(sinon.match({ uri: `http://localhost:7000/${auth.userId}` })));
+        assert(requestStub.calledWith(sinon.match({ uri: `http://localhost/${auth.userId}` })));
         assert(unpackStub.calledWith(response, auth.password));
         assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
         done();

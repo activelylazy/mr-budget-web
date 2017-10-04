@@ -19,7 +19,7 @@ export function userDataLoaded(userData) {
 
 function fetchUserData(auth) {
   const options = {
-    uri: `http://localhost:7000/${auth.userId}`,
+    uri: `${process.env.REACT_APP_SERVER}${auth.userId}`,
     json: true,
   };
   return request.get(options)

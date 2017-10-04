@@ -28,6 +28,7 @@
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
+    "env-cmd": "^7.0.0",
     "enzyme": "^2.9.1",
     "eslint": "^4.7.0",
     "eslint-config-airbnb": "^15.1.0",
@@ -42,7 +43,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --env=jsdom --watch",
+    "test": "env-cmd .env.test jest --env=jsdom --watch",
     "eject": "react-scripts eject",
     "lint": "eslint **/*.js"
   }
