@@ -7,7 +7,7 @@ import Import, { __RewireAPI__ as rewireApi } from './ImportComponent';
 
 should();
 
-describe('navigation component', () => {
+describe('import component', () => {
   const readFileStub = sinon.stub();
 
   beforeEach(() => {
