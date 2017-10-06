@@ -1,5 +1,7 @@
 .account-list {
   padding-left: 16px;
+  margin-right: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 .account-list-transition-enter {
