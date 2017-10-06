@@ -2,14 +2,14 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
-import { uploadStatement } from './import-actions';
+import { importStatement } from './import-actions';
 
 const ImportContainer = props => (
-  <Import onUpload={props.uploadStatement} />
+  <Import onUpload={props.importStatement} />
 );
 
 ImportContainer.propTypes = {
-  uploadStatement: PropTypes.func.isRequired,
+  importStatement: PropTypes.func.isRequired,
 };
 
 function mapStateToProps() {
@@ -18,4 +18,4 @@ function mapStateToProps() {
   };
 }
 
-export default connect(mapStateToProps, { uploadStatement })(ImportContainer);
+export default connect(mapStateToProps, { importStatement })(ImportContainer);
