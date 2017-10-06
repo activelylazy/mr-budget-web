@@ -6,7 +6,7 @@ const defaultState = Immutable({
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case types.UPLOAD_STATEMENT:
+    case types.STATEMENT_UPLOADED:
       return Immutable({ ...state, statement: action.statement });
     default:
       return state;

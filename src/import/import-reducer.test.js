@@ -11,10 +11,10 @@ describe('import reducer', () => {
     assert.isUndefined(state.statement);
   });
 
-  it('uploads a statement', () => {
+  it('handles statement uploaded by setting statement', () => {
     const statement = sinon.stub();
 
-    const state = importReducer(undefined, actions.uploadStatement(statement));
+    const state = importReducer(undefined, actions.statementUploaded(statement));
 
     assert(state.statement.should.equal(statement));
   });
