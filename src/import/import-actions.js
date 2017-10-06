@@ -1,8 +1,8 @@
-import * as types from '../action-types';
 import parseOfx from '../ofx/parse-ofx';
 
+export const STATEMENT_UPLOADED = 'STATEMENT_UPLOADED';
 export const statementUploaded = statement => ({ // eslint-disable-line
-  type: types.STATEMENT_UPLOADED,
+  type: STATEMENT_UPLOADED,
   statement,
 });
 

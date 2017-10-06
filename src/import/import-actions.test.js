@@ -1,7 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { importStatement, __RewireAPI__ as rewireApi } from './import-actions';
-import * as actions from '../action-types';
+import { importStatement, STATEMENT_UPLOADED, __RewireAPI__ as rewireApi } from './import-actions';
 
 should();
 
@@ -18,7 +17,7 @@ describe('import actions', () => {
     importStatement(fileContents)(dispatch)
       .then(() => {
         assert(parseOfx.calledWith(fileContents));
-        assert(dispatch.calledWith(sinon.match({ type: actions.STATEMENT_UPLOADED, statement })));
+        assert(dispatch.calledWith(sinon.match({ type: STATEMENT_UPLOADED, statement })));
         done();
       })
       .catch(done);

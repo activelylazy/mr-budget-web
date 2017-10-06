@@ -1,2 +1,2 @@
-export const NAVIGATE = 'NAVIGATE_AREA';
-export const STATEMENT_UPLOADED = 'STATEMENT_UPLOADED';
+export const NAVIGATE = 'NAVIGATE_AREA'; // eslint-disable-line
+
