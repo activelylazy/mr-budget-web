@@ -46,12 +46,3 @@ export function decryptUsingPassword(payload, password) {
     });
   });
 }
-
-export function encryptUsingPrivateKey(text, privateKey) {
-  const buff = Buffer.from(text);
-  return crypto.privateEncrypt(privateKey, buff);
-}
-
-export function decryptUsingPublicKey(encrypted, publicKey) {
-  return crypto.publicDecrypt(publicKey, encrypted).toString();
-}

@@ -1,7 +1,5 @@
 import { assert, should } from 'chai';
-import keypair from 'keypair';
-import { encryptUsingPassword, decryptUsingPassword,
-  encryptUsingPrivateKey, decryptUsingPublicKey } from './crypto';
+import { encryptUsingPassword, decryptUsingPassword } from './crypto';
 
 should();
 
@@ -42,16 +40,5 @@ describe('crypto web', () => {
         done();
       })
       .catch(done.fail);
-  });
-
-  xit('encrypts and decrypts using a keypair', () => {
-    const secret = 'super secret infos';
-
-    const pair = keypair({ bits: 2048 }); // 2048 bit key
-
-    const encrypted = encryptUsingPrivateKey(secret, pair.private);
-    const decrypted = decryptUsingPublicKey(encrypted, pair.public);
-
-    assert(decrypted.should.equal(secret));
   });
 });
