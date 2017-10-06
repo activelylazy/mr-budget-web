@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { parse as parseOFX } from 'ofx-js';
+import { parse as parseOFX } from './ofx';
 
 function readDate(input) {
   const year = input.substring(0, 4);
