@@ -2,16 +2,8 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Grid, Row, Col, Panel, Glyphicon } from 'react-bootstrap';
 import ReactFileReader from 'react-file-reader';
+import readFile from './read-file';
 import './import.css';
-
-function readFile(files, callback) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    const fileContents = reader.result;
-    callback(fileContents);
-  };
-  reader.readAsText(files[0]);
-}
 
 const ImportComponent = ({ onUpload }) => (
   <div className="import-component">
