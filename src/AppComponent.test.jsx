@@ -5,7 +5,7 @@ import App from './AppComponent';
 import Accounts from './accounts/AccountsContainer';
 import Categories from './categories/CategoriesComponent';
 import Review from './review/ReviewComponent';
-import Import from './import/ImportComponent';
+import Import from './import/ImportContainer';
 
 should();
 

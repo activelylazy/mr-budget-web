@@ -5,7 +5,7 @@ import Navigation from './navigation/NavigationContainer';
 import Accounts from './accounts/AccountsContainer';
 import Categories from './categories/CategoriesComponent';
 import Review from './review/ReviewComponent';
-import Import from './import/ImportComponent';
+import Import from './import/ImportContainer';
 import * as areas from './navigation/navigation-areas';
 
 function componentFor(area) {

@@ -1,9 +1,44 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
+import { Grid, Row, Col, Panel, Glyphicon } from 'react-bootstrap';
+import ReactFileReader from 'react-file-reader';
+import './import.css';
 
-const ImportComponent = () => (
-  <div>
-    Import
+function readFile(files, callback) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const fileContents = reader.result;
+    callback(fileContents);
+  };
+  reader.readAsText(files[0]);
+}
+
+const ImportComponent = ({ onUpload }) => (
+  <div className="import-component">
+    <Grid>
+      <Row>
+        <Col md={6}>
+          <Panel header={(<span><Glyphicon glyph="import" /> Import Statement</span>)} bsStyle="info">
+            <div className="import-form">
+              <ReactFileReader handleFiles={files => readFile(files, onUpload)} fileTypes=".ofx">
+                <button className="btn">Select file</button>
+              </ReactFileReader>
+            </div>
+            <div className="import-instructions">
+              <ol>
+                <li>Download a statement from your bank</li>
+                <li>Select the downloaded file</li>
+              </ol>
+            </div>
+          </Panel>
+        </Col>
+      </Row>
+    </Grid>
   </div>
 );
+
+ImportComponent.propTypes = {
+  onUpload: PropTypes.func.isRequired,
+};
 
 export default ImportComponent;
