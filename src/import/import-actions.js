@@ -1,7 +1,7 @@
 import * as types from '../action-types';
 
-export const importStatement = contents => ({ // eslint-disable-line
-  type: types.IMPORT_STATEMENT,
+export const uploadStatement = contents => ({ // eslint-disable-line
+  type: types.UPLOAD_STATEMENT,
   contents,
 });
 
