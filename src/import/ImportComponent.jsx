@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Grid, Row, Col, Panel, Glyphicon, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Panel, Glyphicon, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import ReactFileReader from 'react-file-reader';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import readFile from './read-file';
@@ -66,6 +66,9 @@ const ImportComponent = ({ onUpload, statement, accounts }) => {
                 transitionLeaveTimeout={300}
               >
                 {content}
+                <div key="import-button" className="import-button">
+                  <Button bsStyle="primary">Import <Glyphicon glyph="chevron-right" /></Button>
+                </div>
               </ReactCSSTransitionGroup>
             </Panel>
           </Col>
