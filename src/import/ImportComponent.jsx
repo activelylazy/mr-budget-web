@@ -24,7 +24,10 @@ function selectFile(onUpload) {
   );
 }
 
-function selectAccount() {
+function selectAccount(accounts) {
+  const accountOptions = accounts.map(account => (
+    <option>{account.name}</option>
+  ));
   return (
     <div key="select-account" className="select-account">
       <div className="import-select-account">
@@ -32,7 +35,7 @@ function selectAccount() {
           <ControlLabel>Account</ControlLabel>
           <FormControl componentClass="select" placeholder="select">
             <option value="select">Choose account to import into</option>
-            <option value="other">...</option>
+            {accountOptions}
           </FormControl>
         </FormGroup>
       </div>
@@ -40,12 +43,12 @@ function selectAccount() {
   );
 }
 
-const ImportComponent = ({ onUpload, statement }) => {
+const ImportComponent = ({ onUpload, statement, accounts }) => {
   const content = [];
   if (statement === undefined) {
     content.push(selectFile(onUpload));
   } else {
-    content.push(selectAccount());
+    content.push(selectAccount(accounts));
   }
   return (
     <div className="import-component">
@@ -77,6 +80,9 @@ ImportComponent.propTypes = {
   statement: PropTypes.shape({
     transactions: PropTypes.array.isRequired,
   }),
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 ImportComponent.defaultProps = {

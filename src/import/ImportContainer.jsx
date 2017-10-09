@@ -5,7 +5,7 @@ import Import from './ImportComponent';
 import { importStatement } from './import-actions';
 
 const ImportContainer = props => (
-  <Import onUpload={props.importStatement} statement={props.statement} />
+  <Import onUpload={props.importStatement} statement={props.statement} accounts={props.accounts} />
 );
 
 ImportContainer.propTypes = {
@@ -13,6 +13,9 @@ ImportContainer.propTypes = {
   statement: PropTypes.shape({
     transactions: PropTypes.array.isRequired,
   }),
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 ImportContainer.defaultProps = {
@@ -23,6 +26,7 @@ ImportContainer.defaultProps = {
 function mapStateToProps(state) {
   return {
     statement: state.statementImport.statement,
+    accounts: state.userData.accounts,
   };
 }
 
