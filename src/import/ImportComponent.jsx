@@ -6,12 +6,21 @@ import SelectFile from './SelectFileComponent';
 import SelectAccount from './SelectAccountComponent';
 import './import.css';
 
-const ImportComponent = ({ onUpload, statement, accounts }) => {
+const importButton = () => (
+  <div key="import-button" className="import-button">
+    <Button bsStyle="primary">Import <Glyphicon glyph="chevron-right" /></Button>
+  </div>
+);
+
+const ImportComponent = ({ onUpload, statement, accounts, selectedAccount }) => {
   const content = [];
-  if (statement === undefined) {
+  if (statement === null) {
     content.push((<SelectFile onUpload={onUpload} key="select-file" />));
   } else {
     content.push((<SelectAccount accounts={accounts} key="select-account" />));
+    if (selectedAccount !== null) {
+      content.push(importButton());
+    }
   }
   return (
     <div className="import-component">
@@ -29,9 +38,6 @@ const ImportComponent = ({ onUpload, statement, accounts }) => {
                 transitionLeaveTimeout={300}
               >
                 {content}
-                <div key="import-button" className="import-button">
-                  <Button bsStyle="primary">Import <Glyphicon glyph="chevron-right" /></Button>
-                </div>
               </ReactCSSTransitionGroup>
             </Panel>
           </Col>
@@ -49,10 +55,12 @@ ImportComponent.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
   })).isRequired,
+  selectedAccount: PropTypes.string,
 };
 
 ImportComponent.defaultProps = {
-  statement: undefined,
+  statement: null,
+  selectedAccount: null,
 };
 
 export default ImportComponent;

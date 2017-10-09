@@ -7,7 +7,7 @@ const SelectAccount = ({ accounts }) => {
     <option>{account.name}</option>
   ));
   return (
-    <div key="select-account" className="select-account">
+    <div className="select-account">
       <div className="import-select-account">
         <FormGroup controlId="formControlsSelect">
           <ControlLabel>Account</ControlLabel>

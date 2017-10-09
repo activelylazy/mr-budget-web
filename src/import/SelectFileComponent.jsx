@@ -4,7 +4,7 @@ import ReactFileReader from 'react-file-reader';
 import readFile from './read-file';
 
 const SelectFile = ({ onUpload }) => (
-  <div key="select-file" className="select-file">
+  <div className="select-file">
     <div className="import-form">
       <ReactFileReader handleFiles={files => readFile(files, onUpload)} fileTypes=".ofx">
         <button className="btn">Select file</button>
