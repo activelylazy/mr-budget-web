@@ -1,54 +1,17 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Grid, Row, Col, Panel, Glyphicon, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
-import ReactFileReader from 'react-file-reader';
+import { Grid, Row, Col, Panel, Glyphicon, Button } from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import readFile from './read-file';
+import SelectFile from './SelectFileComponent';
+import SelectAccount from './SelectAccountComponent';
 import './import.css';
-
-function selectFile(onUpload) {
-  return (
-    <div key="select-file" className="select-file">
-      <div className="import-form">
-        <ReactFileReader handleFiles={files => readFile(files, onUpload)} fileTypes=".ofx">
-          <button className="btn">Select file</button>
-        </ReactFileReader>
-      </div>
-      <div className="import-instructions">
-        <ol>
-          <li>Download a statement from your bank</li>
-          <li>Select the downloaded file</li>
-        </ol>
-      </div>
-    </div>
-  );
-}
-
-function selectAccount(accounts) {
-  const accountOptions = accounts.map(account => (
-    <option>{account.name}</option>
-  ));
-  return (
-    <div key="select-account" className="select-account">
-      <div className="import-select-account">
-        <FormGroup controlId="formControlsSelect">
-          <ControlLabel>Account</ControlLabel>
-          <FormControl componentClass="select" placeholder="select">
-            <option value="select">Choose account to import into</option>
-            {accountOptions}
-          </FormControl>
-        </FormGroup>
-      </div>
-    </div>
-  );
-}
 
 const ImportComponent = ({ onUpload, statement, accounts }) => {
   const content = [];
   if (statement === undefined) {
-    content.push(selectFile(onUpload));
+    content.push((<SelectFile onUpload={onUpload} key="select-file" />));
   } else {
-    content.push(selectAccount(accounts));
+    content.push((<SelectAccount accounts={accounts} key="select-account" />));
   }
   return (
     <div className="import-component">

@@ -7,6 +7,9 @@ import Import from './ImportContainer';
 
 const store = configureMockStore()({
   statementImport: {},
+  userData: {
+    accounts: [],
+  },
 });
 
 should();
