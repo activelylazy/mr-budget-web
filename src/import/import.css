@@ -2,6 +2,48 @@
   padding-top: 42px;
 }
 
+.import-panel {
+  height: 150px;
+}
+
 .import-form {
   float: right;
+}
+
+.select-account {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  margin-top: 60px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.select-file {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  margin-top: 60px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.import-transition-enter {
+  opacity: 0.01;
+}
+
+.import-transition-enter.import-transition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.import-transition-leave {
+  opacity: 1;
+}
+
+.import-transition-leave.import-transition-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

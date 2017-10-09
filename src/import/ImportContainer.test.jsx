@@ -5,7 +5,9 @@ import { Provider } from 'react-redux';
 import ReactTestUtils from 'react-dom/test-utils';
 import Import from './ImportContainer';
 
-const store = configureMockStore()({});
+const store = configureMockStore()({
+  statementImport: {},
+});
 
 should();
 

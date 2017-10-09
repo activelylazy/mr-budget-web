@@ -2,12 +2,13 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Grid, Row, Col, Panel, Glyphicon, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactFileReader from 'react-file-reader';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import readFile from './read-file';
 import './import.css';
 
 function selectFile(onUpload) {
   return (
-    <div key="select-file">
+    <div key="select-file" className="select-file">
       <div className="import-form">
         <ReactFileReader handleFiles={files => readFile(files, onUpload)} fileTypes=".ofx">
           <button className="btn">Select file</button>
@@ -25,7 +26,7 @@ function selectFile(onUpload) {
 
 function selectAccount() {
   return (
-    <div key="select-account">
+    <div key="select-account" className="select-account">
       <div className="import-select-account">
         <FormGroup controlId="formControlsSelect">
           <ControlLabel>Account</ControlLabel>
@@ -54,8 +55,15 @@ const ImportComponent = ({ onUpload, statement }) => {
             <Panel
               header={(<span><Glyphicon glyph="import" /> Import Statement</span>)}
               bsStyle="info"
+              className="import-panel"
             >
-              {content}
+              <ReactCSSTransitionGroup
+                transitionName="import-transition"
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}
+              >
+                {content}
+              </ReactCSSTransitionGroup>
             </Panel>
           </Col>
         </Row>
