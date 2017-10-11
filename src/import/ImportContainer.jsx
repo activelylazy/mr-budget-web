@@ -10,6 +10,7 @@ const ImportContainer = props => (
     statement={props.statement}
     accounts={props.accounts}
     onAccountSelected={props.importAccountSelected}
+    selectedAccountId={props.selectedAccountId}
   />
 );
 
@@ -22,10 +23,12 @@ ImportContainer.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   importAccountSelected: PropTypes.func.isRequired,
+  selectedAccountId: PropTypes.string,
 };
 
 ImportContainer.defaultProps = {
   statement: undefined,
+  selectedAccountId: undefined,
 };
 
 
@@ -33,7 +36,7 @@ function mapStateToProps(state) {
   return {
     statement: state.statementImport.statement,
     accounts: state.userData.accounts,
-    selectedAccountId: state.statementImport.selectedAccount,
+    selectedAccountId: state.statementImport.selectedAccountId,
   };
 }
 
