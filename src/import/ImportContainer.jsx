@@ -2,10 +2,15 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
-import { importStatement } from './import-actions';
+import { importStatement, importAccountSelected } from './import-actions';
 
 const ImportContainer = props => (
-  <Import onUpload={props.importStatement} statement={props.statement} accounts={props.accounts} />
+  <Import
+    onUpload={props.importStatement}
+    statement={props.statement}
+    accounts={props.accounts}
+    onAccountSelected={props.importAccountSelected}
+  />
 );
 
 ImportContainer.propTypes = {
@@ -16,6 +21,7 @@ ImportContainer.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
   })).isRequired,
+  importAccountSelected: PropTypes.func.isRequired,
 };
 
 ImportContainer.defaultProps = {
@@ -30,4 +36,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { importStatement })(ImportContainer);
+export default connect(
+  mapStateToProps,
+  { importStatement, importAccountSelected })(ImportContainer);

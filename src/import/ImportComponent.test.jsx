@@ -10,13 +10,25 @@ should();
 
 describe('import component', () => {
   it('allows selection of file initially', () => {
-    const component = shallow(<Import onUpload={sinon.stub()} accounts={[]} statement={null} />);
+    const component = shallow(
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={null}
+        onAccountSelected={sinon.stub()}
+      />);
 
     assert(component.find(SelectFile).exists().should.equal(true));
   });
 
   it('does not show upload button initially', () => {
-    const component = shallow(<Import onUpload={sinon.stub()} accounts={[]} statement={null} />);
+    const component = shallow(
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={null}
+        onAccountSelected={sinon.stub()}
+      />);
 
     assert(component.find('.import-button').exists().should.equal(false));
   });
@@ -26,7 +38,12 @@ describe('import component', () => {
       transactions: [],
     };
     const component = shallow(
-      <Import onUpload={sinon.stub()} accounts={[]} statement={statement} />,
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={statement}
+        onAccountSelected={sinon.stub()}
+      />,
     );
 
     assert(component.find(SelectAccount).exists().should.equal(true));
@@ -37,7 +54,12 @@ describe('import component', () => {
       transactions: [],
     };
     const component = shallow(
-      <Import onUpload={sinon.stub()} accounts={[]} statement={statement} />,
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={statement}
+        onAccountSelected={sinon.stub()}
+      />,
     );
 
     assert(component.find('.import-button').exists().should.equal(false));
@@ -48,9 +70,34 @@ describe('import component', () => {
       transactions: [],
     };
     const component = shallow(
-      <Import onUpload={sinon.stub()} accounts={[]} statement={statement} selectedAccount={'account one'} />,
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={statement}
+        selectedAccount={'account one'}
+        onAccountSelected={sinon.stub()}
+      />,
     );
 
     assert(component.find('.import-button').exists().should.equal(true));
+  });
+
+  it('fires onAccountSelected when an account is selected', () => {
+    const statement = {
+      transactions: [],
+    };
+    const onAccountSelected = sinon.stub();
+    const component = shallow(
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={statement}
+        onAccountSelected={onAccountSelected}
+      />,
+    );
+
+    component.find(SelectAccount).prop('onAccountSelected')('my account');
+
+    assert(onAccountSelected.calledWith('my account'));
   });
 });
