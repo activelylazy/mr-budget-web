@@ -33,6 +33,7 @@ function mapStateToProps(state) {
   return {
     statement: state.statementImport.statement,
     accounts: state.userData.accounts,
+    selectedAccountId: state.statementImport.selectedAccount,
   };
 }
 

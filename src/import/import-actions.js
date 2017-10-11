@@ -11,7 +11,7 @@ export const importStatement = fileContents => dispatch =>
     .then(statement => dispatch(statementUploaded(statement)));
 
 export const IMPORT_ACCOUNT_SELECTED = 'IMPORT_ACCOUNT_SELECTED';
-export const importAccountSelected = accountName => ({
+export const importAccountSelected = accountId => ({
   type: IMPORT_ACCOUNT_SELECTED,
-  accountName,
+  accountId,
 });

@@ -1,5 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import uuid from 'uuid';
 import importReducer from './import-reducer';
 import * as actions from './import-actions';
 
@@ -22,10 +23,11 @@ describe('import reducer', () => {
 
   it('handles import account selected by setting selected account', () => {
     const statement = sinon.stub();
+    const accountId = uuid();
 
     const initialState = importReducer(undefined, actions.statementUploaded(statement));
-    const state = importReducer(initialState, actions.importAccountSelected('account one'));
+    const state = importReducer(initialState, actions.importAccountSelected(accountId));
 
-    assert(state.selectedAccount.should.equal('account one'));
+    assert(state.selectedAccountId.should.equal(accountId));
   });
 });

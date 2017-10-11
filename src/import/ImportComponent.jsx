@@ -12,7 +12,8 @@ const importButton = () => (
   </div>
 );
 
-const ImportComponent = ({ onUpload, statement, accounts, selectedAccount, onAccountSelected }) => {
+const ImportComponent = ({ onUpload, statement, accounts,
+  selectedAccountId, onAccountSelected }) => {
   const content = [];
   if (statement === null) {
     content.push((<SelectFile onUpload={onUpload} key="select-file" />));
@@ -23,7 +24,7 @@ const ImportComponent = ({ onUpload, statement, accounts, selectedAccount, onAcc
         key="select-account"
         onAccountSelected={onAccountSelected}
       />));
-    if (selectedAccount !== null) {
+    if (selectedAccountId !== null) {
       content.push(importButton());
     }
   }
@@ -60,13 +61,13 @@ ImportComponent.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
   })).isRequired,
-  selectedAccount: PropTypes.string,
+  selectedAccountId: PropTypes.string,
   onAccountSelected: PropTypes.func.isRequired,
 };
 
 ImportComponent.defaultProps = {
   statement: null,
-  selectedAccount: null,
+  selectedAccountId: null,
 };
 
 export default ImportComponent;

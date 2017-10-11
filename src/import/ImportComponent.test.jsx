@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import uuid from 'uuid';
 import Import from './ImportComponent';
 import SelectFile from './SelectFileComponent';
 import SelectAccount from './SelectAccountComponent';
@@ -74,7 +75,7 @@ describe('import component', () => {
         onUpload={sinon.stub()}
         accounts={[]}
         statement={statement}
-        selectedAccount={'account one'}
+        selectedAccountId={uuid()}
         onAccountSelected={sinon.stub()}
       />,
     );

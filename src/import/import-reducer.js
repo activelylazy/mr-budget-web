@@ -9,7 +9,7 @@ export default (state = defaultState, action) => {
     case STATEMENT_UPLOADED:
       return Immutable({ ...state, statement: action.statement });
     case IMPORT_ACCOUNT_SELECTED:
-      return Immutable({ ...state, selectedAccount: action.accountName });
+      return Immutable({ ...state, selectedAccountId: action.accountId });
     default:
       return state;
   }
