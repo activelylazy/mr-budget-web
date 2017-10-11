@@ -1,5 +1,6 @@
 import { assert, should } from 'chai';
-import accountsReducer from './user-data-reducer';
+import sinon from 'sinon';
+import accountsReducer, { __RewireAPI__ as rewireApi } from './user-data-reducer';
 import * as actions from './user-data-actions';
 
 should();
@@ -11,10 +12,16 @@ describe('accounts reducer', () => {
   });
 
   it('adds an account', () => {
+    const uuidStub = sinon.stub();
+    const anId = sinon.stub();
+    rewireApi.__Rewire__('uuid', uuidStub);
+    uuidStub.returns(anId);
+
     const state = accountsReducer(undefined, actions.addAccountToState('new account'));
 
     assert(state.accounts.length.should.equal(1));
     assert(state.accounts[0].name.should.equal('new account'));
+    assert(state.accounts[0].id.should.equal(anId));
   });
 
   it('adds another account', () => {

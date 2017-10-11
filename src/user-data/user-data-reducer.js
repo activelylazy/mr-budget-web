@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import uuid from 'uuid';
 import { ADD_ACCOUNT, USER_DATA_LOADED } from './user-data-actions';
 
 const defaultState = Immutable.from({
@@ -7,6 +8,7 @@ const defaultState = Immutable.from({
 
 function newAccount(name) {
   return ({
+    id: uuid(),
     name,
   });
 }
