@@ -13,5 +13,5 @@ export const importStatement = fileContents => dispatch =>
 export const IMPORT_ACCOUNT_SELECTED = 'IMPORT_ACCOUNT_SELECTED';
 export const importAccountSelected = accountId => ({
   type: IMPORT_ACCOUNT_SELECTED,
-  accountId,
+  accountId: accountId === '' ? null : accountId,
 });

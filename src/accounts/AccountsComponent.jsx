@@ -37,7 +37,6 @@ class AccountsComponent extends Component {
   }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
-      console.log(`new account: ${this.state.accountName}`);
       this.props.addAccount(this.state.accountName);
       this.setState({
         showInput: false,

@@ -31,7 +31,7 @@ describe('select account component', () => {
 
     const options = dropDown.find('option');
     assert(options.length.should.equal(3));
-    assert.isUndefined(options.get(0).props.value);
+    assert(options.get(0).props.value.should.equal(''));
     assert(options.get(0).props.children.should.equal('Choose account to import into'));
     assert(options.get(1).props.value.should.equal(accounts[0].id));
     assert(options.get(1).props.children.should.equal('account one'));

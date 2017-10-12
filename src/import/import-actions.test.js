@@ -1,6 +1,8 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { importStatement, STATEMENT_UPLOADED, __RewireAPI__ as rewireApi } from './import-actions';
+import uuid from 'uuid';
+import { importStatement, importAccountSelected, STATEMENT_UPLOADED,
+  IMPORT_ACCOUNT_SELECTED, __RewireAPI__ as rewireApi } from './import-actions';
 
 should();
 
@@ -21,5 +23,20 @@ describe('import actions', () => {
         done();
       })
       .catch(done);
+  });
+
+  it('creates an import account selected action', () => {
+    const accountId = uuid();
+    const result = importAccountSelected(accountId);
+
+    assert(result.type.should.equal(IMPORT_ACCOUNT_SELECTED));
+    assert(result.accountId.should.equal(accountId));
+  });
+
+  it('creates an import account selected action with no account id', () => {
+    const result = importAccountSelected('');
+
+    assert(result.type.should.equal(IMPORT_ACCOUNT_SELECTED));
+    assert.isNull(result.accountId);
   });
 });

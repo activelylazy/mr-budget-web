@@ -17,7 +17,7 @@ const SelectAccount = ({ accounts, onAccountSelected }) => {
             onChange={e => onAccountSelected(e.target.value)}
             autoFocus
           >
-            <option key="select">Choose account to import into</option>
+            <option key="select" value="">Choose account to import into</option>
             {accountOptions}
           </FormControl>
         </FormGroup>
