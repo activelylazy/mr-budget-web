@@ -10,7 +10,7 @@ describe('import reducer', () => {
   it('has correct initial state', () => {
     const state = importReducer(undefined, {});
     assert.isUndefined(state.statement);
-    assert.isUndefined(state.selectedAccount);
+    assert.isUndefined(state.selectedAccountId);
   });
 
   it('handles statement uploaded by setting statement', () => {
@@ -29,5 +29,17 @@ describe('import reducer', () => {
     const state = importReducer(initialState, actions.importAccountSelected(accountId));
 
     assert(state.selectedAccountId.should.equal(accountId));
+  });
+
+  it('handles import statement to account by resetting import state', () => {
+    const initialState = {
+      statement: {},
+      selectedAccountId: '1234',
+    };
+
+    const state = importReducer(initialState, actions.importStatementToAccount('4321', {}));
+
+    assert.isUndefined(state.statement);
+    assert.isUndefined(state.selectedAccountId);
   });
 });

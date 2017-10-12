@@ -15,3 +15,10 @@ export const importAccountSelected = accountId => ({
   type: IMPORT_ACCOUNT_SELECTED,
   accountId: accountId === '' ? null : accountId,
 });
+
+export const IMPORT_STATEMENT_TO_ACCOUNT = 'IMPORT_STATEMENT_TO_ACCOUNT';
+export const importStatementToAccount = (accountId, statement) => ({
+  type: IMPORT_STATEMENT_TO_ACCOUNT,
+  accountId,
+  statement,
+});
