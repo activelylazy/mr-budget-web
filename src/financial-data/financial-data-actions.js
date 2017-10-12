@@ -13,10 +13,11 @@ export function financialDataLoaded(financialData, year, month) {
 
 function fetchFinancialData(auth, year, month) {
   const options = {
+    method: 'GET',
     uri: `${process.env.REACT_APP_SERVER}${auth.userId}/${year}/${month}`,
     json: true,
   };
-  return request.get(options)
+  return request(options)
     .then(response => unpack(response, auth.password));
 }
 
