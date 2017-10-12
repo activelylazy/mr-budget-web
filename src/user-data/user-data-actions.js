@@ -19,10 +19,11 @@ export function userDataLoaded(userData) {
 
 function fetchUserData(auth) {
   const options = {
+    method: 'GET',
     uri: `${process.env.REACT_APP_SERVER}${auth.userId}`,
     json: true,
   };
-  return request.get(options)
+  return request(options)
     .then(response => unpack(response, auth.password));
 }
 

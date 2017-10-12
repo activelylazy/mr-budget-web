@@ -5,18 +5,15 @@ import { loadUserData, USER_DATA_LOADED, __RewireAPI__ as rewireApi } from './us
 
 should();
 
-describe('load user data', () => {
+describe('user data', () => {
   let requestStub;
   let unpackStub;
 
   beforeEach(() => {
-    requestStub = sinon.stub(request, 'get');
+    requestStub = sinon.stub();
     unpackStub = sinon.stub();
+    rewireApi.__Rewire__('request', requestStub);
     rewireApi.__Rewire__('unpack', unpackStub);
-  });
-
-  afterEach(() => {
-    requestStub.restore();
   });
 
   it('fetches user data and dispatches user data loaded', (done) => {
@@ -32,7 +29,10 @@ describe('load user data', () => {
 
     loadUserData(auth)(dispatch)
       .then(() => {
-        assert(requestStub.calledWith(sinon.match({ uri: `http://localhost/${auth.userId}` })));
+        assert(requestStub.calledWith(sinon.match({
+          method: 'GET',
+          uri: `http://localhost/${auth.userId}`,
+        })));
         assert(unpackStub.calledWith(response, auth.password));
         assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
         done();
