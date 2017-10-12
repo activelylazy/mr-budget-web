@@ -8,12 +8,25 @@ function readDate(input) {
   return new Date(year, month, day);
 }
 
+function nameAndMemo(transaction) {
+  if (transaction.MEMO === undefined) {
+    return transaction.NAME;
+  }
+  if (transaction.NAME === undefined) {
+    return transaction.MEMO;
+  }
+  if (transaction.MEMO.startsWith(transaction.NAME)) {
+    return transaction.MEMO;
+  }
+  return `${transaction.NAME.trim()} - ${transaction.MEMO.trim()}`;
+}
+
 function createTransaction(transaction) {
   return {
     date: readDate(transaction.DTPOSTED.toString()),
     amount: parseFloat(transaction.TRNAMT),
     id: transaction.FITID,
-    name: transaction.MEMO || transaction.NAME,
+    name: nameAndMemo(transaction),
   };
 }
 

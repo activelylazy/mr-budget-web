@@ -56,4 +56,30 @@ describe('parse ofx', () => {
     })
       .catch(done);
   });
+
+  it('parses second bank statement', (done) => {
+    const ofxString = readFileSync('test-data/sample-bank2.ofx').toString();
+
+    parseOFX(ofxString).then((statement) => {
+      assert(statement.date.toString().should.equal(new Date(2017, 10, 7).toString()));
+      assert(statement.balance.should.equal(123.45));
+      assert(statement.accountId.should.equal('12345611111111'));
+      assert(statement.currency.should.equal('GBP'));
+      assert(statement.startDate.toString().should.equal(new Date(2017, 8, 30).toString()));
+      assert(statement.endDate.toString().should.equal(new Date(2017, 10, 2).toString()));
+      assert(statement.transactions.length.should.equal(2));
+
+      assert(statement.transactions[0].date.toString().should.equal(new Date(2017, 9, 29).toString()));
+      assert(statement.transactions[0].amount.should.equal(0.22));
+      assert(statement.transactions[0].id.should.equal('2017092932017272205511111111000'));
+      assert(statement.transactions[0].name.should.equal('INT\'L 0077250450 - VISA OFFERSVisa Offers'));
+
+      assert(statement.transactions[1].date.toString().should.equal(new Date(2017, 9, 29).toString()));
+      assert(statement.transactions[1].amount.should.equal(-100.00));
+      assert(statement.transactions[1].id.should.equal('201709293201727201111111150000'));
+      assert(statement.transactions[1].name.should.equal('CASH BARCLAY SEP29 - KNARESBOROUG@07:35'));
+      done();
+    })
+      .catch(done);
+  });
 });
