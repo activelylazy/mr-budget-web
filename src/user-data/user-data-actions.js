@@ -39,7 +39,7 @@ export const saveUserData = (auth, state) =>
       return request(options);
     })
     .catch((err) => {
-      console.log(`Error adding account: ${err}`);
+      console.log(`Error saving user data: ${err}`);
     });
 
 export const loadUserData = auth => dispatch => fetchUserData(auth)

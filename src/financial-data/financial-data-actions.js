@@ -21,6 +21,21 @@ function fetchFinancialData(auth, year, month) {
     .then(response => unpack(response, auth.password));
 }
 
+export const saveFinancialData = (auth, state, year, month) =>
+  pack(state, auth.password)
+    .then((packed) => {
+      const options = {
+        method: 'POST',
+        uri: `${process.env.REACT_APP_SERVER}${auth.userId}/${year}/${month}`,
+        body: packed,
+        json: true,
+      };
+      return request(options);
+    })
+    .catch((err) => {
+      console.log(`Error saving financial data: ${err}`);
+    });
+
 export const loadFinancialData = (auth, year, month) => dispatch =>
   fetchFinancialData(auth, year, month)
     .then(userData => dispatch(financialDataLoaded(userData, year, month)))
