@@ -11,7 +11,12 @@ const SelectAccount = ({ accounts, onAccountSelected }) => {
       <div className="import-select-account">
         <FormGroup controlId="formControlsSelect">
           <ControlLabel>Account</ControlLabel>
-          <FormControl componentClass="select" placeholder="select" onChange={e => onAccountSelected(e.target.value)}>
+          <FormControl
+            componentClass="select"
+            placeholder="select"
+            onChange={e => onAccountSelected(e.target.value)}
+            autoFocus
+          >
             <option key="select">Choose account to import into</option>
             {accountOptions}
           </FormControl>
