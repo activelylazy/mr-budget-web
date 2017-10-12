@@ -17,7 +17,20 @@ function createTransaction(transaction) {
   };
 }
 
-function createStatement(ofxContents) {
+function createBankStatement(ofxContents) {
+  const stmt = ofxContents.OFX.BANKMSGSRSV1.STMTTRNRS.STMTRS;
+  return Immutable.from({
+    date: readDate(stmt.LEDGERBAL.DTASOF.toString()),
+    balance: parseFloat(stmt.LEDGERBAL.BALAMT),
+    accountId: stmt.BANKACCTFROM.ACCTID.toString(),
+    currency: stmt.CURDEF.toString(),
+    startDate: readDate(stmt.BANKTRANLIST.DTSTART.toString()),
+    endDate: readDate(stmt.BANKTRANLIST.DTEND.toString()),
+    transactions: stmt.BANKTRANLIST.STMTTRN.map(createTransaction),
+  });
+}
+
+function createCreditCardStatement(ofxContents) {
   const creditCardStmt = ofxContents.OFX.CREDITCARDMSGSRSV1.CCSTMTTRNRS.CCSTMTRS;
   return Immutable.from({
     date: readDate(creditCardStmt.LEDGERBAL.DTASOF.toString()),
@@ -28,6 +41,13 @@ function createStatement(ofxContents) {
     endDate: readDate(creditCardStmt.BANKTRANLIST.DTEND.toString()),
     transactions: creditCardStmt.BANKTRANLIST.STMTTRN.map(createTransaction),
   });
+}
+
+function createStatement(ofxContents) {
+  if (ofxContents.OFX.CREDITCARDMSGSRSV1 !== undefined) {
+    return createCreditCardStatement(ofxContents);
+  }
+  return createBankStatement(ofxContents);
 }
 
 export default contents => parseOFX(contents).then(createStatement);
