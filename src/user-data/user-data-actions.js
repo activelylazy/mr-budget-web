@@ -27,23 +27,20 @@ function fetchUserData(auth) {
     .then(response => unpack(response, auth.password));
 }
 
-function saveUserData(state) {
-  console.log(`saving state ${JSON.stringify(state)}`);
-  pack(state, 'Password1!')
+export const saveUserData = (auth, state) =>
+  pack(state, auth.password)
     .then((packed) => {
       const options = {
         method: 'POST',
-        uri: 'http://localhost:7000/49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
+        uri: `${process.env.REACT_APP_SERVER}${auth.userId}`,
         body: packed,
         json: true,
       };
       return request(options);
     })
-    .then(() => console.log('state saved'))
     .catch((err) => {
       console.log(`Error adding account: ${err}`);
     });
-}
 
 export const loadUserData = auth => dispatch => fetchUserData(auth)
   .then(userData => dispatch(userDataLoaded(userData)))
@@ -51,7 +48,7 @@ export const loadUserData = auth => dispatch => fetchUserData(auth)
     console.log(`Error loading user data: ${err}`);
   });
 
-export const addAccount = accountName => (dispatch, getState) => {
+export const addAccount = (auth, accountName) => (dispatch, getState) => {
   dispatch(addAccountToState(accountName));
-  saveUserData(getState().userData);
+  saveUserData(auth, getState().userData);
 };
