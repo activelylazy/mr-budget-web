@@ -9,7 +9,7 @@ import Import from './import/ImportContainer';
 import * as areas from './navigation/navigation-areas';
 
 const auth = {
-  userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8f',
+  userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8b',
   password: 'Password1!',
 };
 

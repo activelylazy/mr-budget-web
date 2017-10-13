@@ -45,7 +45,7 @@ export const saveUserData = (auth, state) =>
 export const loadUserData = auth => dispatch => fetchUserData(auth)
   .then(userData => dispatch(userDataLoaded(userData)))
   .catch((err) => {
-    console.log(`Error loading user data: ${err}`);
+    console.log(`Error loading user data: ${JSON.stringify(err)}`);
   });
 
 export const addAccount = (auth, accountName) => (dispatch, getState) => {
