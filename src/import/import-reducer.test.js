@@ -31,13 +31,13 @@ describe('import reducer', () => {
     assert(state.selectedAccountId.should.equal(accountId));
   });
 
-  it('handles import statement to account by resetting import state', () => {
+  it('handles reset import by resetting import state', () => {
     const initialState = {
       statement: {},
       selectedAccountId: '1234',
     };
 
-    const state = importReducer(initialState, actions.importStatementToAccount('4321', {}));
+    const state = importReducer(initialState, actions.resetImport());
 
     assert.isUndefined(state.statement);
     assert.isUndefined(state.selectedAccountId);

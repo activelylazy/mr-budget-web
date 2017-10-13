@@ -16,6 +16,11 @@ export const importAccountSelected = accountId => ({
   accountId: accountId === '' ? null : accountId,
 });
 
+export const RESET_IMPORT = 'RESET_IMPORT';
+export const resetImport = () => ({
+  type: RESET_IMPORT,
+});
+
 export const IMPORT_STATEMENT_TO_ACCOUNT = 'IMPORT_STATEMENT_TO_ACCOUNT';
 export const importStatementToAccount = (accountId, statement) => ({
   type: IMPORT_STATEMENT_TO_ACCOUNT,
