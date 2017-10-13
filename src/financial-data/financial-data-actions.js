@@ -42,3 +42,11 @@ export const loadFinancialData = (auth, year, month) => dispatch =>
     .catch((err) => {
       console.log(`Error loading financial data: ${err}`);
     });
+
+export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';
+export const applyTransactionsToMonth = (year, month, transactions) => ({
+  type: APPLY_TRANSACTIONS_TO_MONTH,
+  year,
+  month,
+  transactions,
+});

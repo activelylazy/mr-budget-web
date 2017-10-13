@@ -1,8 +1,9 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
-import { importStatement, importAccountSelected, STATEMENT_UPLOADED,
-  IMPORT_ACCOUNT_SELECTED, __RewireAPI__ as rewireApi } from './import-actions';
+import { importStatement, importAccountSelected, importStatementToAccount,
+  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, __RewireAPI__ as rewireApi } from './import-actions';
+import { APPLY_TRANSACTIONS_TO_MONTH } from '../financial-data/financial-data-actions';
 
 should();
 
@@ -38,5 +39,36 @@ describe('import actions', () => {
 
     assert(result.type.should.equal(IMPORT_ACCOUNT_SELECTED));
     assert.isNull(result.accountId);
+  });
+
+  it('imports statement to account by splitting into year+months and applying transactions', (done) => {
+    const dispatch = sinon.stub();
+    const accountId = uuid();
+    const statement = sinon.stub();
+    const yearMonthPair = {
+      year: 2017,
+      month: 7,
+      transactions: sinon.stub(),
+    };
+    const splitStatement = sinon.stub();
+    splitStatement.returns([yearMonthPair]);
+    const loadFinancialData = sinon.stub();
+    loadFinancialData.returns(() => Promise.resolve({}));
+    const auth = sinon.stub();
+
+    rewireApi.__Rewire__('splitStatement', splitStatement);
+    rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
+
+    importStatementToAccount(auth, accountId, statement)(dispatch)
+      .then(() => {
+        assert(splitStatement.calledWith(statement));
+        assert(loadFinancialData.calledWith(auth, 2017, 7));
+        assert(dispatch.calledWith(sinon.match({
+          type: APPLY_TRANSACTIONS_TO_MONTH,
+          transactions: yearMonthPair.transactions,
+        })));
+        done();
+      })
+      .catch(done);
   });
 });
