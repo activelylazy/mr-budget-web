@@ -46,6 +46,32 @@ describe('financial data', () => {
       .catch(done);
   });
 
+  it('fetches missing financial data and dispatches financial data loaded with empty data', (done) => {
+    const dispatch = sinon.stub();
+    const errorResponse = {
+      statusCode: 404,
+    };
+    const auth = {
+      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+      password: 'my password',
+    };
+    const year = 2017;
+    const month = 10;
+    requestStub.returns(Promise.reject(errorResponse));
+
+    loadFinancialData(auth, year, month)(dispatch)
+      .then(() => {
+        assert(requestStub.calledWith(sinon.match({
+          method: 'GET',
+          uri: `http://localhost/${auth.userId}/${year}/${month}`,
+        })));
+        assert(dispatch.calledWith(
+          sinon.match({ type: FINANCIAL_DATA_LOADED, financialData: {}, year, month })));
+        done();
+      })
+      .catch(done);
+  });
+
   it('saves financial data', (done) => {
     const financialData = { financialData: true };
     const packedData = { packed: true };

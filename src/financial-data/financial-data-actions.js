@@ -40,7 +40,11 @@ export const loadFinancialData = (auth, year, month) => dispatch =>
   fetchFinancialData(auth, year, month)
     .then(financialData => dispatch(financialDataLoaded(financialData, year, month)))
     .catch((err) => {
-      console.log(`Error loading financial data: ${err}`);
+      if (err.statusCode === 404) {
+        dispatch(financialDataLoaded({}, year, month));
+      } else {
+        console.log(`Error loading financial data: ${err}`);
+      }
     });
 
 export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';
