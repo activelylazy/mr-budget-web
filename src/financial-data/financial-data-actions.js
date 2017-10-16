@@ -38,7 +38,7 @@ export const saveFinancialData = (auth, state, year, month) =>
 
 export const loadFinancialData = (auth, year, month) => dispatch =>
   fetchFinancialData(auth, year, month)
-    .then(userData => dispatch(financialDataLoaded(userData, year, month)))
+    .then(financialData => dispatch(financialDataLoaded(financialData, year, month)))
     .catch((err) => {
       console.log(`Error loading financial data: ${err}`);
     });
