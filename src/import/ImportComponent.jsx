@@ -6,14 +6,14 @@ import SelectFile from './SelectFileComponent';
 import SelectAccount from './SelectAccountComponent';
 import './import.css';
 
-const importButton = () => (
+const importButton = onImport => (
   <div key="import-button" className="import-button">
-    <Button bsStyle="primary">Import <Glyphicon glyph="chevron-right" /></Button>
+    <Button bsStyle="primary" onClick={onImport}>Import <Glyphicon glyph="chevron-right" /></Button>
   </div>
 );
 
 const ImportComponent = ({ onUpload, statement, accounts,
-  selectedAccountId, onAccountSelected }) => {
+  selectedAccountId, onAccountSelected, onImport }) => {
   const content = [];
   if (statement === null) {
     content.push((<SelectFile onUpload={onUpload} key="select-file" />));
@@ -25,7 +25,7 @@ const ImportComponent = ({ onUpload, statement, accounts,
         onAccountSelected={onAccountSelected}
       />));
     if (selectedAccountId !== null) {
-      content.push(importButton());
+      content.push(importButton(onImport));
     }
   }
   return (
@@ -63,6 +63,7 @@ ImportComponent.propTypes = {
   })).isRequired,
   selectedAccountId: PropTypes.string,
   onAccountSelected: PropTypes.func.isRequired,
+  onImport: PropTypes.func.isRequired,
 };
 
 ImportComponent.defaultProps = {
