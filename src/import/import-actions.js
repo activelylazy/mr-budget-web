@@ -24,8 +24,9 @@ export const resetImport = () => ({
   type: RESET_IMPORT,
 });
 
-export const importStatementToAccount = (auth, accountId, statement) => (dispatch, getState) =>
+export const importStatementToAccount = auth => (dispatch, getState) =>
   new Promise((resolve, reject) => {
+    const statement = getState().statementImport.statement;
     const splits = splitStatement(statement);
     const promises = splits.map(split =>
       loadFinancialData(auth, split.year, split.month)(dispatch)

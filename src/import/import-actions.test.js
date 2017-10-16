@@ -44,7 +44,6 @@ describe('import actions', () => {
   it('imports statement to account by splitting into year+months and applying transactions', (done) => {
     const dispatch = sinon.stub();
     const getState = sinon.stub();
-    const accountId = uuid();
     const statement = sinon.stub();
     const yearMonthPair = {
       year: 2017,
@@ -65,13 +64,16 @@ describe('import actions', () => {
           7: monthData,
         },
       },
+      statementImport: {
+        statement,
+      },
     });
 
     rewireApi.__Rewire__('splitStatement', splitStatement);
     rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
     rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
 
-    importStatementToAccount(auth, accountId, statement)(dispatch, getState)
+    importStatementToAccount(auth)(dispatch, getState)
       .then(() => {
         assert(splitStatement.calledWith(statement));
         assert(loadFinancialData.calledWith(auth, 2017, 7));
