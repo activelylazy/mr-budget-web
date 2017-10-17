@@ -59,6 +59,7 @@ describe('import actions', () => {
     const monthData = sinon.stub();
 
     getState.returns({
+      auth,
       financialData: {
         2017: {
           7: monthData,
@@ -73,7 +74,7 @@ describe('import actions', () => {
     rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
     rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
 
-    importStatementToAccount(auth)(dispatch, getState)
+    importStatementToAccount()(dispatch, getState)
       .then(() => {
         assert(splitStatement.calledWith(statement));
         assert(loadFinancialData.calledWith(auth, 2017, 7));
