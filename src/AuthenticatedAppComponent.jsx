@@ -8,12 +8,7 @@ import Review from './review/ReviewComponent';
 import Import from './import/ImportContainer';
 import * as areas from './navigation/navigation-areas';
 
-const auth = {
-  userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8b',
-  password: 'Password1!',
-};
-
-function componentFor(area) {
+function componentFor(area, auth) {
   if (area === areas.ACCOUNTS) {
     return (<Accounts auth={auth} />);
   }
@@ -30,15 +25,15 @@ function componentFor(area) {
 }
 class AppComponent extends Component {
   componentDidMount() {
-    this.props.loadUserData(auth);
+    this.props.loadUserData(this.props.auth);
   }
   render() {
-    const { area } = this.props;
+    const { area, auth } = this.props;
     return (
       <div className="full-height">
         <Navigation />
         <div className="container-fluid container-no-padding full-height">
-          {componentFor(area)}
+          {componentFor(area, auth)}
         </div>
       </div>
     );
@@ -48,6 +43,13 @@ class AppComponent extends Component {
 AppComponent.propTypes = {
   area: PropTypes.string.isRequired,
   loadUserData: PropTypes.func.isRequired,
+  auth: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+  }),
+};
+
+AppComponent.defaultProps = {
+  auth: undefined,
 };
 
 export default AppComponent;

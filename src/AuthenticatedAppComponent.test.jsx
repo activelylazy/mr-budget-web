@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
-import App from './AppComponent';
+import App from './AuthenticatedAppComponent';
 import Accounts from './accounts/AccountsContainer';
 import Categories from './categories/CategoriesComponent';
 import Review from './review/ReviewComponent';

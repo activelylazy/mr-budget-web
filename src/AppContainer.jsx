@@ -1,25 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import App from './AppComponent';
+import App from './AuthenticatedAppComponent';
 import { loadUserData } from './user-data/user-data-actions';
+import { userLoggedIn } from './auth/auth-actions';
 
-const AppContainer = props => (
-  <App
-    area={props.area}
-    loadUserData={props.loadUserData}
-  />
-);
+class AppContainer extends Component {
+  componentDidMount() {
+    this.props.fakeLogin();
+  }
+  render() {
+    if (this.props.auth !== undefined && this.props.auth.userId !== undefined) {
+      return (
+        <App
+          area={this.props.area}
+          loadUserData={this.props.loadUserData}
+          auth={this.props.auth}
+        />
+      );
+    }
+    return (
+      <div>Not logged in</div>
+    );
+  }
+}
 
 AppContainer.propTypes = {
+  auth: PropTypes.shape({
+    userId: PropTypes.string,
+    password: PropTypes.string,
+  }).isRequired,
   area: PropTypes.string.isRequired,
   loadUserData: PropTypes.func.isRequired,
+  fakeLogin: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     area: state.navigation.area,
+    auth: state.auth,
   };
 }
 
-export default connect(mapStateToProps, { loadUserData })(AppContainer);
+const fakeLogin = () => dispatch => dispatch(userLoggedIn('49f6f8b6-5526-452f-9a5e-8af17c7ccf8b', 'Password1!'));
+
+export default connect(mapStateToProps, { loadUserData, fakeLogin })(AppContainer);
