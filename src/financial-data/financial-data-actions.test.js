@@ -66,7 +66,7 @@ describe('financial data', () => {
           uri: `http://localhost/${auth.userId}/${year}/${month}`,
         })));
         assert(dispatch.calledWith(
-          sinon.match({ type: FINANCIAL_DATA_LOADED, financialData: {}, year, month })));
+          sinon.match({ type: FINANCIAL_DATA_LOADED, financialData: { transactions: [] }, year, month })));
         done();
       })
       .catch(done);

@@ -36,12 +36,16 @@ export const saveFinancialData = (auth, state, year, month) =>
       console.log(`Error saving financial data: ${err}`);
     });
 
+const emptyMonth = () => ({
+  transactions: [],
+});
+
 export const loadFinancialData = (auth, year, month) => dispatch =>
   fetchFinancialData(auth, year, month)
     .then(financialData => dispatch(financialDataLoaded(financialData, year, month)))
     .catch((err) => {
       if (err.statusCode === 404) {
-        dispatch(financialDataLoaded({}, year, month));
+        dispatch(financialDataLoaded(emptyMonth(), year, month));
       } else {
         console.log(`Error loading financial data: ${err}`);
       }
