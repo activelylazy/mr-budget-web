@@ -2,7 +2,8 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
-  splitStatement, importStatementData, __RewireAPI__ as rewireApi } from './import-statement';
+  splitStatement, importStatementData, updateTransactionsWithAccount,
+  __RewireAPI__ as rewireApi } from './import-statement';
 
 should();
 
@@ -131,22 +132,43 @@ describe('import statement', () => {
       const splitStatementStub = sinon.stub().returns([yearMonthPair]);
       const updateMonthDataStub = sinon.stub().returns(Promise.resolve());
       const getState = sinon.stub();
-      const updateTransactionsWithAccount = sinon.stub().returns(updatedTransactions);
+      const updateTransactionsWithAccountStub = sinon.stub().returns(updatedTransactions);
       const accountId = sinon.stub();
 
       rewireApi.__Rewire__('splitStatement', splitStatementStub);
       rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
-      rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccount);
+      rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccountStub);
 
       importStatementData(auth, statement, accountId, dispatch, getState)
         .then(() => {
           assert(splitStatementStub.calledWith(statement));
-          assert(updateTransactionsWithAccount.calledOnce);
-          assert(updateTransactionsWithAccount.calledWith(transactions, accountId));
-          assert(updateMonthDataStub.calledWith(auth, 2017, 7, updatedTransactions, dispatch, getState));
+          assert(updateTransactionsWithAccountStub.calledWith(transactions, accountId));
+          assert(updateMonthDataStub.calledWith(auth, 2017, 7, updatedTransactions,
+            dispatch, getState));
           done();
         })
         .catch(done);
+    });
+  });
+
+  describe('update transactions with account', () => {
+    it('adds account id to transactions', () => {
+      const transactions = [
+        {
+          id: 1,
+          name: 'transaction',
+          amount: 12.34,
+        },
+      ];
+      const accountId = 'abc-123';
+
+      const result = updateTransactionsWithAccount(transactions, accountId);
+
+      assert(result.length.should.equal(1));
+      assert(result[0].id.should.equal(1));
+      assert(result[0].name.should.equal('transaction'));
+      assert(result[0].amount.should.equal(12.34));
+      assert(result[0].accountId.should.equal(accountId));
     });
   });
 });
