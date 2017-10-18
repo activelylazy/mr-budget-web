@@ -45,10 +45,12 @@ describe('import actions', () => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
       const statement = sinon.stub();
+      const selectedAccountId = sinon.stub();
       const getState = sinon.stub().returns({
         auth,
         statementImport: {
           statement,
+          selectedAccountId,
         },
       });
       const importStatementData = sinon.stub();
@@ -57,7 +59,7 @@ describe('import actions', () => {
 
       importStatementToAccount()(dispatch, getState);
 
-      assert(importStatementData.calledWith(auth, statement, dispatch, getState));
+      assert(importStatementData.calledWith(auth, statement, selectedAccountId, dispatch, getState));
     });
 
     it('resets import', () => {

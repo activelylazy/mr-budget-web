@@ -30,7 +30,11 @@ export const updateMonthData = (auth, year, month, transactions, dispatch, getSt
   loadFinancialDataAndApplyTransactions(auth, year, month, transactions, dispatch, getState)
     .then(monthData => saveFinancialData(auth, monthData, year, month));
 
-export const importStatementData = (auth, statement, dispatch, getState) =>
+export const updateTransactionsWithAccount = (transactions, accountId) => {};
+
+export const importStatementData = (auth, statement, accountId, dispatch, getState) =>
   Promise.all(
     splitStatement(statement)
-      .map(split => updateMonthData(auth, split.year, split.month, split.transactions, dispatch, getState)));
+      .map(split => updateMonthData(auth, split.year, split.month,
+        updateTransactionsWithAccount(split.transactions, accountId),
+        dispatch, getState)));

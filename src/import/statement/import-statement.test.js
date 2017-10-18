@@ -122,6 +122,7 @@ describe('import statement', () => {
       const dispatch = sinon.stub();
       const statement = sinon.stub();
       const transactions = sinon.stub();
+      const updatedTransactions = sinon.stub();
       const yearMonthPair = {
         year: 2017,
         month: 7,
@@ -130,14 +131,19 @@ describe('import statement', () => {
       const splitStatementStub = sinon.stub().returns([yearMonthPair]);
       const updateMonthDataStub = sinon.stub().returns(Promise.resolve());
       const getState = sinon.stub();
+      const updateTransactionsWithAccount = sinon.stub().returns(updatedTransactions);
+      const accountId = sinon.stub();
 
       rewireApi.__Rewire__('splitStatement', splitStatementStub);
       rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
+      rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccount);
 
-      importStatementData(auth, statement, dispatch, getState)
+      importStatementData(auth, statement, accountId, dispatch, getState)
         .then(() => {
           assert(splitStatementStub.calledWith(statement));
-          assert(updateMonthDataStub.calledWith(auth, 2017, 7, transactions, dispatch, getState));
+          assert(updateTransactionsWithAccount.calledOnce);
+          assert(updateTransactionsWithAccount.calledWith(transactions, accountId));
+          assert(updateMonthDataStub.calledWith(auth, 2017, 7, updatedTransactions, dispatch, getState));
           done();
         })
         .catch(done);
