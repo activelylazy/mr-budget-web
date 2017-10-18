@@ -1,7 +1,6 @@
 import parseOfx from '../ofx/parse-ofx';
 import splitStatement from './statement/split-statement';
-import { saveFinancialData } from '../financial-data/financial-data-actions';
-import { loadFinancialDataAndApplyTransactions } from './statement/import-statement';
+import { updateMonthData } from './statement/import-statement';
 
 export const STATEMENT_UPLOADED = 'STATEMENT_UPLOADED';
 export const statementUploaded = statement => ({
@@ -29,9 +28,7 @@ export const importStatementToAccount = () => (dispatch, getState) => {
   const auth = getState().auth;
   return new Promise((resolve, reject) => {
     const splits = splitStatement(statement);
-    const promises = splits.map(split =>
-      loadFinancialDataAndApplyTransactions(auth, split)(dispatch, getState)
-        .then(monthData => saveFinancialData(auth, monthData, split.year, split.month)));
+    const promises = splits.map(split => updateMonthData(auth, split, dispatch, getState));
     Promise.all(promises).then(() => resolve()).catch(reject);
   });
 };
