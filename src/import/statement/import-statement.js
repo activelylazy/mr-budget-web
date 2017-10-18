@@ -21,8 +21,16 @@ export const splitStatement = (statement) => {
   return splits;
 };
 
+export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getState) => {
+  if (getState().financialData[year] === undefined ||
+    getState().financialData[year][month] === undefined) {
+    return loadFinancialData(auth, year, month)(dispatch);
+  }
+  return Promise.resolve(getState().financialData[year][month]);
+};
+
 export const loadFinancialDataAndApplyTransactions = (auth, year, month, transactions, dispatch, getState) => // eslint-disable-line
-  loadFinancialData(auth, year, month)(dispatch)
+  loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
     .then(() => dispatch(applyTransactionsToMonth(year, month, transactions)))
     .then(() => getState().financialData[year][month]);
 

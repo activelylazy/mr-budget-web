@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
+  loadFinancialDataIfRequired,
   __RewireAPI__ as rewireApi } from './import-statement';
 
 should();
@@ -50,22 +51,92 @@ describe('import statement', () => {
     });
   });
 
+  describe('load financial data if required', () => {
+    it('loads data if no data present in state for year', (done) => {
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 7;
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        financialData: {},
+      });
+      const monthData = sinon.stub();
+      const loadFinancialData = sinon.stub()
+        .returns(sinon.stub()
+          .returns(Promise.resolve(monthData)));
+
+      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
+
+      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
+        .then((result) => {
+          assert(result.should.equal(monthData));
+          assert(loadFinancialData.calledWith(auth, year, month));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('loads data if no data present in state for month', (done) => {
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 7;
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        financialData: {
+          2017: {},
+        },
+      });
+      const monthData = sinon.stub();
+      const loadFinancialData = sinon.stub()
+        .returns(sinon.stub()
+          .returns(Promise.resolve(monthData)));
+
+      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
+
+      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
+        .then((result) => {
+          assert(result.should.equal(monthData));
+          assert(loadFinancialData.calledWith(auth, year, month));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('uses existing data if present', (done) => {
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 7;
+      const dispatch = sinon.stub();
+      const monthData = sinon.stub();
+      const getState = sinon.stub().returns({
+        financialData: {
+          2017: {
+            7: monthData,
+          },
+        },
+      });
+
+      rewireApi.__Rewire__('loadFinancialData', undefined);
+
+      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
+        .then((result) => {
+          assert(result.should.equal(monthData));
+          done();
+        })
+        .catch(done);
+    });
+  });
 
   describe('load financial data and apply transactions', () => {
-    it('loads financial data, dispatches apply transactions, returns updated state', (done) => {
-      const loadFinancialData = sinon.stub();
+    it('loads financial data if required, dispatches apply transactions, returns updated state', (done) => {
+      const loadFinancialDataIfRequiredStub = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub();
       const auth = sinon.stub();
       const transactions = sinon.stub();
-      const split = {
-        year: 2017,
-        month: 7,
-        transactions,
-      };
       const monthData = sinon.stub();
 
-      loadFinancialData.returns(sinon.stub().returns(Promise.resolve({})));
+      loadFinancialDataIfRequiredStub.returns(Promise.resolve({}));
       getState.returns({
         financialData: {
           2017: {
@@ -74,11 +145,11 @@ describe('import statement', () => {
         },
       });
 
-      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
       loadFinancialDataAndApplyTransactions(auth, 2017, 7, transactions, dispatch, getState)
         .then((result) => {
-          assert(loadFinancialData.calledWith(auth, 2017, 7));
+          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
           assert(dispatch.calledWith(sinon.match({
             type: APPLY_TRANSACTIONS_TO_MONTH,
             year: 2017,
