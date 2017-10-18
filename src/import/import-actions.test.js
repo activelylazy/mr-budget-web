@@ -2,8 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
 import { importStatement, importAccountSelected, importStatementToAccount,
-  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, __RewireAPI__ as rewireApi } from './import-actions';
-import { APPLY_TRANSACTIONS_TO_MONTH } from '../financial-data/financial-data-actions';
+  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, RESET_IMPORT, __RewireAPI__ as rewireApi } from './import-actions';
 
 should();
 
@@ -41,21 +40,45 @@ describe('import actions', () => {
     assert.isNull(result.accountId);
   });
 
-  it('imports statement to account by getting statement to import and importing statement data', () => {
-    const dispatch = sinon.stub();
-    const auth = sinon.stub();
-    const statement = sinon.stub();
-    const getState = sinon.stub().returns({
-      auth,
-      statementImport: {
-        statement,
-      },
+  describe('import statement to account', () => {
+    it('gets statement to import and imports statement data', () => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+        },
+      });
+      const importStatementData = sinon.stub();
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatementToAccount()(dispatch, getState);
+
+      assert(importStatementData.calledWith(auth, statement, dispatch, getState));
     });
-    const importStatementData = sinon.stub();
 
-    rewireApi.__Rewire__('importStatementData', importStatementData);
+    it('resets import', () => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+        },
+      });
+      const importStatementData = sinon.stub();
 
-    importStatementToAccount()(dispatch, getState);
-    assert(importStatementData.calledWith(auth, statement, dispatch, getState));
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatementToAccount()(dispatch, getState);
+
+      assert(dispatch.calledWith(sinon.match({
+        type: RESET_IMPORT,
+      })));
+    });
   });
 });
