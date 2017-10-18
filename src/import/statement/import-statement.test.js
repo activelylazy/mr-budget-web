@@ -1,11 +1,55 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
-import { loadFinancialDataAndApplyTransactions, updateMonthData, __RewireAPI__ as rewireApi } from './import-statement';
+import { loadFinancialDataAndApplyTransactions, updateMonthData,
+  splitStatement, importStatementData, __RewireAPI__ as rewireApi } from './import-statement';
 
 should();
 
 describe('import statement', () => {
+  describe('split statement', () => {
+    it('splits statement into two months', () => {
+      const statement = {
+        transactions: [
+          {
+            id: 1,
+            date: new Date(2017, 7, 1),
+            name: 'transaction 1',
+            amount: 11.11,
+          },
+          {
+            id: 2,
+            date: new Date(2017, 7, 14),
+            name: 'transaction 2',
+            amount: 22.22,
+          },
+          {
+            id: 3,
+            date: new Date(2017, 8, 1),
+            name: 'transaction 3',
+            amount: 33.33,
+          },
+        ],
+      };
+
+      const splits = splitStatement(statement);
+
+      assert(splits.length.should.equal(2));
+
+      assert(splits[0].year.should.equal(2017));
+      assert(splits[0].month.should.equal(7));
+      assert(splits[0].transactions.length.should.equal(2));
+      assert(splits[0].transactions[0].id.should.equal(1));
+      assert(splits[0].transactions[1].id.should.equal(2));
+
+      assert(splits[1].year.should.equal(2017));
+      assert(splits[1].month.should.equal(8));
+      assert(splits[1].transactions.length.should.equal(1));
+      assert(splits[1].transactions[0].id.should.equal(3));
+    });
+  });
+
+
   describe('load financial data and apply transactions', () => {
     it('loads financial data, dispatches apply transactions, returns updated state', (done) => {
       const loadFinancialData = sinon.stub();
@@ -68,6 +112,33 @@ describe('import statement', () => {
         .then(() => {
           assert(loadFinancialDataAndApplyTransactionStub.calledWith(auth, split, dispatch, getState));
           assert(saveFinancialData.calledWith(auth, monthData, 2017, 7));
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('import statement to account', () => {
+    it('imports statement by splitting into year+months and updating each month\'s data', (done) => {
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const statement = sinon.stub();
+      const yearMonthPair = {
+        year: 2017,
+        month: 7,
+        transactions: sinon.stub(),
+      };
+      const splitStatementStub = sinon.stub().returns([yearMonthPair]);
+      const updateMonthDataStub = sinon.stub().returns(Promise.resolve());
+      const getState = sinon.stub();
+
+      rewireApi.__Rewire__('splitStatement', splitStatementStub);
+      rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
+
+      importStatementData(auth, statement, dispatch, getState)
+        .then(() => {
+          assert(splitStatementStub.calledWith(statement));
+          assert(updateMonthDataStub.calledWith(auth, yearMonthPair, dispatch, getState));
           done();
         })
         .catch(done);

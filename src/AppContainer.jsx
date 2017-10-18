@@ -42,6 +42,6 @@ function mapStateToProps(state) {
   };
 }
 
-const fakeLogin = () => dispatch => dispatch(userLoggedIn('49f6f8b6-5526-452f-9a5e-8af17c7acf00', 'Password1!'));
+const fakeLogin = () => dispatch => dispatch(userLoggedIn('49f6f8b6-5526-452f-9a5e-8af17c7acf01', 'Password1!'));
 
 export default connect(mapStateToProps, { loadUserData, fakeLogin })(AppContainer);

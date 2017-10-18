@@ -41,33 +41,21 @@ describe('import actions', () => {
     assert.isNull(result.accountId);
   });
 
-  it('imports statement to account by splitting into year+months and loading & applying transactions', (done) => {
-    const auth = sinon.stub();
+  it('imports statement to account by getting statement to import and importing statement data', () => {
     const dispatch = sinon.stub();
+    const auth = sinon.stub();
     const statement = sinon.stub();
-    const yearMonthPair = {
-      year: 2017,
-      month: 7,
-      transactions: sinon.stub(),
-    };
-    const splitStatement = sinon.stub().returns([yearMonthPair]);
-    const updateMonthData = sinon.stub().returns(Promise.resolve());
     const getState = sinon.stub().returns({
       auth,
       statementImport: {
         statement,
       },
     });
+    const importStatementData = sinon.stub();
 
-    rewireApi.__Rewire__('splitStatement', splitStatement);
-    rewireApi.__Rewire__('updateMonthData', updateMonthData);
+    rewireApi.__Rewire__('importStatementData', importStatementData);
 
-    importStatementToAccount()(dispatch, getState)
-      .then(() => {
-        assert(splitStatement.calledWith(statement));
-        assert(updateMonthData.calledWith(auth, yearMonthPair, dispatch, getState));
-        done();
-      })
-      .catch(done);
+    importStatementToAccount()(dispatch, getState);
+    assert(importStatementData.calledWith(auth, statement, dispatch, getState));
   });
 });
