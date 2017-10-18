@@ -1,5 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import Immutable from 'seamless-immutable';
 import accountsReducer, { __RewireAPI__ as rewireApi } from './user-data-reducer';
 import * as actions from './user-data-actions';
 
@@ -43,5 +44,27 @@ describe('accounts reducer', () => {
 
     assert(state.accounts.length.should.equal(1));
     assert(state.accounts[0].name.should.equal('my account'));
+  });
+
+  describe('update last statement', () => {
+    it('updates last statement date and balance', () => {
+      const accountId = 4;
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+        }],
+      });
+      const statementBalance = 123.45;
+      const statementDate = new Date();
+      const state = accountsReducer(userData, actions.updateLastStatement(statementDate,
+        statementBalance, accountId));
+
+      assert(state.accounts.length.should.equal(1));
+      assert(state.accounts[0].id.should.equal(accountId));
+      assert(state.accounts[0].name.should.equal('my account'));
+      assert(state.accounts[0].lastStatementDate.toString().should.equal(statementDate.toString()));
+      assert(state.accounts[0].lastStatementBalance.should.equal(statementBalance));
+    });
   });
 });

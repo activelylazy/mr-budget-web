@@ -52,3 +52,12 @@ export const addAccount = (auth, accountName) => (dispatch, getState) => {
   dispatch(addAccountToState(accountName));
   saveUserData(auth, getState().userData);
 };
+
+export const UPDATE_LAST_STATEMENT = 'UPDATE_LAST_STATEMENT';
+export const updateLastStatement = (statementDate, statementBalance, accountId) => ({
+  type: UPDATE_LAST_STATEMENT,
+  statementDate,
+  statementBalance,
+  accountId,
+});
+

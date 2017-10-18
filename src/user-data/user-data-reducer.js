@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable';
 import uuid from 'uuid';
-import { ADD_ACCOUNT, USER_DATA_LOADED } from './user-data-actions';
+import { ADD_ACCOUNT, USER_DATA_LOADED, UPDATE_LAST_STATEMENT } from './user-data-actions';
 
 const defaultState = Immutable.from({
   accounts: [],
@@ -19,6 +19,13 @@ export default (state = defaultState, action) => {
       return Immutable.set(state, 'accounts', state.accounts.concat(newAccount(action.accountName)));
     case USER_DATA_LOADED:
       return Immutable.from(action.userData);
+    case UPDATE_LAST_STATEMENT:
+      return Immutable.set(state, 'accounts', state.accounts.map(account =>
+        (account.id === action.accountId
+          ? ({ ...account,
+            lastStatementBalance: action.statementBalance,
+            lastStatementDate: action.statementDate })
+          : account)));
     default:
       return state;
   }
