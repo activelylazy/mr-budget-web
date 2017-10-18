@@ -56,10 +56,11 @@ describe('import statement', () => {
       const dispatch = sinon.stub();
       const getState = sinon.stub();
       const auth = sinon.stub();
+      const transactions = sinon.stub();
       const split = {
         year: 2017,
         month: 7,
-        transactions: sinon.stub(),
+        transactions,
       };
       const monthData = sinon.stub();
 
@@ -74,14 +75,14 @@ describe('import statement', () => {
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
-      loadFinancialDataAndApplyTransactions(auth, split, dispatch, getState)
+      loadFinancialDataAndApplyTransactions(auth, 2017, 7, transactions, dispatch, getState)
         .then((result) => {
           assert(loadFinancialData.calledWith(auth, 2017, 7));
           assert(dispatch.calledWith(sinon.match({
             type: APPLY_TRANSACTIONS_TO_MONTH,
             year: 2017,
             month: 7,
-            transactions: split.transactions,
+            transactions,
           })));
           assert(result.should.equal(monthData));
           done();
@@ -93,13 +94,10 @@ describe('import statement', () => {
   describe('update month data', () => {
     it('loads financial data & applies transactions then saves updated data', (done) => {
       const auth = sinon.stub();
-      const split = {
-        year: 2017,
-        month: 7,
-      };
       const dispatch = sinon.stub();
       const getState = sinon.stub();
       const monthData = sinon.stub();
+      const transactions = sinon.stub();
       const loadFinancialDataAndApplyTransactionStub =
         sinon.stub().returns(Promise.resolve(monthData));
       const saveFinancialData = sinon.stub();
@@ -108,9 +106,9 @@ describe('import statement', () => {
         loadFinancialDataAndApplyTransactionStub);
       rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
 
-      updateMonthData(auth, split, dispatch, getState)
+      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
         .then(() => {
-          assert(loadFinancialDataAndApplyTransactionStub.calledWith(auth, split, dispatch, getState));
+          assert(loadFinancialDataAndApplyTransactionStub.calledWith(auth, 2017, 7, transactions, dispatch, getState));
           assert(saveFinancialData.calledWith(auth, monthData, 2017, 7));
           done();
         })
@@ -123,10 +121,11 @@ describe('import statement', () => {
       const auth = sinon.stub();
       const dispatch = sinon.stub();
       const statement = sinon.stub();
+      const transactions = sinon.stub();
       const yearMonthPair = {
         year: 2017,
         month: 7,
-        transactions: sinon.stub(),
+        transactions,
       };
       const splitStatementStub = sinon.stub().returns([yearMonthPair]);
       const updateMonthDataStub = sinon.stub().returns(Promise.resolve());
@@ -138,7 +137,7 @@ describe('import statement', () => {
       importStatementData(auth, statement, dispatch, getState)
         .then(() => {
           assert(splitStatementStub.calledWith(statement));
-          assert(updateMonthDataStub.calledWith(auth, yearMonthPair, dispatch, getState));
+          assert(updateMonthDataStub.calledWith(auth, 2017, 7, transactions, dispatch, getState));
           done();
         })
         .catch(done);
