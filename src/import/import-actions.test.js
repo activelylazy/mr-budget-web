@@ -53,16 +53,17 @@ describe('import actions', () => {
           selectedAccountId,
         },
       });
-      const importStatementData = sinon.stub();
+      const importStatementData = sinon.stub().returns(Promise.resolve());
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
       importStatementToAccount()(dispatch, getState);
 
-      assert(importStatementData.calledWith(auth, statement, selectedAccountId, dispatch, getState));
+      assert(importStatementData.calledWith(auth, statement, selectedAccountId,
+        dispatch, getState));
     });
 
-    it('resets import', () => {
+    it('resets import', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
       const statement = sinon.stub();
@@ -72,15 +73,18 @@ describe('import actions', () => {
           statement,
         },
       });
-      const importStatementData = sinon.stub();
+      const importStatementData = sinon.stub().returns(Promise.resolve());
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState);
-
-      assert(dispatch.calledWith(sinon.match({
-        type: RESET_IMPORT,
-      })));
+      importStatementToAccount()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: RESET_IMPORT,
+          })));
+          done();
+        })
+        .catch(done);
     });
   });
 });
