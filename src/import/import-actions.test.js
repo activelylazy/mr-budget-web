@@ -90,11 +90,11 @@ describe('import actions', () => {
     it('updates last statement', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
-      const statementDate = sinon.stub();
-      const statementBalance = sinon.stub();
+      const date = sinon.stub();
+      const balance = sinon.stub();
       const statement = {
-        statementDate,
-        statementBalance,
+        date,
+        balance,
       };
       const selectedAccountId = sinon.stub();
       const getState = sinon.stub().returns({
@@ -113,7 +113,7 @@ describe('import actions', () => {
 
       importStatementToAccount()(dispatch, getState)
         .then(() => {
-          assert(updateLastStatement.calledWith(auth, statementDate, statementBalance,
+          assert(updateLastStatement.calledWith(auth, date, balance,
             selectedAccountId));
           assert(updateLastStatementThunk.calledWith(dispatch, getState));
           done();

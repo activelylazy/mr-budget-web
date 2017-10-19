@@ -28,7 +28,7 @@ export const importStatementToAccount = () => (dispatch, getState) => {
   const auth = getState().auth;
   const accountId = getState().statementImport.selectedAccountId;
   return importStatementData(auth, statement, accountId, dispatch, getState)
-    .then(() => updateLastStatement(auth, statement.statementDate,
-      statement.statementBalance, accountId)(dispatch, getState))
+    .then(() => updateLastStatement(auth, statement.date,
+      statement.balance, accountId)(dispatch, getState))
     .then(() => dispatch(resetImport()));
 };
