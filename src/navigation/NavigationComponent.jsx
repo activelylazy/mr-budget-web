@@ -30,7 +30,7 @@ const Navigation = ({ changeArea, currentArea }) => (
   <Navbar fixedTop collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="#">Mr. Budget</a>
+        <a>Mr. Budget</a>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>
