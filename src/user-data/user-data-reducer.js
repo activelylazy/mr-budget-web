@@ -18,7 +18,10 @@ export default (state = defaultState, action) => {
     case ADD_ACCOUNT:
       return Immutable.set(state, 'accounts', state.accounts.concat(newAccount(action.accountName)));
     case USER_DATA_LOADED:
-      return Immutable.from(action.userData);
+      if (state === defaultState) {
+        return Immutable.from(action.userData);
+      }
+      return state;
     case UPDATE_LAST_STATEMENT:
       return Immutable.set(state, 'accounts', state.accounts.map(account =>
         (account.id === action.accountId

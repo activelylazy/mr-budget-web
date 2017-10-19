@@ -46,6 +46,23 @@ describe('accounts reducer', () => {
     assert(state.accounts[0].name.should.equal('my account'));
   });
 
+  it('does not load user data if already loaded', () => {
+    const userData = {
+      accounts: [{
+        name: 'my account',
+      }],
+    };
+    const initialState = {
+      accounts: [{
+        name: 'original account',
+      }],
+    };
+    const state = accountsReducer(initialState, actions.userDataLoaded(userData));
+
+    assert(state.accounts.length.should.equal(1));
+    assert(state.accounts[0].name.should.equal('original account'));
+  });
+
   describe('update last statement', () => {
     it('updates last statement date and balance', () => {
       const accountId = 4;
