@@ -6,8 +6,8 @@ function sgml2Xml(sgml) {
     .replace(/>\s+</g, '><') // remove whitespace inbetween tag close/open
     .replace(/\s+</g, '<') // remove whitespace before a close tag
     .replace(/>\s+/g, '>') // remove whitespace after a close tag
-    .replace(/<([A-Z0-9_]*)+\.+([A-Z0-9_]*)>([^<]+)/g, '<\$1\$2>\$3')
-    .replace(/<(\w+?)>([^<]+)/g, '<\$1>\$2</\$1>');
+    .replace(/<([A-Z0-9_]*)+\.+([A-Z0-9_]*)>([^<]+)/g, '<$1$2>$3')
+    .replace(/<(\w+?)>([^<]+)/g, '<$1>$2</$1>');
 }
 
 /**
