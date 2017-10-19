@@ -105,14 +105,17 @@ describe('import actions', () => {
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
-      const updateLastStatement = sinon.stub().returns(() => {});
+      const updateLastStatementThunk = sinon.stub();
+      const updateLastStatement = sinon.stub().returns(updateLastStatementThunk);
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
       rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
 
       importStatementToAccount()(dispatch, getState)
         .then(() => {
-          assert(updateLastStatement.calledWith(auth, statementDate, statementBalance, selectedAccountId));
+          assert(updateLastStatement.calledWith(auth, statementDate, statementBalance,
+            selectedAccountId));
+          assert(updateLastStatementThunk.calledWith(dispatch, getState));
           done();
         })
         .catch(done);
