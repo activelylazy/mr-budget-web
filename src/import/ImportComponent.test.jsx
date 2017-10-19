@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
+import { Button } from 'react-bootstrap';
 import Import from './ImportComponent';
 import SelectFile from './SelectFileComponent';
 import SelectAccount from './SelectAccountComponent';
@@ -112,5 +113,27 @@ describe('import component', () => {
     component.find(SelectAccount).prop('onAccountSelected')('my account');
 
     assert(onAccountSelected.calledWith('my account'));
+  });
+
+  it('imports statement when import button clicked', () => {
+    const statement = {
+      transactions: [],
+    };
+    const onImport = sinon.stub().returns(Promise.resolve());
+    const component = shallow(
+      <Import
+        onUpload={sinon.stub()}
+        accounts={[]}
+        statement={statement}
+        onAccountSelected={sinon.stub()}
+        selectedAccountId={'abc-123'}
+        onImport={onImport}
+        showSuccess={sinon.stub()}
+      />,
+    );
+
+    component.find('.import-button').children().find(Button).simulate('click');
+
+    assert(onImport.calledOnce);
   });
 });
