@@ -57,8 +57,12 @@ describe('accounts reducer', () => {
       });
       const statementBalance = 123.45;
       const statementDate = new Date();
-      const state = accountsReducer(userData, actions.updateLastStatement(statementDate,
-        statementBalance, accountId));
+      const state = accountsReducer(userData, {
+        type: actions.UPDATE_LAST_STATEMENT,
+        statementDate,
+        statementBalance,
+        accountId,
+      });
 
       assert(state.accounts.length.should.equal(1));
       assert(state.accounts[0].id.should.equal(accountId));

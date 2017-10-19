@@ -1,6 +1,8 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { loadUserData, saveUserData, USER_DATA_LOADED, __RewireAPI__ as rewireApi } from './user-data-actions';
+import { loadUserData, saveUserData, USER_DATA_LOADED,
+  updateLastStatement, UPDATE_LAST_STATEMENT,
+  __RewireAPI__ as rewireApi } from './user-data-actions';
 
 should();
 
@@ -63,5 +65,32 @@ describe('user data', () => {
         done();
       })
       .catch(done);
+  });
+
+  describe('update last statement', () => {
+    it('dispatches update then saves latest user data', () => {
+      const statementDate = sinon.stub();
+      const statementBalance = sinon.stub();
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const userData = sinon.stub();
+      const getState = sinon.stub().returns({
+        userData,
+      });
+      const saveUserDataStub = sinon.stub();
+      const auth = sinon.stub();
+
+      rewireApi.__Rewire__('saveUserData', saveUserDataStub);
+
+      updateLastStatement(auth, statementDate, statementBalance, accountId)(dispatch, getState);
+
+      assert(dispatch.calledWith(sinon.match({
+        type: UPDATE_LAST_STATEMENT,
+        statementDate,
+        statementBalance,
+        accountId,
+      })));
+      assert(saveUserDataStub.calledWith(auth, userData));
+    });
   });
 });
