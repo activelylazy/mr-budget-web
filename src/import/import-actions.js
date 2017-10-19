@@ -1,4 +1,5 @@
 import parseOfx from '../ofx/parse-ofx';
+import { updateLastStatement } from '../user-data/user-data-actions';
 import { importStatementData } from './statement/import-statement';
 
 export const STATEMENT_UPLOADED = 'STATEMENT_UPLOADED';
@@ -27,5 +28,7 @@ export const importStatementToAccount = () => (dispatch, getState) => {
   const auth = getState().auth;
   const accountId = getState().statementImport.selectedAccountId;
   return importStatementData(auth, statement, accountId, dispatch, getState)
+    .then(() => updateLastStatement(auth, statement.statementDate,
+      statement.statementBalance, accountId))
     .then(() => dispatch(resetImport()));
 };

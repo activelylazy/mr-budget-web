@@ -86,5 +86,36 @@ describe('import actions', () => {
         })
         .catch(done);
     });
+
+    it('updates last statement', (done) => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statementDate = sinon.stub();
+      const statementBalance = sinon.stub();
+      const statement = {
+        statementDate,
+        statementBalance,
+      };
+      const selectedAccountId = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+      const updateLastStatement = sinon.stub().returns(() => {});
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+      rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
+
+      importStatementToAccount()(dispatch, getState)
+        .then(() => {
+          assert(updateLastStatement.calledWith(auth, statementDate, statementBalance, selectedAccountId));
+          done();
+        })
+        .catch(done);
+    });
   });
 });
