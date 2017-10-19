@@ -18,6 +18,7 @@ describe('import component', () => {
         statement={null}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />);
 
     assert(component.find(SelectFile).exists().should.equal(true));
@@ -31,6 +32,7 @@ describe('import component', () => {
         statement={null}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />);
 
     assert(component.find('.import-button').exists().should.equal(false));
@@ -47,6 +49,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />,
     );
 
@@ -64,6 +67,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />,
     );
 
@@ -82,6 +86,7 @@ describe('import component', () => {
         selectedAccountId={uuid()}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />,
     );
 
@@ -100,6 +105,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={onAccountSelected}
         onImport={sinon.stub()}
+        showSuccess={sinon.stub()}
       />,
     );
 

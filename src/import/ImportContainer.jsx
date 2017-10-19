@@ -12,6 +12,7 @@ const ImportContainer = props => (
     onAccountSelected={props.importAccountSelected}
     selectedAccountId={props.selectedAccountId}
     onImport={props.importStatementToAccount}
+    showSuccess={props.showSuccess}
   />
 );
 
@@ -26,6 +27,7 @@ ImportContainer.propTypes = {
   importAccountSelected: PropTypes.func.isRequired,
   selectedAccountId: PropTypes.string,
   importStatementToAccount: PropTypes.func.isRequired,
+  showSuccess: PropTypes.func.isRequired,
 };
 
 ImportContainer.defaultProps = {

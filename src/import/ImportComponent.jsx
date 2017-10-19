@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Grid, Row, Col, Panel, Glyphicon, Button } from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import AlertContainer from 'react-alert';
 import SelectFile from './SelectFileComponent';
 import SelectAccount from './SelectAccountComponent';
 import './import.css';
@@ -20,10 +19,7 @@ class ImportComponent extends Component {
   }
   doImport() {
     this.props.onImport()
-      .then(() => this.msg.show('Statement imported successfully', {
-        time: 2000,
-        type: 'success',
-      }));
+      .then(() => this.props.showSuccess('Statement imported'));
   }
   render() {
     const { onUpload, statement, accounts,
@@ -42,16 +38,8 @@ class ImportComponent extends Component {
         content.push(importButton(this.doImport));
       }
     }
-    const alertOptions = {
-      offset: 14,
-      position: 'top right',
-      theme: 'light',
-      time: 5000,
-      transition: 'scale',
-    };
     return (
       <div className="import-component">
-        <AlertContainer ref={(a) => { this.msg = a; }} {...alertOptions} />
         <Grid>
           <Row>
             <Col md={6}>
@@ -87,6 +75,7 @@ ImportComponent.propTypes = {
   selectedAccountId: PropTypes.string,
   onAccountSelected: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
+  showSuccess: PropTypes.func.isRequired,
 };
 
 ImportComponent.defaultProps = {
