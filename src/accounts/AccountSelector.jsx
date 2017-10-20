@@ -3,6 +3,26 @@ import { PropTypes } from 'prop-types';
 import { Button } from 'react-bootstrap';
 import relativeDate from 'relative-date';
 
+const accountBalance = (account) => {
+  if (account.lastStatementBalance !== undefined) {
+    return (<td rowSpan="2" className="account-balance">
+      £ {account.lastStatementBalance}
+    </td>
+    );
+  }
+  return (<td rowSpan="2" />);
+};
+
+const accountUpdated = (account) => {
+  if (account.lastStatementDate !== undefined) {
+    return (<td className="account-updated">
+      last updated {relativeDate(account.lastStatementDate)}
+    </td>
+    );
+  }
+  return (<td className="account-updated">&nbsp;</td>);
+};
+
 const AccountsSelector = ({ account }) => (
   <div className="account">
     <Button
@@ -13,14 +33,10 @@ const AccountsSelector = ({ account }) => (
         <tbody>
           <tr>
             <td className="account-name">{account.name}</td>
-            <td rowSpan="2" className="account-balance">
-              £ {account.lastStatementBalance}
-            </td>
+            {accountBalance(account)}
           </tr>
           <tr>
-            <td className="account-updated">
-              <span style={{ fontSize: '8pt' }}>last updated {relativeDate(account.lastStatementDate)}</span>
-            </td>
+            {accountUpdated(account)}
           </tr>
         </tbody>
       </table>

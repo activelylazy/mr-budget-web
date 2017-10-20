@@ -35,6 +35,15 @@
   width: 100%;
 }
 
+.account-name {
+  text-align: left;
+}
+
 .account-balance {
   text-align: right;
+}
+
+.account-updated {
+  text-align: left;
+  font-size: 8pt;
 }
