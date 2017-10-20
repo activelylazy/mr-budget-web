@@ -26,7 +26,7 @@ export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getStat
     getState().financialData[year][month] === undefined) {
     return loadFinancialData(auth, year, month)(dispatch);
   }
-  return Promise.resolve(getState().financialData[year][month]);
+  return Promise.resolve();
 };
 
 export const loadFinancialDataAndApplyTransactions = (auth, year, month, transactions, dispatch, getState) => // eslint-disable-line
