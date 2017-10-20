@@ -27,7 +27,7 @@ export const setSelectedAccount = (accountId, filteredTransactions) => ({
 });
 export const importAccountSelected = accountId => (dispatch, getState) => {
   const account = getState().userData.accounts.find(a => a.id === accountId);
-  const transactions = getState().statementImport.statement.transactions;
+  const transactions = getState().statementImport.uploadedStatement.transactions;
   const filteredTransactions = filterTransactions(account.lastStatementDate, transactions);
   dispatch(setSelectedAccount(accountId, filteredTransactions));
 };
