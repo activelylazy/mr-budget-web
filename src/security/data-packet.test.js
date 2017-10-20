@@ -21,6 +21,25 @@ describe('data packet', () => {
       .catch(done.fail);
   });
 
+  it('packs and unpacks dates', (done) => {
+    const date = new Date();
+    const source = {
+      someKey: 'value',
+      values: [1, 3, 9, 42],
+      date,
+    };
+    const password = 'Password1!';
+
+    pack(source, password)
+      .then(packed => unpack(packed, password))
+      .then((unpacked) => {
+        assert((typeof (unpacked.date)).should.equal('object'));
+        assert(unpacked.date.toISOString().should.equal(date.toISOString()));
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('size of compressed matches size of encrypted and compressed', (done) => {
     const source = {
       someKey: 'value',
