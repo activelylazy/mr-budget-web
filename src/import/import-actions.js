@@ -12,11 +12,25 @@ export const importStatement = fileContents => dispatch =>
   parseOfx(fileContents)
     .then(statement => dispatch(statementUploaded(statement)));
 
+export const filterTransactions = (lastStatementDate, transactions) => {
+  if (lastStatementDate === undefined) {
+    return transactions;
+  }
+  return transactions.filter(t => t.date > lastStatementDate);
+};
+
 export const IMPORT_ACCOUNT_SELECTED = 'IMPORT_ACCOUNT_SELECTED';
-export const importAccountSelected = accountId => ({
+export const setSelectedAccount = (accountId, filteredTransactions) => ({
   type: IMPORT_ACCOUNT_SELECTED,
   accountId: accountId === '' ? null : accountId,
+  filteredTransactions,
 });
+export const importAccountSelected = accountId => (dispatch, getState) => {
+  const account = getState().userData.accounts.find(a => a.id === accountId);
+  const transactions = getState().import.statement.transactions;
+  const filteredTransactions = filterTransactions(account.lastStatementDate, transactions);
+  dispatch(setSelectedAccount(accountId, filteredTransactions));
+};
 
 export const RESET_IMPORT = 'RESET_IMPORT';
 export const resetImport = () => ({

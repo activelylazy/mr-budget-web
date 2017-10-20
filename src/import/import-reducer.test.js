@@ -29,19 +29,27 @@ describe('import reducer', () => {
       const accountId = uuid();
 
       const initialState = importReducer(undefined, actions.statementUploaded(statement));
-      const state = importReducer(initialState, actions.importAccountSelected(accountId));
+      const state = importReducer(initialState, actions.setSelectedAccount(accountId));
 
       assert(state.selectedAccountId.should.equal(accountId));
     });
 
-    it('sets statement to uploaded statement', () => {
-      const statement = sinon.stub();
+    it('sets statement to statement with filtered transactions', () => {
+      const statement = {
+        date: sinon.stub(),
+        balance: sinon.stub(),
+        transactions: sinon.stub(),
+      };
       const accountId = uuid();
+      const filteredTransactions = sinon.stub();
 
       const initialState = importReducer(undefined, actions.statementUploaded(statement));
-      const state = importReducer(initialState, actions.importAccountSelected(accountId));
+      const state = importReducer(initialState,
+        actions.setSelectedAccount(accountId, filteredTransactions));
 
-      assert(state.statement.should.equal(statement));
+      assert(state.statement.date.should.equal(statement.date));
+      assert(state.statement.balance.should.equal(statement.balance));
+      assert(state.statement.transactions.should.equal(filteredTransactions));
     });
   });
 
