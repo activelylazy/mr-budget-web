@@ -13,6 +13,15 @@ function newAccount(name) {
   });
 }
 
+const updateAccount = (account, action) => {
+  if (account.id === action.accountId &&
+    (account.lastStatementDate === undefined || account.lastStatementDate < action.statementDate)) {
+    return { ...account,
+      lastStatementBalance: action.statementBalance,
+      lastStatementDate: action.statementDate };
+  }
+  return account;
+};
 export default (state = defaultState, action) => {
   switch (action.type) {
     case ADD_ACCOUNT:
@@ -23,12 +32,7 @@ export default (state = defaultState, action) => {
       }
       return state;
     case UPDATE_LAST_STATEMENT:
-      return Immutable.set(state, 'accounts', state.accounts.map(account =>
-        (account.id === action.accountId
-          ? ({ ...account,
-            lastStatementBalance: action.statementBalance,
-            lastStatementDate: action.statementDate })
-          : account)));
+      return Immutable.set(state, 'accounts', state.accounts.map(account => updateAccount(account, action)));
     default:
       return state;
   }

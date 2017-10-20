@@ -87,5 +87,57 @@ describe('accounts reducer', () => {
       assert(state.accounts[0].lastStatementDate.toString().should.equal(statementDate.toString()));
       assert(state.accounts[0].lastStatementBalance.should.equal(statementBalance));
     });
+
+    it('updates last statement date and balance where new statement is more recent', () => {
+      const accountId = 4;
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+          lastStatementDate: new Date(Date.now() - (24 * 3600 * 1000)),
+          lastStatementBalance: 111.11,
+        }],
+      });
+      const statementBalance = 123.45;
+      const statementDate = new Date();
+      const state = accountsReducer(userData, {
+        type: actions.UPDATE_LAST_STATEMENT,
+        statementDate,
+        statementBalance,
+        accountId,
+      });
+
+      assert(state.accounts.length.should.equal(1));
+      assert(state.accounts[0].id.should.equal(accountId));
+      assert(state.accounts[0].name.should.equal('my account'));
+      assert(state.accounts[0].lastStatementDate.toString().should.equal(statementDate.toString()));
+      assert(state.accounts[0].lastStatementBalance.should.equal(statementBalance));
+    });
+
+    it('does not update last statement date and balance if it is before the most recent update', () => {
+      const accountId = 4;
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+          lastStatementDate: new Date(Date.now() - (5 * 24 * 3600 * 1000)),
+          lastStatementBalance: 111.11,
+        }],
+      });
+      const statementBalance = 123.45;
+      const statementDate = new Date(Date.now() - (6 * 24 * 3600 * 1000));
+      const state = accountsReducer(userData, {
+        type: actions.UPDATE_LAST_STATEMENT,
+        statementDate,
+        statementBalance,
+        accountId,
+      });
+
+      assert(state.accounts.length.should.equal(1));
+      assert(state.accounts[0].id.should.equal(accountId));
+      assert(state.accounts[0].name.should.equal('my account'));
+      assert(state.accounts[0].lastStatementDate.toString().should.equal(userData.accounts[0].lastStatementDate.toString()));
+      assert(state.accounts[0].lastStatementBalance.should.equal(111.11));
+    });
   });
 });
