@@ -11,9 +11,9 @@ const AccountsSelector = ({ account }) => (
       <table className="account-selector-table">
         <tbody>
           <tr>
-            <td>{account.name}</td>
+            <td className="account-name">{account.name}</td>
             <td rowSpan="2" className="account-balance">
-              £ 123.45
+              £ {account.lastStatementBalance}
             </td>
           </tr>
           <tr>
