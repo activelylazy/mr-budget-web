@@ -13,12 +13,12 @@ describe('import reducer', () => {
     assert.isUndefined(state.selectedAccountId);
   });
 
-  it('handles statement uploaded by setting statement', () => {
+  it('handles statement uploaded by setting uploaded statement', () => {
     const statement = sinon.stub();
 
     const state = importReducer(undefined, actions.statementUploaded(statement));
 
-    assert(state.statement.should.equal(statement));
+    assert(state.uploadedStatement.should.equal(statement));
   });
 
   it('handles import account selected by setting selected account', () => {
@@ -29,6 +29,16 @@ describe('import reducer', () => {
     const state = importReducer(initialState, actions.importAccountSelected(accountId));
 
     assert(state.selectedAccountId.should.equal(accountId));
+  });
+
+  it('handles import account selected by setting statement to uploaded statement', () => {
+    const statement = sinon.stub();
+    const accountId = uuid();
+
+    const initialState = importReducer(undefined, actions.statementUploaded(statement));
+    const state = importReducer(initialState, actions.importAccountSelected(accountId));
+
+    assert(state.statement.should.equal(statement));
   });
 
   it('handles reset import by resetting import state', () => {

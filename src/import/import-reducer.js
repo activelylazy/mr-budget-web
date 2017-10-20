@@ -7,9 +7,11 @@ const defaultState = Immutable({
 export default (state = defaultState, action) => {
   switch (action.type) {
     case STATEMENT_UPLOADED:
-      return Immutable({ ...state, statement: action.statement });
+      return Immutable({ ...state, uploadedStatement: action.statement });
     case IMPORT_ACCOUNT_SELECTED:
-      return Immutable({ ...state, selectedAccountId: action.accountId });
+      return Immutable({ ...state,
+        statement: state.uploadedStatement,
+        selectedAccountId: action.accountId });
     case RESET_IMPORT:
       return defaultState;
     default:

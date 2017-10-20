@@ -38,7 +38,7 @@ ImportContainer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    statement: state.statementImport.statement,
+    statement: state.statementImport.uploadedStatement,
     accounts: state.userData.accounts,
     selectedAccountId: state.statementImport.selectedAccountId,
   };
