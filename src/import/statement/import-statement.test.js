@@ -125,6 +125,31 @@ describe('import statement', () => {
         })
         .catch(done);
     });
+
+    it('rejects if load financial data rejects', (done) => {
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 7;
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        financialData: {},
+      });
+      const error = sinon.stub();
+      const loadFinancialData = sinon.stub()
+        .returns(sinon.stub()
+          .returns(Promise.reject(error)));
+
+      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
+
+      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
+        .then(() => {
+          done(new Error('Expected promise to be rejected'));
+        })
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('load financial data and apply transactions', () => {
