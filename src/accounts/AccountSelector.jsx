@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Button } from 'react-bootstrap';
+import relativeDate from 'relative-date';
 
 const AccountsSelector = ({ account }) => (
   <div className="account">
@@ -17,8 +18,8 @@ const AccountsSelector = ({ account }) => (
             </td>
           </tr>
           <tr>
-            <td>
-              <span style={{ fontSize: '8pt' }}>last updated yesterday</span>
+            <td className="account-updated">
+              <span style={{ fontSize: '8pt' }}>last updated {relativeDate(account.lastStatementDate)}</span>
             </td>
           </tr>
         </tbody>
