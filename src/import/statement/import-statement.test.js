@@ -158,7 +158,7 @@ describe('import statement', () => {
       const transactions = sinon.stub();
       const monthData = sinon.stub();
 
-      loadFinancialDataIfRequiredStub.returns(Promise.resolve({}));
+      loadFinancialDataIfRequiredStub.returns(Promise.resolve());
       getState.returns({
         financialData: {
           2017: {
@@ -182,6 +182,25 @@ describe('import statement', () => {
           done();
         })
         .catch(done);
+    });
+
+    it('rejects if loadFinancialDataIfRequired is rejected', (done) => {
+      const error = sinon.stub();
+      const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
+
+      const auth = sinon.stub();
+      const transactions = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub();
+
+      loadFinancialDataAndApplyTransactions(auth, 2017, 7, transactions, dispatch, getState)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
     });
   });
 
