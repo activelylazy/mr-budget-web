@@ -60,7 +60,7 @@ describe('import actions', () => {
       const lastStatementDate = sinon.stub();
       const transactions = sinon.stub();
       const getState = sinon.stub().returns({
-        import: {
+        statementImport: {
           statement: {
             date: sinon.stub(),
             balance: sinon.stub(),
