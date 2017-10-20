@@ -252,7 +252,7 @@ describe('import statement', () => {
     });
   });
 
-  describe('import statement to account', () => {
+  describe('import statement data', () => {
     it('imports statement by splitting into year+months and updating each month\'s data', (done) => {
       const auth = sinon.stub();
       const dispatch = sinon.stub();
@@ -283,6 +283,36 @@ describe('import statement', () => {
           done();
         })
         .catch(done);
+    });
+
+    it('rejects if updateMonthData is rejected', (done) => {
+      const error = sinon.stub();
+      const updateMonthDataStub = sinon.stub().returns(Promise.reject(error));
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const statement = sinon.stub();
+      const transactions = sinon.stub();
+      const updatedTransactions = sinon.stub();
+      const getState = sinon.stub();
+      const accountId = sinon.stub();
+      const yearMonthPair = {
+        year: 2017,
+        month: 7,
+        transactions,
+      };
+      const splitStatementStub = sinon.stub().returns([yearMonthPair]);
+      const updateTransactionsWithAccountStub = sinon.stub().returns(updatedTransactions);
+
+      rewireApi.__Rewire__('splitStatement', splitStatementStub);
+      rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
+      rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccountStub);
+
+      importStatementData(auth, statement, accountId, dispatch, getState)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
     });
   });
 
