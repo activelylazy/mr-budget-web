@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import request from 'request-promise-native';
-import { loadFinancialData, saveFinancialData, FINANCIAL_DATA_LOADED, __RewireAPI__ as rewireApi } from './financial-data-actions';
+import { loadFinancialData, saveFinancialData, FINANCIAL_DATA_LOADED,
+  fetchFinancialData, __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
 
@@ -66,7 +66,11 @@ describe('financial data', () => {
           uri: `http://localhost/${auth.userId}/${year}/${month}`,
         })));
         assert(dispatch.calledWith(
-          sinon.match({ type: FINANCIAL_DATA_LOADED, financialData: { transactions: [] }, year, month })));
+          sinon.match({
+            type: FINANCIAL_DATA_LOADED,
+            financialData: { transactions: [] },
+            year,
+            month })));
         done();
       })
       .catch(done);
@@ -95,5 +99,76 @@ describe('financial data', () => {
         done();
       })
       .catch(done);
+  });
+
+  describe('fetch financial data', () => {
+    it('issues request then unpacks', (done) => {
+      const packedData = sinon.stub();
+      const unpackedData = sinon.stub();
+      requestStub.returns(Promise.resolve(packedData));
+      unpackStub.returns(Promise.resolve(unpackedData));
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+      const year = 2017;
+      const month = 10;
+
+      fetchFinancialData(auth, year, month)
+        .then((result) => {
+          assert(requestStub.calledWith(sinon.match({
+            method: 'GET',
+            uri: `http://localhost/${auth.userId}/${year}/${month}`,
+          })));
+          assert(unpackStub.calledWith(packedData));
+          assert(result.should.equal(unpackedData));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('rejects if request is rejected', (done) => {
+      const error = sinon.stub();
+      requestStub.returns(Promise.reject(error));
+
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+      const year = 2017;
+      const month = 10;
+
+      fetchFinancialData(auth, year, month)
+        .then(() => {
+          done(new Error('Unexpected success'));
+        })
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('rejects if unpack is rejected', (done) => {
+      const error = sinon.stub();
+      const packedData = sinon.stub();
+      requestStub.returns(Promise.resolve(packedData));
+      unpackStub.returns(Promise.reject(error));
+
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+      const year = 2017;
+      const month = 10;
+
+      fetchFinancialData(auth, year, month)
+        .then(() => {
+          done(new Error('Unexpected success'));
+        })
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 });

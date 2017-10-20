@@ -11,7 +11,7 @@ export function financialDataLoaded(financialData, year, month) {
   });
 }
 
-function fetchFinancialData(auth, year, month) {
+export const fetchFinancialData = (auth, year, month) => {
   const options = {
     method: 'GET',
     uri: `${process.env.REACT_APP_SERVER}${auth.userId}/${year}/${month}`,
@@ -19,7 +19,7 @@ function fetchFinancialData(auth, year, month) {
   };
   return request(options)
     .then(response => unpack(response, auth.password));
-}
+};
 
 export const saveFinancialData = (auth, state, year, month) =>
   pack(state, auth.password)
