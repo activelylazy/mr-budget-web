@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import uuid from 'uuid';
 import { importStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
   filterTransactions,
-  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, __RewireAPI__ as rewireApi } from './import-actions';
+  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, IMPORT_STARTED,
+  __RewireAPI__ as rewireApi } from './import-actions';
 
 should();
 
@@ -100,6 +101,32 @@ describe('import actions', () => {
   });
 
   describe('import statement to account', () => {
+    it('disatches import started', (done) => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatementToAccount()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: IMPORT_STARTED,
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
     it('gets statement to import and imports statement data', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
