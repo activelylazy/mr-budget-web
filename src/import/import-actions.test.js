@@ -41,7 +41,7 @@ describe('import actions', () => {
   });
 
   describe('import statement to account', () => {
-    it('gets statement to import and imports statement data', () => {
+    it('gets statement to import and imports statement data', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
       const statement = sinon.stub();
@@ -57,10 +57,39 @@ describe('import actions', () => {
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState);
+      importStatementToAccount()(dispatch, getState)
+        .then((result) => {
+          assert(importStatementData.calledWith(auth, statement, selectedAccountId,
+            dispatch, getState));
+          assert.isUndefined(result);
+          done();
+        })
+        .catch(done);
+    });
 
-      assert(importStatementData.calledWith(auth, statement, selectedAccountId,
-        dispatch, getState));
+    it('rejects if importStatementData is rejected', (done) => {
+      const error = sinon.stub();
+      const importStatementData = sinon.stub().returns(Promise.reject(error));
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+      });
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatementToAccount()(dispatch, getState)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
     });
 
     it('resets import', (done) => {
