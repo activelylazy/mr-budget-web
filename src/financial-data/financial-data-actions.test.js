@@ -33,7 +33,7 @@ describe('financial data', () => {
     unpackStub.returns(financialData);
 
     loadFinancialData(auth, year, month)(dispatch)
-      .then(() => {
+      .then((result) => {
         assert(requestStub.calledWith(sinon.match({
           method: 'GET',
           uri: `http://localhost/${auth.userId}/${year}/${month}`,
@@ -41,6 +41,7 @@ describe('financial data', () => {
         assert(unpackStub.calledWith(response, auth.password));
         assert(dispatch.calledWith(
           sinon.match({ type: FINANCIAL_DATA_LOADED, financialData, year, month })));
+        assert.isUndefined(result);
         done();
       })
       .catch(done);
