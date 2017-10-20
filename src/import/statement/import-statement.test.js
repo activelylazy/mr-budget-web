@@ -220,12 +220,35 @@ describe('import statement', () => {
       rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
 
       updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
-        .then(() => {
-          assert(loadFinancialDataAndApplyTransactionStub.calledWith(auth, 2017, 7, transactions, dispatch, getState));
+        .then((result) => {
+          assert(loadFinancialDataAndApplyTransactionStub
+            .calledWith(auth, 2017, 7, transactions, dispatch, getState));
           assert(saveFinancialData.calledWith(auth, monthData, 2017, 7));
+          assert.isUndefined(result);
           done();
         })
         .catch(done);
+    });
+
+    it('rejects if loadFinancialDataAndApplyTransactions is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub();
+      const transactions = sinon.stub();
+
+      const loadFinancialDataAndApplyTransactionStub =
+        sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions',
+        loadFinancialDataAndApplyTransactionStub);
+
+      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
     });
   });
 
