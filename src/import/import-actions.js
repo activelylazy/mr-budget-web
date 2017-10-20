@@ -32,9 +32,9 @@ export const importAccountSelected = accountId => (dispatch, getState) => {
   dispatch(setSelectedAccount(accountId, filteredTransactions));
 };
 
-export const RESET_IMPORT = 'RESET_IMPORT';
-export const resetImport = () => ({
-  type: RESET_IMPORT,
+export const IMPORT_FINISHED = 'IMPORT_FINISHED';
+export const importFinished = () => ({
+  type: IMPORT_FINISHED,
 });
 
 export const importStatementToAccount = () => (dispatch, getState) => {
@@ -44,5 +44,10 @@ export const importStatementToAccount = () => (dispatch, getState) => {
   return importStatementData(auth, statement, accountId, dispatch, getState)
     .then(() => updateLastStatement(auth, statement.date,
       statement.balance, accountId)(dispatch, getState))
-    .then(() => dispatch(resetImport()));
+    .then(() => dispatch(importFinished()));
 };
+
+export const IMPORT_STARTED = 'IMPORT_STARTED';
+export const importStarted = () => ({
+  type: IMPORT_STARTED,
+});

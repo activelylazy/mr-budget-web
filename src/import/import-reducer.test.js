@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
-import importReducer, { __RewireAPI__ as rewireApi } from './import-reducer';
+import importReducer from './import-reducer';
 import * as actions from './import-actions';
 
 should();
@@ -11,6 +11,7 @@ describe('import reducer', () => {
     const state = importReducer(undefined, {});
     assert.isUndefined(state.statement);
     assert.isUndefined(state.selectedAccountId);
+    assert(state.importInProgress.should.equal(false));
   });
 
   describe('handles statement uploaded', () => {
@@ -53,17 +54,31 @@ describe('import reducer', () => {
     });
   });
 
-  describe('handles reset import', () => {
+  describe('handles import started', () => {
+    it('sets import in progress to true', () => {
+      const initialState = {
+        statement: {},
+        selectedAccountId: '1234',
+      };
+
+      const state = importReducer(initialState, actions.importStarted());
+
+      assert(state.importInProgress.should.equal(true));
+    });
+  });
+
+  describe('handles import finished', () => {
     it('resets import state', () => {
       const initialState = {
         statement: {},
         selectedAccountId: '1234',
       };
 
-      const state = importReducer(initialState, actions.resetImport());
+      const state = importReducer(initialState, actions.importFinished());
 
       assert.isUndefined(state.statement);
       assert.isUndefined(state.selectedAccountId);
+      assert(state.importInProgress.should.equal(false));
     });
   });
 });

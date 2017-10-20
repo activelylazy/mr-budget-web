@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import uuid from 'uuid';
 import { importStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
   filterTransactions,
-  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, RESET_IMPORT, __RewireAPI__ as rewireApi } from './import-actions';
+  STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, __RewireAPI__ as rewireApi } from './import-actions';
 
 should();
 
@@ -151,7 +151,7 @@ describe('import actions', () => {
         });
     });
 
-    it('resets import', (done) => {
+    it('finishes import', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
       const statement = sinon.stub();
@@ -168,7 +168,7 @@ describe('import actions', () => {
       importStatementToAccount()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
-            type: RESET_IMPORT,
+            type: IMPORT_FINISHED,
           })));
           done();
         })
