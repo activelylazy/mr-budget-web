@@ -23,10 +23,20 @@ class ImportComponent extends Component {
   }
   render() {
     const { onUpload, statement, accounts,
-      selectedAccountId, onAccountSelected } = this.props;
+      selectedAccountId, onAccountSelected,
+      importInProgress } = this.props;
     const content = [];
     if (statement === null) {
       content.push((<SelectFile onUpload={onUpload} key="select-file" />));
+    } else if (importInProgress) {
+      content.push((
+        <div key="import-in-progress">
+          Statement is being imported...
+          <div className="progress progress-striped active">
+            <div className="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{ width: '100%' }} />
+          </div>
+        </div>
+      ));
     } else {
       content.push((
         <SelectAccount
@@ -76,6 +86,7 @@ ImportComponent.propTypes = {
   onAccountSelected: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
   showSuccess: PropTypes.func.isRequired,
+  importInProgress: PropTypes.bool.isRequired,
 };
 
 ImportComponent.defaultProps = {

@@ -7,7 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Import from './ImportContainer';
 
 const store = configureMockStore()({
-  statementImport: {},
+  statementImport: {
+    importInProgress: false,
+  },
   userData: {
     accounts: [],
   },

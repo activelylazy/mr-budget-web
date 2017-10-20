@@ -20,6 +20,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />);
 
     assert(component.find(SelectFile).exists().should.equal(true));
@@ -34,6 +35,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />);
 
     assert(component.find('.import-button').exists().should.equal(false));
@@ -51,6 +53,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />,
     );
 
@@ -69,6 +72,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />,
     );
 
@@ -88,6 +92,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />,
     );
 
@@ -107,6 +112,7 @@ describe('import component', () => {
         onAccountSelected={onAccountSelected}
         onImport={sinon.stub()}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />,
     );
 
@@ -129,6 +135,7 @@ describe('import component', () => {
         selectedAccountId={'abc-123'}
         onImport={onImport}
         showSuccess={sinon.stub()}
+        importInProgress={false}
       />,
     );
 

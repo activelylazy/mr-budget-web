@@ -13,6 +13,7 @@ const ImportContainer = props => (
     selectedAccountId={props.selectedAccountId}
     onImport={props.importStatementToAccount}
     showSuccess={props.showSuccess}
+    importInProgress={props.importInProgress}
   />
 );
 
@@ -28,6 +29,7 @@ ImportContainer.propTypes = {
   selectedAccountId: PropTypes.string,
   importStatementToAccount: PropTypes.func.isRequired,
   showSuccess: PropTypes.func.isRequired,
+  importInProgress: PropTypes.bool.isRequired,
 };
 
 ImportContainer.defaultProps = {
@@ -41,6 +43,7 @@ function mapStateToProps(state) {
     statement: state.statementImport.uploadedStatement,
     accounts: state.userData.accounts,
     selectedAccountId: state.statementImport.selectedAccountId,
+    importInProgress: state.statementImport.importInProgress,
   };
 }
 
