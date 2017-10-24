@@ -5,9 +5,8 @@ export const onBindAlert = alertContainer => ({
   alertContainer,
 });
 
-export const infoAlert = msg => (dispatch, getState) => {
-  getState().app.alertContainer.show(msg, {
-    time: 5000,
-    type: 'success',
-  });
-};
+export const SHOW_INFO = 'SHOW_INFO';
+export const infoAlert = msg => ({
+  type: SHOW_INFO,
+  msg,
+});
