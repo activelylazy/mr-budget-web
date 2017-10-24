@@ -43,6 +43,44 @@ describe('import component', () => {
     assert(component.find('.import-button').exists().should.equal(false));
   });
 
+  it('calls onUpload when file is selected', (done) => {
+    const onUpload = () => new Promise((resolve) => {
+      done();
+      resolve();
+    });
+    const component = shallow(
+      <Import
+        onUpload={onUpload}
+        accounts={[]}
+        statement={null}
+        onAccountSelected={sinon.stub()}
+        onImport={sinon.stub()}
+        infoAlert={sinon.stub()}
+        errorAlert={sinon.stub()}
+        importInProgress={false}
+      />);
+
+    component.find(SelectFile).prop('onUpload')();
+  });
+
+  it('shows error in case onUpload is rejected', (done) => {
+    const onUpload = () => Promise.reject(new Error('test'));
+    const errorAlert = () => done();
+    const component = shallow(
+      <Import
+        onUpload={onUpload}
+        accounts={[]}
+        statement={null}
+        onAccountSelected={sinon.stub()}
+        onImport={sinon.stub()}
+        infoAlert={sinon.stub()}
+        errorAlert={errorAlert}
+        importInProgress={false}
+      />);
+
+    component.find(SelectFile).prop('onUpload')();
+  });
+
   it('shows account selection after statement imported', () => {
     const statement = {
       transactions: [],
