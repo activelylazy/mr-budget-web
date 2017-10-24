@@ -31,9 +31,6 @@ export const saveFinancialData = (auth, state, year, month) =>
         json: true,
       };
       return request(options);
-    })
-    .catch((err) => {
-      console.log(`Error saving financial data: ${err}`);
     });
 
 const emptyMonth = () => ({
