@@ -11,26 +11,42 @@ should();
 
 describe('app component', () => {
   it('shows accounts when accounts area selected', () => {
-    const app = shallow(<App area="ACCOUNTS" loadUserData={() => {}} />);
+    const app = shallow(<App
+      area="ACCOUNTS"
+      loadUserData={() => {}}
+      onBindAlert={() => {}}
+    />);
 
     assert(app.find(Accounts).exists());
     assert(!app.find(Categories).exists());
   });
 
   it('shows categories when categories area selected', () => {
-    const app = shallow(<App area="CATEGORIES" loadUserData={() => {}} />);
+    const app = shallow(<App
+      area="CATEGORIES"
+      loadUserData={() => {}}
+      onBindAlert={() => {}}
+    />);
 
     assert(app.find(Categories).exists());
   });
 
   it('shows review when review area selected', () => {
-    const app = shallow(<App area="REVIEW" loadUserData={() => {}} />);
+    const app = shallow(<App
+      area="REVIEW"
+      loadUserData={() => {}}
+      onBindAlert={() => {}}
+    />);
 
     assert(app.find(Review).exists());
   });
 
   it('shows import when import area selected', () => {
-    const app = shallow(<App area="IMPORT" loadUserData={() => {}} />);
+    const app = shallow(<App
+      area="IMPORT"
+      loadUserData={() => {}}
+      onBindAlert={() => {}}
+    />);
 
     assert(app.find(Import).exists());
   });

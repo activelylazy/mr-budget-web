@@ -4,6 +4,7 @@ import userData from './user-data/user-data-reducer';
 import statementImport from './import/import-reducer';
 import financialData from './financial-data/financial-data-reducer';
 import auth from './auth/auth-reducer';
+import app from './app-reducer';
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   userData,
   statementImport,
   financialData,
+  app,
 });

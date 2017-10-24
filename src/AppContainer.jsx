@@ -4,6 +4,7 @@ import { PropTypes } from 'prop-types';
 import App from './AuthenticatedAppComponent';
 import { loadUserData } from './user-data/user-data-actions';
 import { userLoggedIn } from './auth/auth-actions';
+import { onBindAlert } from './app-actions';
 
 class AppContainer extends Component {
   componentDidMount() {
@@ -16,6 +17,7 @@ class AppContainer extends Component {
           area={this.props.area}
           loadUserData={this.props.loadUserData}
           auth={this.props.auth}
+          onBindAlert={this.props.onBindAlert}
         />
       );
     }
@@ -33,6 +35,7 @@ AppContainer.propTypes = {
   area: PropTypes.string.isRequired,
   loadUserData: PropTypes.func.isRequired,
   fakeLogin: PropTypes.func.isRequired,
+  onBindAlert: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -44,4 +47,4 @@ function mapStateToProps(state) {
 
 const fakeLogin = () => dispatch => dispatch(userLoggedIn('49f6f8b6-5526-452f-9a5e-8af17c7acf04', 'Password1!'));
 
-export default connect(mapStateToProps, { loadUserData, fakeLogin })(AppContainer);
+export default connect(mapStateToProps, { loadUserData, fakeLogin, onBindAlert })(AppContainer);

@@ -19,7 +19,7 @@ class ImportComponent extends Component {
   }
   doImport() {
     this.props.onImport()
-      .then(() => this.props.showSuccess('Statement imported'));
+      .then(() => this.props.infoAlert('Statement imported'));
   }
   render() {
     const { onUpload, statement, accounts,
@@ -85,8 +85,8 @@ ImportComponent.propTypes = {
   selectedAccountId: PropTypes.string,
   onAccountSelected: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
-  showSuccess: PropTypes.func.isRequired,
   importInProgress: PropTypes.bool.isRequired,
+  infoAlert: PropTypes.func.isRequired,
 };
 
 ImportComponent.defaultProps = {

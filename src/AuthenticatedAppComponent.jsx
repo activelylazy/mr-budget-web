@@ -9,38 +9,28 @@ import Review from './review/ReviewComponent';
 import Import from './import/ImportContainer';
 import * as areas from './navigation/navigation-areas';
 
-class AppComponent extends Component {
-  constructor() {
-    super();
-    this.showSuccess = this.showSuccess.bind(this);
-    this.componentFor = this.componentFor.bind(this);
+const componentFor = (area, auth) => {
+  if (area === areas.ACCOUNTS) {
+    return (<Accounts auth={auth} />);
   }
+  if (area === areas.CATEGORIES) {
+    return (<Categories />);
+  }
+  if (area === areas.REVIEW) {
+    return (<Review />);
+  }
+  if (area === areas.IMPORT) {
+    return (<Import />);
+  }
+  return (<div />);
+};
+
+class AppComponent extends Component {
   componentDidMount() {
     this.props.loadUserData(this.props.auth);
   }
-  showSuccess(message) {
-    this.msg.show(message, {
-      time: 5000,
-      type: 'success',
-    });
-  }
-  componentFor(area, auth) {
-    if (area === areas.ACCOUNTS) {
-      return (<Accounts auth={auth} />);
-    }
-    if (area === areas.CATEGORIES) {
-      return (<Categories />);
-    }
-    if (area === areas.REVIEW) {
-      return (<Review />);
-    }
-    if (area === areas.IMPORT) {
-      return (<Import showSuccess={this.showSuccess} />);
-    }
-    return (<div />);
-  }
   render() {
-    const { area, auth } = this.props;
+    const { area, auth, onBindAlert } = this.props;
     const alertOptions = {
       offset: 14,
       position: 'top right',
@@ -50,10 +40,10 @@ class AppComponent extends Component {
     };
     return (
       <div className="full-height">
-        <AlertContainer ref={(a) => { this.msg = a; }} {...alertOptions} />
+        <AlertContainer ref={(a) => { onBindAlert(a); }} {...alertOptions} />
         <Navigation />
         <div className="container-fluid container-no-padding full-height">
-          {this.componentFor(area, auth)}
+          {componentFor(area, auth)}
         </div>
       </div>
     );
@@ -66,6 +56,7 @@ AppComponent.propTypes = {
   auth: PropTypes.shape({
     userId: PropTypes.string.isRequired,
   }),
+  onBindAlert: PropTypes.func.isRequired,
 };
 
 AppComponent.defaultProps = {

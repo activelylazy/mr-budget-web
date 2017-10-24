@@ -19,7 +19,7 @@ describe('import component', () => {
         statement={null}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />);
 
@@ -34,7 +34,7 @@ describe('import component', () => {
         statement={null}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />);
 
@@ -52,7 +52,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -71,7 +71,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -91,7 +91,7 @@ describe('import component', () => {
         selectedAccountId={uuid()}
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -111,7 +111,7 @@ describe('import component', () => {
         statement={statement}
         onAccountSelected={onAccountSelected}
         onImport={sinon.stub()}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -134,7 +134,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         selectedAccountId={'abc-123'}
         onImport={onImport}
-        showSuccess={sinon.stub()}
+        infoAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
