@@ -250,6 +250,30 @@ describe('import statement', () => {
           done();
         });
     });
+
+    it('rejects if saveFinancialData is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub();
+      const transactions = sinon.stub();
+      const monthData = sinon.stub();
+      const saveFinancialData = sinon.stub().returns(Promise.reject(error));
+
+      const loadFinancialDataAndApplyTransactionStub =
+        sinon.stub().returns(Promise.resolve(monthData));
+
+      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions',
+        loadFinancialDataAndApplyTransactionStub);
+      rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
+
+      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('import statement data', () => {
