@@ -19,7 +19,8 @@ class ImportComponent extends Component {
   }
   doImport() {
     this.props.onImport()
-      .then(() => this.props.infoAlert('Statement imported'));
+      .then(() => this.props.infoAlert('Statement imported'))
+      .catch(() => this.props.errorAlert('Error importing statement'));
   }
   render() {
     const { onUpload, statement, accounts,
@@ -87,6 +88,7 @@ ImportComponent.propTypes = {
   onImport: PropTypes.func.isRequired,
   importInProgress: PropTypes.bool.isRequired,
   infoAlert: PropTypes.func.isRequired,
+  errorAlert: PropTypes.func.isRequired,
 };
 
 ImportComponent.defaultProps = {

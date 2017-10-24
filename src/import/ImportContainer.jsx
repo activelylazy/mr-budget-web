@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
 import { importStatement, importAccountSelected, importStatementToAccount } from './import-actions';
-import { infoAlert } from '../app-actions';
+import { infoAlert, errorAlert } from '../app-actions';
 
 const ImportContainer = props => (
   <Import
@@ -15,6 +15,7 @@ const ImportContainer = props => (
     onImport={props.importStatementToAccount}
     importInProgress={props.importInProgress}
     infoAlert={props.infoAlert}
+    errorAlert={props.errorAlert}
   />
 );
 
@@ -31,6 +32,7 @@ ImportContainer.propTypes = {
   importStatementToAccount: PropTypes.func.isRequired,
   importInProgress: PropTypes.bool.isRequired,
   infoAlert: PropTypes.func.isRequired,
+  errorAlert: PropTypes.func.isRequired,
 };
 
 ImportContainer.defaultProps = {
@@ -50,4 +52,8 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { importStatement, importAccountSelected, importStatementToAccount, infoAlert })(ImportContainer);
+  { importStatement,
+    importAccountSelected,
+    importStatementToAccount,
+    infoAlert,
+    errorAlert })(ImportContainer);

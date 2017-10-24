@@ -1,4 +1,4 @@
-import { BIND_ALERT, SHOW_INFO } from './app-actions';
+import { BIND_ALERT, SHOW_INFO, SHOW_ERROR } from './app-actions';
 
 const defaultState = {};
 
@@ -10,6 +10,12 @@ export default (state = defaultState, action) => {
       state.alertContainer.show(action.msg, {
         time: 5000,
         type: 'success',
+      });
+      return state;
+    case SHOW_ERROR:
+      state.alertContainer.show(action.msg, {
+        time: 5000,
+        type: 'error',
       });
       return state;
     default:

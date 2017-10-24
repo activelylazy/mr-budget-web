@@ -10,3 +10,9 @@ export const infoAlert = msg => ({
   type: SHOW_INFO,
   msg,
 });
+
+export const SHOW_ERROR = 'SHOW_ERROR';
+export const errorAlert = msg => ({
+  type: SHOW_ERROR,
+  msg,
+});
