@@ -9,22 +9,43 @@ import { importStatement, importAccountSelected, importStatementToAccount, setSe
 should();
 
 describe('import actions', () => {
-  it('imports a statement by parsing and dispatching statement_uploaded', (done) => {
-    const fileContents = 'file contents';
-    const parseOfx = sinon.stub();
-    const statement = sinon.stub();
-    const dispatch = sinon.stub();
+  describe('import statement', () => {
+    it('parses and dispatches statement_uploaded', (done) => {
+      const fileContents = 'file contents';
+      const parseOfx = sinon.stub();
+      const statement = sinon.stub();
+      const dispatch = sinon.stub();
 
-    rewireApi.__Rewire__('parseOfx', parseOfx);
-    parseOfx.returns(Promise.resolve(statement));
+      rewireApi.__Rewire__('parseOfx', parseOfx);
+      parseOfx.returns(Promise.resolve(statement));
 
-    importStatement(fileContents)(dispatch)
-      .then(() => {
-        assert(parseOfx.calledWith(fileContents));
-        assert(dispatch.calledWith(sinon.match({ type: STATEMENT_UPLOADED, statement })));
-        done();
-      })
-      .catch(done);
+      importStatement(fileContents)(dispatch)
+        .then(() => {
+          assert(parseOfx.calledWith(fileContents));
+          assert(dispatch.calledWith(sinon.match({ type: STATEMENT_UPLOADED, statement })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('rejects if parseOfx is rejected', (done) => {
+      const error = sinon.stub();
+      const fileContents = 'file contents';
+      const parseOfx = sinon.stub();
+      const dispatch = sinon.stub();
+
+      rewireApi.__Rewire__('parseOfx', parseOfx);
+      parseOfx.returns(Promise.reject(error));
+
+      importStatement(fileContents)(dispatch)
+        .then(() => {
+          done(new Error('Expected promise to be rejected'));
+        })
+        .catch((err) => {
+          assert(err.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('filter transactions', () => {
