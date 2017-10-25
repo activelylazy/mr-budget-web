@@ -123,4 +123,63 @@ describe('data packet', () => {
         });
     });
   });
+
+  describe('unpack', () => {
+    it('rejects if decryptUsingPassword is rejected', (done) => {
+      const error = sinon.stub();
+      const packed = '{}';
+      const password = 'Password1!';
+
+      const decryptUsingPasswordStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('decryptUsingPassword', decryptUsingPasswordStub);
+
+      unpack(packed, password)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('rejects if uncompress is rejected', (done) => {
+      const error = sinon.stub();
+      const packed = '{}';
+      const password = 'Password1!';
+      const decrypted = sinon.stub();
+
+      const decryptUsingPasswordStub = sinon.stub().returns(Promise.resolve(decrypted));
+      const uncompressStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('decryptUsingPassword', decryptUsingPasswordStub);
+      rewireApi.__Rewire__('uncompress', uncompressStub);
+
+      unpack(packed, password)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('returns result of uncompress', (done) => {
+      const packed = '{}';
+      const password = 'Password1!';
+      const decrypted = sinon.stub();
+      const uncompressed = JSON.stringify({ uncompressed: true });
+
+      const decryptUsingPasswordStub = sinon.stub().returns(Promise.resolve(decrypted));
+      const uncompressStub = sinon.stub().returns(Promise.resolve(uncompressed));
+
+      rewireApi.__Rewire__('decryptUsingPassword', decryptUsingPasswordStub);
+      rewireApi.__Rewire__('uncompress', uncompressStub);
+
+      unpack(packed, password)
+        .then((result) => {
+          assert(JSON.stringify(result).should.equal(uncompressed));
+          done();
+        })
+        .catch(done);
+    });
+  });
 });
