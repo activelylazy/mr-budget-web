@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Grid, Row, Col, Panel, Glyphicon, Button } from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
