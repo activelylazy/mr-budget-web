@@ -1,6 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
+import { SHOW_ERROR } from '../app-actions';
 import { importStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
   filterTransactions,
   STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, IMPORT_STARTED,
@@ -174,8 +175,8 @@ describe('import actions', () => {
         .catch(done);
     });
 
-    it('rejects if importStatementData is rejected', (done) => {
-      const error = sinon.stub();
+    it('dispatches error alert if importStatementData is rejected', (done) => {
+      const error = new Error('testing');
       const importStatementData = sinon.stub().returns(Promise.reject(error));
       const dispatch = sinon.stub();
       const auth = sinon.stub();
@@ -192,9 +193,11 @@ describe('import actions', () => {
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
       importStatementToAccount()(dispatch, getState)
-        .then(() => done(new Error('Expected promise to be rejected')))
-        .catch((result) => {
-          assert(result.should.equal(error));
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: SHOW_ERROR,
+            msg: 'Error importing statement: Error: testing',
+          })));
           done();
         });
     });
