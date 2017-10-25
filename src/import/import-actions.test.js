@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
-import { SHOW_ERROR } from '../app-actions';
+import { SHOW_INFO, SHOW_ERROR } from '../app-actions';
 import { importStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
   filterTransactions,
   STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, IMPORT_STARTED,
@@ -220,6 +220,31 @@ describe('import actions', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: IMPORT_FINISHED,
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('dispatches info message', (done) => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+        },
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatementToAccount()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: SHOW_INFO,
+            msg: 'Statement imported',
           })));
           done();
         })

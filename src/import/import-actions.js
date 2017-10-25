@@ -1,7 +1,7 @@
 import parseOfx from '../ofx/parse-ofx';
 import { updateLastStatement } from '../user-data/user-data-actions';
 import { importStatementData } from './statement/import-statement';
-import { errorAlert } from '../app-actions';
+import { infoAlert, errorAlert } from '../app-actions';
 
 export const STATEMENT_UPLOADED = 'STATEMENT_UPLOADED';
 export const statementUploaded = statement => ({
@@ -52,6 +52,7 @@ export const importStatementToAccount = () => (dispatch, getState) => {
     .then(() => updateLastStatement(auth, statement.date,
       statement.balance, accountId)(dispatch, getState))
     .then(() => dispatch(importFinished()))
+    .then(() => dispatch(infoAlert('Statement imported')))
     .catch(error => dispatch(errorAlert(`Error importing statement: ${error}`)));
 };
 
