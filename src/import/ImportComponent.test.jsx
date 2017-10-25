@@ -165,12 +165,11 @@ describe('import component', () => {
     assert(onAccountSelected.calledWith('my account'));
   });
 
-  it('imports statement when import button clicked', (done) => {
+  it('imports statement when import button clicked', () => {
     const statement = {
       transactions: [],
     };
     const onImport = sinon.stub().returns(Promise.resolve());
-    const infoAlert = () => { done(); };
     const component = shallow(
       <Import
         onUpload={sinon.stub()}
@@ -179,33 +178,7 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         selectedAccountId={'abc-123'}
         onImport={onImport}
-        infoAlert={infoAlert}
         errorAlert={sinon.stub()}
-        importInProgress={false}
-      />,
-    );
-
-    component.find('.import-button').children().find(Button).simulate('click');
-
-    assert(onImport.calledOnce);
-  });
-
-  it('shows error when import button clicked and onImport is rejected', (done) => {
-    const statement = {
-      transactions: [],
-    };
-    const onImport = sinon.stub().returns(Promise.reject(new Error('test')));
-    const errorAlert = () => { done(); };
-    const component = shallow(
-      <Import
-        onUpload={sinon.stub()}
-        accounts={[]}
-        statement={statement}
-        onAccountSelected={sinon.stub()}
-        selectedAccountId={'abc-123'}
-        onImport={onImport}
-        infoAlert={sinon.stub()}
-        errorAlert={errorAlert}
         importInProgress={false}
       />,
     );

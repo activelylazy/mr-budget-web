@@ -16,16 +16,10 @@ class ImportComponent extends Component {
   constructor() {
     super();
     this.doUpload = this.doUpload.bind(this);
-    this.doImport = this.doImport.bind(this);
   }
   doUpload(fileContents) {
     this.props.onUpload(fileContents)
       .catch(() => this.props.errorAlert('Error uploading statement'));
-  }
-  doImport() {
-    this.props.onImport()
-      .then(() => this.props.infoAlert('Statement imported'))
-      .catch(() => this.props.errorAlert('Error importing statement'));
   }
   render() {
     const { statement, accounts,
@@ -51,7 +45,7 @@ class ImportComponent extends Component {
           onAccountSelected={onAccountSelected}
         />));
       if (selectedAccountId !== null) {
-        content.push(importButton(this.doImport));
+        content.push(importButton(this.props.onImport));
       }
     }
     return (
@@ -92,7 +86,6 @@ ImportComponent.propTypes = {
   onAccountSelected: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
   importInProgress: PropTypes.bool.isRequired,
-  infoAlert: PropTypes.func.isRequired,
   errorAlert: PropTypes.func.isRequired,
 };
 
