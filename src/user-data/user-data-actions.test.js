@@ -44,27 +44,67 @@ describe('user data', () => {
       .catch(done);
   });
 
-  it('saves user data', (done) => {
-    const userData = { userData: true };
-    const packedData = { packed: true };
-    const auth = {
-      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
-      password: 'my password',
-    };
+  describe('save user data', () => {
+    it('packs then issues request', (done) => {
+      const userData = { userData: true };
+      const packedData = { packed: true };
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
 
-    packStub.returns(Promise.resolve(packedData));
-    requestStub.returns(Promise.resolve());
+      packStub.returns(Promise.resolve(packedData));
+      requestStub.returns(Promise.resolve());
 
-    saveUserData(auth, userData)
-      .then(() => {
-        assert(requestStub.calledWith(sinon.match({
-          method: 'POST',
-          uri: `http://localhost/${auth.userId}`,
-        })));
-        assert(packStub.calledWith(userData, auth.password));
-        done();
-      })
-      .catch(done);
+      saveUserData(auth, userData)
+        .then(() => {
+          assert(requestStub.calledWith(sinon.match({
+            method: 'POST',
+            uri: `http://localhost/${auth.userId}`,
+          })));
+          assert(packStub.calledWith(userData, auth.password));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('rejects if pack is rejected', (done) => {
+      const userData = { userData: true };
+      const error = sinon.stub();
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+
+      packStub.returns(Promise.reject(error));
+
+      saveUserData(auth, userData)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('rejects if request is rejected', (done) => {
+      const userData = { userData: true };
+      const packedData = { packedData: true };
+      const error = sinon.stub();
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+
+      packStub.returns(Promise.resolve(packedData));
+      requestStub.returns(Promise.reject(error));
+
+      saveUserData(auth, userData)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('update last statement', () => {

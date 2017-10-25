@@ -37,9 +37,6 @@ export const saveUserData = (auth, state) =>
         json: true,
       };
       return request(options);
-    })
-    .catch((err) => {
-      console.log(`Error saving user data: ${err}`);
     });
 
 export const loadUserData = auth => dispatch => fetchUserData(auth)
