@@ -29,8 +29,8 @@ describe('import actions', () => {
         .catch(done);
     });
 
-    it('rejects if parseOfx is rejected', (done) => {
-      const error = sinon.stub();
+    it('dispatches error alert if parseOfx is rejected', (done) => {
+      const error = new Error('testing');
       const fileContents = 'file contents';
       const parseOfx = sinon.stub();
       const dispatch = sinon.stub();
@@ -40,10 +40,10 @@ describe('import actions', () => {
 
       importStatement(fileContents)(dispatch)
         .then(() => {
-          done(new Error('Expected promise to be rejected'));
-        })
-        .catch((err) => {
-          assert(err.should.equal(error));
+          assert(dispatch.calledWith(sinon.match({
+            type: SHOW_ERROR,
+            msg: 'Error uploading statement: Error: testing',
+          })));
           done();
         });
     });

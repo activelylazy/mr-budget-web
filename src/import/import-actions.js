@@ -11,7 +11,8 @@ export const statementUploaded = statement => ({
 
 export const importStatement = fileContents => dispatch =>
   parseOfx(fileContents)
-    .then(statement => dispatch(statementUploaded(statement)));
+    .then(statement => dispatch(statementUploaded(statement)))
+    .catch(error => dispatch(errorAlert(`Error uploading statement: ${error}`)));
 
 export const filterTransactions = (lastStatementDate, transactions) => {
   if (lastStatementDate === undefined) {
