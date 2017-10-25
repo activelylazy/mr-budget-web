@@ -1,5 +1,6 @@
 import { assert, should } from 'chai';
-import { pack, unpack } from './data-packet';
+import sinon from 'sinon';
+import { pack, unpack, __RewireAPI__ as rewireApi } from './data-packet';
 import { compress } from './compress';
 
 should();
@@ -58,5 +59,68 @@ describe('data packet', () => {
           .catch(done.fail);
       })
       .catch(done.fail);
+  });
+
+  describe('pack', () => {
+    it('returns result of compressing and encrypting', (done) => {
+      const encryptedData = sinon.stub();
+      const source = {
+        someKey: 'value',
+        values: [1, 3, 9, 42],
+      };
+      const password = 'Password1!';
+      const compressStub = sinon.stub().returns(Promise.resolve());
+      const encryptUsingPasswordStub = sinon.stub().returns(Promise.resolve(encryptedData));
+
+      rewireApi.__Rewire__('compress', compressStub);
+      rewireApi.__Rewire__('encryptUsingPassword', encryptUsingPasswordStub);
+
+      pack(source, password)
+        .then((result) => {
+          assert(result.should.equal(encryptedData));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('rejects if compress rejects', (done) => {
+      const error = new Error('error compressing');
+      const source = {
+        someKey: 'value',
+        values: [1, 3, 9, 42],
+      };
+      const password = 'Password1!';
+      const compressStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('compress', compressStub);
+
+      pack(source, password)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('rejects if encryptUsingPassword rejects', (done) => {
+      const error = new Error('error encrypting');
+      const source = {
+        someKey: 'value',
+        values: [1, 3, 9, 42],
+      };
+      const password = 'Password1!';
+      const compressStub = sinon.stub().returns(Promise.resolve());
+      const encryptUsingPasswordStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('compress', compressStub);
+      rewireApi.__Rewire__('encryptUsingPassword', encryptUsingPasswordStub);
+
+      pack(source, password)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 });
