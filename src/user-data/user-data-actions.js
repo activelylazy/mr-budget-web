@@ -1,5 +1,6 @@
 import request from 'request-promise-native';
 import { pack, unpack } from '../security/data-packet';
+import { errorAlert } from '../app-actions';
 
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export function addAccountToState(accountName) {
@@ -45,10 +46,10 @@ export const loadUserData = auth => dispatch => fetchUserData(auth)
     console.log(`Error loading user data: ${JSON.stringify(err)}`);
   });
 
-export const addAccount = (auth, accountName) => (dispatch, getState) => {
-  dispatch(addAccountToState(accountName));
-  saveUserData(auth, getState().userData);
-};
+export const addAccount = (auth, accountName) => (dispatch, getState) =>
+  saveUserData(auth, getState().userData)
+    .then(() => dispatch(addAccountToState(accountName)))
+    .catch(error => dispatch(errorAlert(`Error adding account: ${error}`)));
 
 export const UPDATE_LAST_STATEMENT = 'UPDATE_LAST_STATEMENT';
 export const updateLastStatement = (auth, statementDate, statementBalance, accountId) =>
