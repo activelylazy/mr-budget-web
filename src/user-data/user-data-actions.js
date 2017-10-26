@@ -42,7 +42,8 @@ export const saveUserData = (auth, state) =>
 
 export const loadUserData = auth => dispatch =>
   fetchUserData(auth)
-    .then(userData => dispatch(userDataLoaded(userData)));
+    .then(userData => dispatch(userDataLoaded(userData)))
+    .catch(error => dispatch(errorAlert(`Error loading user data: ${error}`)));
 
 export const addAccount = (auth, accountName) => (dispatch, getState) =>
   saveUserData(auth, getState().userData)
