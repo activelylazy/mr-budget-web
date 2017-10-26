@@ -2,7 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
 import { SHOW_INFO, SHOW_ERROR } from '../app-actions';
-import { importStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
+import { readStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
   filterTransactions,
   STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, IMPORT_STARTED,
   __RewireAPI__ as rewireApi } from './import-actions';
@@ -10,7 +10,7 @@ import { importStatement, importAccountSelected, importStatementToAccount, setSe
 should();
 
 describe('import actions', () => {
-  describe('import statement', () => {
+  describe('read statement', () => {
     it('parses and dispatches statement_uploaded', (done) => {
       const fileContents = 'file contents';
       const parseOfx = sinon.stub();
@@ -20,7 +20,7 @@ describe('import actions', () => {
       rewireApi.__Rewire__('parseOfx', parseOfx);
       parseOfx.returns(Promise.resolve(statement));
 
-      importStatement(fileContents)(dispatch)
+      readStatement(fileContents)(dispatch)
         .then(() => {
           assert(parseOfx.calledWith(fileContents));
           assert(dispatch.calledWith(sinon.match({ type: STATEMENT_UPLOADED, statement })));
@@ -38,7 +38,7 @@ describe('import actions', () => {
       rewireApi.__Rewire__('parseOfx', parseOfx);
       parseOfx.returns(Promise.reject(error));
 
-      importStatement(fileContents)(dispatch)
+      readStatement(fileContents)(dispatch)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,

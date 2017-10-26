@@ -9,7 +9,7 @@ export const statementUploaded = statement => ({
   statement,
 });
 
-export const importStatement = fileContents => dispatch =>
+export const readStatement = fileContents => dispatch =>
   parseOfx(fileContents)
     .then(statement => dispatch(statementUploaded(statement)))
     .catch(error => dispatch(errorAlert(`Error uploading statement: ${error}`)));
