@@ -202,6 +202,36 @@ describe('import actions', () => {
         });
     });
 
+    it('dispatches error alert if updateLastStatement is rejected', (done) => {
+      const error = new Error('testing');
+      const dispatch = sinon.stub();
+      const statement = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const auth = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+      const updateLastStatement = sinon.stub().returns(() => Promise.reject(error));
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+      rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
+
+      importStatementToAccount()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: SHOW_ERROR,
+            // msg: 'Error importing statement: Error: testing',
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
     it('finishes import', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();

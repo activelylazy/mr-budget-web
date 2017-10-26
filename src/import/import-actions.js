@@ -50,8 +50,9 @@ export const importStatementToAccount = () => (dispatch, getState) => {
   const accountId = getState().statementImport.selectedAccountId;
   dispatch(importStarted());
   return importStatementData(auth, statement, accountId, dispatch, getState)
-    .then(() => updateLastStatement(auth, statement.date,
-      statement.balance, accountId)(dispatch, getState))
+    .then(() =>
+      updateLastStatement(auth, statement.date, statement.balance,
+        accountId)(dispatch, getState))
     .then(() => dispatch(importFinished()))
     .then(() => dispatch(infoAlert('Statement imported')))
     .catch(error => dispatch(errorAlert(`Error importing statement: ${error}`)));
