@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { SHOW_ERROR } from '../app-actions';
-import { loadUserData, saveUserData, USER_DATA_LOADED,
+import { fetchUserData, loadUserData, saveUserData, USER_DATA_LOADED,
   updateLastStatement, UPDATE_LAST_STATEMENT,
   addAccount, ADD_ACCOUNT,
   __RewireAPI__ as rewireApi } from './user-data-actions';
@@ -22,28 +22,46 @@ describe('user data', () => {
     rewireApi.__Rewire__('pack', packStub);
   });
 
-  it('fetches user data and dispatches user data loaded', (done) => {
-    const dispatch = sinon.stub();
-    const response = '{response: true}';
-    const userData = { unpackedData: true };
-    const auth = {
-      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
-      password: 'my password',
-    };
-    requestStub.returns(Promise.resolve(response));
-    unpackStub.returns(Promise.resolve(userData));
+  describe('fetch user data', () => {
+    it('issues request then unpacks', (done) => {
+      const response = '{response: true}';
+      const userData = { unpackedData: true };
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+      requestStub.returns(Promise.resolve(response));
+      unpackStub.returns(Promise.resolve(userData));
 
-    loadUserData(auth)(dispatch)
-      .then(() => {
-        assert(requestStub.calledWith(sinon.match({
-          method: 'GET',
-          uri: `http://localhost/${auth.userId}`,
-        })));
-        assert(unpackStub.calledWith(response, auth.password));
-        assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
-        done();
-      })
-      .catch(done);
+      fetchUserData(auth)
+        .then(() => {
+          assert(requestStub.calledWith(sinon.match({
+            method: 'GET',
+            uri: `http://localhost/${auth.userId}`,
+          })));
+          assert(unpackStub.calledWith(response, auth.password));
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('load user data', () => {
+    it('fetches user data then dispatches user data loaded', (done) => {
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const userData = sinon.stub();
+      const fetchUserDataStub = sinon.stub().returns(Promise.resolve(userData));
+
+      rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
+
+      loadUserData(auth)(dispatch)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('save user data', () => {

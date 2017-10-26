@@ -18,7 +18,7 @@ export function userDataLoaded(userData) {
   });
 }
 
-function fetchUserData(auth) {
+export const fetchUserData = (auth) => {
   const options = {
     method: 'GET',
     uri: `${process.env.REACT_APP_SERVER}${auth.userId}`,
@@ -26,7 +26,7 @@ function fetchUserData(auth) {
   };
   return request(options)
     .then(response => unpack(response, auth.password));
-}
+};
 
 export const saveUserData = (auth, state) =>
   pack(state, auth.password)
