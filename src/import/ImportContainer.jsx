@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
-import { readStatement, importAccountSelected, importStatementToAccount } from './import-actions';
+import { readStatement, importAccountSelected, importStatement } from './import-actions';
 import { errorAlert } from '../app-actions';
 
 const ImportContainer = props => (
@@ -12,7 +12,7 @@ const ImportContainer = props => (
     accounts={props.accounts}
     onAccountSelected={props.importAccountSelected}
     selectedAccountId={props.selectedAccountId}
-    onImport={props.importStatementToAccount}
+    onImport={props.importStatement}
     importInProgress={props.importInProgress}
   />
 );
@@ -27,7 +27,7 @@ ImportContainer.propTypes = {
   })).isRequired,
   importAccountSelected: PropTypes.func.isRequired,
   selectedAccountId: PropTypes.string,
-  importStatementToAccount: PropTypes.func.isRequired,
+  importStatement: PropTypes.func.isRequired,
   importInProgress: PropTypes.bool.isRequired,
 };
 
@@ -50,5 +50,5 @@ export default connect(
   mapStateToProps,
   { readStatement,
     importAccountSelected,
-    importStatementToAccount,
+    importStatement,
     errorAlert })(ImportContainer);

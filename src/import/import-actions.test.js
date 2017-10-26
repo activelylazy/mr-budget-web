@@ -2,7 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import uuid from 'uuid';
 import { SHOW_INFO, SHOW_ERROR } from '../app-actions';
-import { readStatement, importAccountSelected, importStatementToAccount, setSelectedAccount,
+import { readStatement, importAccountSelected, importStatement, setSelectedAccount,
   filterTransactions,
   STATEMENT_UPLOADED, IMPORT_ACCOUNT_SELECTED, IMPORT_FINISHED, IMPORT_STARTED,
   __RewireAPI__ as rewireApi } from './import-actions';
@@ -122,7 +122,7 @@ describe('import actions', () => {
     assert.isNull(result.accountId);
   });
 
-  describe('import statement to account', () => {
+  describe('import statement', () => {
     it('disatches import started', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
@@ -139,7 +139,7 @@ describe('import actions', () => {
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: IMPORT_STARTED,
@@ -165,7 +165,7 @@ describe('import actions', () => {
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then((result) => {
           assert(importStatementData.calledWith(auth, statement, selectedAccountId,
             dispatch, getState));
@@ -192,7 +192,7 @@ describe('import actions', () => {
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
@@ -221,7 +221,7 @@ describe('import actions', () => {
       rewireApi.__Rewire__('importStatementData', importStatementData);
       rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
@@ -248,7 +248,7 @@ describe('import actions', () => {
       rewireApi.__Rewire__('importStatementData', importStatementData);
       rewireApi.__Rewire__('updateLastStatement', updateLastStatementStub);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: IMPORT_FINISHED,
@@ -272,7 +272,7 @@ describe('import actions', () => {
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_INFO,
@@ -307,7 +307,7 @@ describe('import actions', () => {
       rewireApi.__Rewire__('importStatementData', importStatementData);
       rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
 
-      importStatementToAccount()(dispatch, getState)
+      importStatement()(dispatch, getState)
         .then(() => {
           assert(updateLastStatement.calledWith(auth, date, balance,
             selectedAccountId));
