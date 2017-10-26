@@ -64,6 +64,24 @@ describe('financial data', () => {
         })
         .catch(done);
     });
+
+    it('rejects in case fetchFinancialData is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 10;
+      const dispatch = sinon.stub();
+      const fetchFinancialDataStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
+
+      loadFinancialData(auth, year, month)(dispatch)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('save financial data', () => {

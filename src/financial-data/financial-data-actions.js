@@ -44,7 +44,7 @@ export const loadFinancialData = (auth, year, month) => dispatch =>
       if (err.statusCode === 404) {
         dispatch(financialDataLoaded(emptyMonth(), year, month));
       } else {
-        console.log(`Error loading financial data: ${err}`);
+        throw err;
       }
     });
 
