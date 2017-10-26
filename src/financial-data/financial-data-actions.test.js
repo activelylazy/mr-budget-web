@@ -19,62 +19,51 @@ describe('financial data', () => {
     rewireApi.__Rewire__('request', requestStub);
   });
 
-  it('fetches financial data and dispatches financial data loaded', (done) => {
-    const dispatch = sinon.stub();
-    const response = '{response: true}';
-    const financialData = { unpackedData: true };
-    const auth = {
-      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
-      password: 'my password',
-    };
-    const year = 2017;
-    const month = 10;
-    requestStub.returns(Promise.resolve(response));
-    unpackStub.returns(financialData);
+  describe('load financial data', () => {
+    it('fetches financial data and dispatches financial data loaded', (done) => {
+      const dispatch = sinon.stub();
+      const financialData = { unpackedData: true };
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 10;
+      const fetchFinancialDataStub = sinon.stub().returns(Promise.resolve(financialData));
 
-    loadFinancialData(auth, year, month)(dispatch)
-      .then((result) => {
-        assert(requestStub.calledWith(sinon.match({
-          method: 'GET',
-          uri: `http://localhost/${auth.userId}/${year}/${month}`,
-        })));
-        assert(unpackStub.calledWith(response, auth.password));
-        assert(dispatch.calledWith(
-          sinon.match({ type: FINANCIAL_DATA_LOADED, financialData, year, month })));
-        assert.isUndefined(result);
-        done();
-      })
-      .catch(done);
-  });
+      rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
 
-  it('fetches missing financial data and dispatches financial data loaded with empty data', (done) => {
-    const dispatch = sinon.stub();
-    const errorResponse = {
-      statusCode: 404,
-    };
-    const auth = {
-      userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
-      password: 'my password',
-    };
-    const year = 2017;
-    const month = 10;
-    requestStub.returns(Promise.reject(errorResponse));
+      loadFinancialData(auth, year, month)(dispatch)
+        .then((result) => {
+          assert(dispatch.calledWith(
+            sinon.match({ type: FINANCIAL_DATA_LOADED, financialData, year, month })));
+          assert.isUndefined(result);
+          done();
+        })
+        .catch(done);
+    });
 
-    loadFinancialData(auth, year, month)(dispatch)
-      .then(() => {
-        assert(requestStub.calledWith(sinon.match({
-          method: 'GET',
-          uri: `http://localhost/${auth.userId}/${year}/${month}`,
-        })));
-        assert(dispatch.calledWith(
-          sinon.match({
-            type: FINANCIAL_DATA_LOADED,
-            financialData: { transactions: [] },
-            year,
-            month })));
-        done();
-      })
-      .catch(done);
+    it('dispatches financial data loaded with empty data in case fetch returns 404', (done) => {
+      const dispatch = sinon.stub();
+      const errorResponse = {
+        statusCode: 404,
+      };
+      const auth = sinon.stub();
+      const year = 2017;
+      const month = 10;
+      const fetchFinancialDataStub = sinon.stub().returns(Promise.reject(errorResponse));
+
+      rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
+
+      loadFinancialData(auth, year, month)(dispatch)
+        .then(() => {
+          assert(dispatch.calledWith(
+            sinon.match({
+              type: FINANCIAL_DATA_LOADED,
+              financialData: { transactions: [] },
+              year,
+              month })));
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('save financial data', () => {
