@@ -98,6 +98,22 @@ describe('user data', () => {
         })
         .catch(done);
     });
+
+    it('rejects in case fetchUserData is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const fetchUserDataStub = sinon.stub().returns(Promise.reject(error));
+
+      rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
+
+      loadUserData(auth)(dispatch)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('save user data', () => {
