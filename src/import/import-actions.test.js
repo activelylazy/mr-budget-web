@@ -213,8 +213,10 @@ describe('import actions', () => {
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
+      const updateLastStatementStub = sinon.stub().returns(() => Promise.resolve());
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
+      rewireApi.__Rewire__('updateLastStatement', updateLastStatementStub);
 
       importStatementToAccount()(dispatch, getState)
         .then(() => {

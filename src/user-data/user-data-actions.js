@@ -60,5 +60,5 @@ export const updateLastStatement = (auth, statementDate, statementBalance, accou
       statementBalance,
       accountId,
     });
-    saveUserData(auth, getState().userData);
+    return saveUserData(auth, getState().userData);
   };
