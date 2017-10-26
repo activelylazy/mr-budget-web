@@ -111,6 +111,7 @@ describe('user data', () => {
         .then(() => done(new Error('Expected promise to be rejected')))
         .catch((result) => {
           assert(result.should.equal(error));
+          assert(dispatch.notCalled);
           done();
         });
     });
