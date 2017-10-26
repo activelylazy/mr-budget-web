@@ -44,6 +44,42 @@ describe('user data', () => {
         })
         .catch(done);
     });
+
+    it('rejects if request is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+
+      requestStub.returns(Promise.reject(error));
+
+      fetchUserData(auth)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
+
+    it('rejects if unpack is rejected', (done) => {
+      const error = sinon.stub();
+      const auth = {
+        userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
+        password: 'my password',
+      };
+      const response = '{response: true}';
+
+      requestStub.returns(Promise.resolve(response));
+      unpackStub.returns(Promise.reject(error));
+
+      fetchUserData(auth)
+        .then(() => done(new Error('Expected promise to be rejected')))
+        .catch((result) => {
+          assert(result.should.equal(error));
+          done();
+        });
+    });
   });
 
   describe('load user data', () => {
