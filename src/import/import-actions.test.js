@@ -10,45 +10,6 @@ import { readStatement, importAccountSelected, importStatement, setSelectedAccou
 should();
 
 describe('import actions', () => {
-  describe('read statement', () => {
-    it('parses and dispatches statement_uploaded', (done) => {
-      const fileContents = 'file contents';
-      const parseOfx = sinon.stub();
-      const statement = sinon.stub();
-      const dispatch = sinon.stub();
-
-      rewireApi.__Rewire__('parseOfx', parseOfx);
-      parseOfx.returns(Promise.resolve(statement));
-
-      readStatement(fileContents)(dispatch)
-        .then(() => {
-          assert(parseOfx.calledWith(fileContents));
-          assert(dispatch.calledWith(sinon.match({ type: STATEMENT_UPLOADED, statement })));
-          done();
-        })
-        .catch(done);
-    });
-
-    it('dispatches error alert if parseOfx is rejected', (done) => {
-      const error = new Error('testing');
-      const fileContents = 'file contents';
-      const parseOfx = sinon.stub();
-      const dispatch = sinon.stub();
-
-      rewireApi.__Rewire__('parseOfx', parseOfx);
-      parseOfx.returns(Promise.reject(error));
-
-      readStatement(fileContents)(dispatch)
-        .then(() => {
-          assert(dispatch.calledWith(sinon.match({
-            type: SHOW_ERROR,
-            msg: 'Error uploading statement: Error: testing',
-          })));
-          done();
-        });
-    });
-  });
-
   describe('filter transactions', () => {
     it('returns transactions when no last statement date', () => {
       const transactions = sinon.stub();

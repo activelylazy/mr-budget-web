@@ -1,4 +1,3 @@
-import parseOfx from '../ofx/parse-ofx';
 import { updateLastStatement } from '../user-data/user-data-actions';
 import { importStatementData } from './statement/import-statement';
 import { infoAlert, errorAlert } from '../app-actions';
@@ -8,11 +7,6 @@ export const statementUploaded = statement => ({
   type: STATEMENT_UPLOADED,
   statement,
 });
-
-export const readStatement = fileContents => dispatch =>
-  parseOfx(fileContents)
-    .then(statement => dispatch(statementUploaded(statement)))
-    .catch(error => dispatch(errorAlert(`Error uploading statement: ${error}`)));
 
 export const filterTransactions = (lastStatementDate, transactions) => {
   if (lastStatementDate === undefined) {
