@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import App from './AuthenticatedAppComponent';
-import { loadUserData } from './user-data/user-data-actions';
+import { loadUserData } from './user-data/user-data-thunk';
 import { userLoggedIn } from './auth/auth-actions';
 import { onBindAlert } from './app-actions';
 
