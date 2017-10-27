@@ -37,7 +37,7 @@ const emptyMonth = () => ({
   transactions: [],
 });
 
-export const loadFinancialData = (auth, year, month) => dispatch =>
+export const loadFinancialData = (auth, year, month, dispatch) =>
   fetchFinancialData(auth, year, month)
     .then(financialData => dispatch(financialDataLoaded(financialData, year, month)))
     .catch((err) => {

@@ -30,7 +30,7 @@ describe('financial data', () => {
 
       rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
 
-      loadFinancialData(auth, year, month)(dispatch)
+      loadFinancialData(auth, year, month, dispatch)
         .then((result) => {
           assert(dispatch.calledWith(
             sinon.match({ type: FINANCIAL_DATA_LOADED, financialData, year, month })));
@@ -52,7 +52,7 @@ describe('financial data', () => {
 
       rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
 
-      loadFinancialData(auth, year, month)(dispatch)
+      loadFinancialData(auth, year, month, dispatch)
         .then(() => {
           assert(dispatch.calledWith(
             sinon.match({
@@ -75,7 +75,7 @@ describe('financial data', () => {
 
       rewireApi.__Rewire__('fetchFinancialData', fetchFinancialDataStub);
 
-      loadFinancialData(auth, year, month)(dispatch)
+      loadFinancialData(auth, year, month, dispatch)
         .then(() => done(new Error('Expected promise to be rejected')))
         .catch((result) => {
           assert(result.should.equal(error));

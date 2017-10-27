@@ -24,7 +24,7 @@ export const splitStatement = (statement) => {
 export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getState) => {
   if (getState().financialData[year] === undefined ||
     getState().financialData[year][month] === undefined) {
-    return loadFinancialData(auth, year, month)(dispatch);
+    return loadFinancialData(auth, year, month, dispatch);
   }
   return Promise.resolve();
 };

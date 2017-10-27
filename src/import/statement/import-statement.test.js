@@ -61,8 +61,7 @@ describe('import statement', () => {
         financialData: {},
       });
       const loadFinancialData = sinon.stub()
-        .returns(sinon.stub()
-          .returns(Promise.resolve()));
+        .returns(Promise.resolve());
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
@@ -86,8 +85,7 @@ describe('import statement', () => {
         },
       });
       const loadFinancialData = sinon.stub()
-        .returns(sinon.stub()
-          .returns(Promise.resolve()));
+        .returns(Promise.resolve());
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
@@ -133,8 +131,7 @@ describe('import statement', () => {
       });
       const error = sinon.stub();
       const loadFinancialData = sinon.stub()
-        .returns(sinon.stub()
-          .returns(Promise.reject(error)));
+        .returns(Promise.reject(error));
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
