@@ -40,13 +40,9 @@ export const saveUserData = (auth, state) =>
     });
 
 export const UPDATE_LAST_STATEMENT = 'UPDATE_LAST_STATEMENT';
-export const updateLastStatement = (auth, statementDate, statementBalance, accountId) =>
-  (dispatch, getState) => {
-    dispatch({
-      type: UPDATE_LAST_STATEMENT,
-      statementDate,
-      statementBalance,
-      accountId,
-    });
-    return saveUserData(auth, getState().userData);
-  };
+export const updateLastStatement = (statementDate, statementBalance, accountId) => ({
+  type: UPDATE_LAST_STATEMENT,
+  statementDate,
+  statementBalance,
+  accountId,
+});

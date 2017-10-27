@@ -2,6 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { SHOW_ERROR, SHOW_INFO } from '../app-actions';
 import { STATEMENT_UPLOADED, IMPORT_STARTED, IMPORT_FINISHED } from './import-actions';
+import { UPDATE_LAST_STATEMENT } from '../user-data/user-data-actions';
 import { readStatement, importStatement, __RewireAPI__ as rewireApi } from './import-thunk';
 
 should();
@@ -129,7 +130,7 @@ describe('import thunk', () => {
         });
     });
 
-    it('dispatches error alert if updateLastStatement is rejected', (done) => {
+    it('dispatches error alert if saveUserData is rejected', (done) => {
       const error = new Error('testing');
       const dispatch = sinon.stub();
       const statement = sinon.stub();
@@ -143,17 +144,84 @@ describe('import thunk', () => {
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
-      const updateLastStatement = sinon.stub().returns(() => Promise.reject(error));
+      const saveUserData = sinon.stub().returns(Promise.reject(error));
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
-      rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
+      rewireApi.__Rewire__('saveUserData', saveUserData);
 
       importStatement()(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            // msg: 'Error importing statement: Error: testing',
+            msg: 'Error importing statement: Error: testing',
           })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('dispatches update last statement', (done) => {
+      const dispatch = sinon.stub();
+      const statementDate = sinon.stub();
+      const statementBalance = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const auth = sinon.stub();
+      const statement = {
+        date: statementDate,
+        balance: statementBalance,
+      };
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatement()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: 'UPDATE_LAST_STATEMENT',
+            statementDate,
+            statementBalance,
+            accountId: selectedAccountId,
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('saves user data', (done) => {
+      const dispatch = sinon.stub();
+      const statementDate = sinon.stub();
+      const statementBalance = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const auth = sinon.stub();
+      const statement = {
+        date: statementDate,
+        balance: statementBalance,
+      };
+      const userData = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+        },
+        userData,
+      });
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+      const saveUserData = sinon.stub();
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+      rewireApi.__Rewire__('saveUserData', saveUserData);
+
+      importStatement()(dispatch, getState)
+        .then(() => {
+          assert(saveUserData.calledWith(auth, userData));
           done();
         })
         .catch(done);
@@ -170,10 +238,10 @@ describe('import thunk', () => {
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
-      const updateLastStatementStub = sinon.stub().returns(() => Promise.resolve());
+      const saveUserData = sinon.stub().returns(Promise.resolve());
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
-      rewireApi.__Rewire__('updateLastStatement', updateLastStatementStub);
+      rewireApi.__Rewire__('saveUserData', saveUserData);
 
       importStatement()(dispatch, getState)
         .then(() => {
@@ -205,40 +273,6 @@ describe('import thunk', () => {
             type: SHOW_INFO,
             msg: 'Statement imported',
           })));
-          done();
-        })
-        .catch(done);
-    });
-
-    it('updates last statement', (done) => {
-      const dispatch = sinon.stub();
-      const auth = sinon.stub();
-      const date = sinon.stub();
-      const balance = sinon.stub();
-      const statement = {
-        date,
-        balance,
-      };
-      const selectedAccountId = sinon.stub();
-      const getState = sinon.stub().returns({
-        auth,
-        statementImport: {
-          statement,
-          selectedAccountId,
-        },
-      });
-      const importStatementData = sinon.stub().returns(Promise.resolve());
-      const updateLastStatementThunk = sinon.stub();
-      const updateLastStatement = sinon.stub().returns(updateLastStatementThunk);
-
-      rewireApi.__Rewire__('importStatementData', importStatementData);
-      rewireApi.__Rewire__('updateLastStatement', updateLastStatement);
-
-      importStatement()(dispatch, getState)
-        .then(() => {
-          assert(updateLastStatement.calledWith(auth, date, balance,
-            selectedAccountId));
-          assert(updateLastStatementThunk.calledWith(dispatch, getState));
           done();
         })
         .catch(done);

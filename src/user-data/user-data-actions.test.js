@@ -144,52 +144,17 @@ describe('user data', () => {
   });
 
   describe('update last statement', () => {
-    it('dispatches update then saves latest user data', () => {
+    it('creates update last statement action', () => {
       const statementDate = sinon.stub();
       const statementBalance = sinon.stub();
       const accountId = sinon.stub();
-      const dispatch = sinon.stub();
-      const userData = sinon.stub();
-      const getState = sinon.stub().returns({
-        userData,
-      });
-      const saveUserDataStub = sinon.stub().returns(Promise.resolve());
-      const auth = sinon.stub();
 
-      rewireApi.__Rewire__('saveUserData', saveUserDataStub);
+      const result = updateLastStatement(statementDate, statementBalance, accountId);
 
-      updateLastStatement(auth, statementDate, statementBalance, accountId)(dispatch, getState);
-
-      assert(dispatch.calledWith(sinon.match({
-        type: UPDATE_LAST_STATEMENT,
-        statementDate,
-        statementBalance,
-        accountId,
-      })));
-      assert(saveUserDataStub.calledWith(auth, userData));
-    });
-
-    it('is rejected if saveUserData is rejected', (done) => {
-      const error = sinon.stub();
-      const statementDate = sinon.stub();
-      const statementBalance = sinon.stub();
-      const accountId = sinon.stub();
-      const dispatch = sinon.stub();
-      const userData = sinon.stub();
-      const getState = sinon.stub().returns({
-        userData,
-      });
-      const saveUserDataStub = sinon.stub().returns(Promise.reject(error));
-      const auth = sinon.stub();
-
-      rewireApi.__Rewire__('saveUserData', saveUserDataStub);
-
-      updateLastStatement(auth, statementDate, statementBalance, accountId)(dispatch, getState)
-        .then(() => done(new Error('Expected promise to be rejected')))
-        .catch((result) => {
-          assert(result.should.equal(error));
-          done();
-        });
+      assert(result.type.should.equal(UPDATE_LAST_STATEMENT));
+      assert(result.statementDate.should.equal(statementDate));
+      assert(result.statementBalance.should.equal(statementBalance));
+      assert(result.accountId.should.equal(accountId));
     });
   });
 });
