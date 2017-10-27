@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Accounts from './AccountsComponent';
-import { addAccount } from '../user-data/user-data-actions';
+import { addAccount } from './accounts-thunk';
 
 const AccountsContainer = props => (
   <Accounts

@@ -45,11 +45,6 @@ export const loadUserData = auth => dispatch =>
     .then(userData => dispatch(userDataLoaded(userData)))
     .catch(error => dispatch(errorAlert(`Error loading user data: ${error}`)));
 
-export const addAccount = (auth, accountName) => (dispatch, getState) =>
-  saveUserData(auth, getState().userData)
-    .then(() => dispatch(addAccountToState(accountName)))
-    .catch(error => dispatch(errorAlert(`Error adding account: ${error}`)));
-
 export const UPDATE_LAST_STATEMENT = 'UPDATE_LAST_STATEMENT';
 export const updateLastStatement = (auth, statementDate, statementBalance, accountId) =>
   (dispatch, getState) => {
