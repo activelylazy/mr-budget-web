@@ -1,6 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
+import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired,
@@ -52,7 +52,7 @@ describe('import statement', () => {
   });
 
   describe('load financial data if required', () => {
-    it('loads data if no data present in state for year', (done) => {
+    it('loads data if no data present in state for year and dispatches financialDataLoaded', (done) => {
       const auth = sinon.stub();
       const year = 2017;
       const month = 7;
@@ -60,8 +60,9 @@ describe('import statement', () => {
       const getState = sinon.stub().returns({
         financialData: {},
       });
+      const financialData = sinon.stub();
       const loadFinancialData = sinon.stub()
-        .returns(Promise.resolve());
+        .returns(Promise.resolve(financialData));
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
@@ -69,12 +70,16 @@ describe('import statement', () => {
         .then((result) => {
           assert.isUndefined(result);
           assert(loadFinancialData.calledWith(auth, year, month));
+          assert(dispatch.calledWith(sinon.match({
+            type: FINANCIAL_DATA_LOADED,
+            financialData,
+          })));
           done();
         })
         .catch(done);
     });
 
-    it('loads data if no data present in state for month', (done) => {
+    it('loads data if no data present in state for month and dispatches financialDataLoaded', (done) => {
       const auth = sinon.stub();
       const year = 2017;
       const month = 7;
@@ -84,8 +89,9 @@ describe('import statement', () => {
           2017: {},
         },
       });
+      const financialData = sinon.stub();
       const loadFinancialData = sinon.stub()
-        .returns(Promise.resolve());
+        .returns(Promise.resolve(financialData));
 
       rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
 
@@ -93,6 +99,10 @@ describe('import statement', () => {
         .then((result) => {
           assert.isUndefined(result);
           assert(loadFinancialData.calledWith(auth, year, month));
+          assert(dispatch.calledWith(sinon.match({
+            type: FINANCIAL_DATA_LOADED,
+            financialData,
+          })));
           done();
         })
         .catch(done);
@@ -116,6 +126,7 @@ describe('import statement', () => {
       loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
         .then((result) => {
           assert.isUndefined(result);
+          assert(dispatch.notCalled);
           done();
         })
         .catch(done);

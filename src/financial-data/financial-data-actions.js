@@ -37,15 +37,14 @@ const emptyMonth = () => ({
   transactions: [],
 });
 
-export const loadFinancialData = (auth, year, month, dispatch) =>
+export const loadFinancialData = (auth, year, month) =>
   fetchFinancialData(auth, year, month)
-    .then(financialData => dispatch(financialDataLoaded(financialData, year, month)))
+    .then(financialData => financialData)
     .catch((err) => {
       if (err.statusCode === 404) {
-        dispatch(financialDataLoaded(emptyMonth(), year, month));
-      } else {
-        throw err;
+        return emptyMonth();
       }
+      throw err;
     });
 
 export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';

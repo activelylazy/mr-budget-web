@@ -1,4 +1,5 @@
-import { loadFinancialData, applyTransactionsToMonth, saveFinancialData } from '../../financial-data/financial-data-actions';
+import { loadFinancialData, applyTransactionsToMonth,
+  saveFinancialData, financialDataLoaded } from '../../financial-data/financial-data-actions';
 
 function findSplit(splits, date) {
   return splits.find(split => split.year === date.getFullYear() && split.month === date.getMonth());
@@ -24,7 +25,8 @@ export const splitStatement = (statement) => {
 export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getState) => {
   if (getState().financialData[year] === undefined ||
     getState().financialData[year][month] === undefined) {
-    return loadFinancialData(auth, year, month, dispatch);
+    return loadFinancialData(auth, year, month, dispatch)
+      .then(financialData => dispatch(financialDataLoaded(financialData, year, month)));
   }
   return Promise.resolve();
 };
