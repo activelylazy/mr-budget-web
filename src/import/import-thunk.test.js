@@ -1,9 +1,12 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import uuid from 'uuid';
 import { SHOW_ERROR, SHOW_INFO } from '../app-actions';
-import { STATEMENT_UPLOADED, IMPORT_STARTED, IMPORT_FINISHED } from './import-actions';
-import { UPDATE_LAST_STATEMENT } from '../user-data/user-data-actions';
-import { readStatement, importStatement, __RewireAPI__ as rewireApi } from './import-thunk';
+import { STATEMENT_UPLOADED, IMPORT_STARTED, IMPORT_FINISHED,
+  IMPORT_ACCOUNT_SELECTED } from './import-actions';
+import { readStatement, importStatement,
+  importAccountSelected,
+  __RewireAPI__ as rewireApi } from './import-thunk';
 
 should();
 
@@ -276,6 +279,45 @@ describe('import thunk', () => {
           done();
         })
         .catch(done);
+    });
+  });
+
+  describe('import account selected', () => {
+    it('dispatches import account selected with filtered transactions', () => {
+      const accountId = uuid();
+      const dispatch = sinon.stub();
+      const lastStatementDate = sinon.stub();
+      const transactions = sinon.stub();
+      const getState = sinon.stub().returns({
+        statementImport: {
+          uploadedStatement: {
+            date: sinon.stub(),
+            balance: sinon.stub(),
+            transactions,
+          },
+        },
+        userData: {
+          accounts: [
+            {
+              id: accountId,
+              lastStatementDate,
+            },
+          ],
+        },
+      });
+      const filteredTransactions = sinon.stub();
+      const filterTransactionsStub = sinon.stub().returns(filteredTransactions);
+
+      rewireApi.__Rewire__('filterTransactions', filterTransactionsStub);
+
+      importAccountSelected(accountId)(dispatch, getState);
+
+      assert(dispatch.calledWith(sinon.match({
+        type: IMPORT_ACCOUNT_SELECTED,
+        accountId,
+        filteredTransactions,
+      })));
+      assert(filterTransactionsStub.calledWith(lastStatementDate, transactions));
     });
   });
 });

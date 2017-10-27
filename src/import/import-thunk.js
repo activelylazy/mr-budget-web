@@ -1,7 +1,8 @@
 import parseOfx from '../ofx/parse-ofx';
 import { updateLastStatement, saveUserData } from '../user-data/user-data-actions';
 import { importStatementData } from './statement/import-statement';
-import { statementUploaded, importStarted, importFinished } from './import-actions';
+import { statementUploaded, importStarted, importFinished,
+  filterTransactions, setSelectedAccount } from './import-actions';
 import { infoAlert, errorAlert } from '../app-actions';
 
 export const readStatement = fileContents => dispatch =>
@@ -22,3 +23,9 @@ export const importStatement = () => (dispatch, getState) => {
     .catch(error => dispatch(errorAlert(`Error importing statement: ${error}`)));
 };
 
+export const importAccountSelected = accountId => (dispatch, getState) => {
+  const account = getState().userData.accounts.find(a => a.id === accountId);
+  const transactions = getState().statementImport.uploadedStatement.transactions;
+  const filteredTransactions = filterTransactions(account.lastStatementDate, transactions);
+  dispatch(setSelectedAccount(accountId, filteredTransactions));
+};

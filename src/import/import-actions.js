@@ -18,12 +18,6 @@ export const setSelectedAccount = (accountId, filteredTransactions) => ({
   accountId: accountId === '' ? null : accountId,
   filteredTransactions,
 });
-export const importAccountSelected = accountId => (dispatch, getState) => {
-  const account = getState().userData.accounts.find(a => a.id === accountId);
-  const transactions = getState().statementImport.uploadedStatement.transactions;
-  const filteredTransactions = filterTransactions(account.lastStatementDate, transactions);
-  dispatch(setSelectedAccount(accountId, filteredTransactions));
-};
 
 export const IMPORT_STARTED = 'IMPORT_STARTED';
 export const importStarted = () => ({
