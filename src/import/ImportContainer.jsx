@@ -2,8 +2,8 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
-import { readStatement } from './import-thunk';
-import { importAccountSelected, importStatement } from './import-actions';
+import { readStatement, importStatement } from './import-thunk';
+import { importAccountSelected } from './import-actions';
 import { errorAlert } from '../app-actions';
 
 const ImportContainer = props => (
