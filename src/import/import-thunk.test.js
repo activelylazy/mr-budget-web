@@ -55,6 +55,33 @@ describe('import thunk', () => {
   });
 
   describe('import statement', () => {
+    it('does nothing if import already started', (done) => {
+      const dispatch = sinon.stub();
+      const auth = sinon.stub();
+      const statement = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+          importInProgress: true,
+        },
+      });
+
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+
+      importStatement()(dispatch, getState)
+        .then(() => {
+          assert(dispatch.notCalled);
+          assert(importStatementData.notCalled);
+          done();
+        })
+        .catch(done);
+    });
+
     it('disatches import started', (done) => {
       const dispatch = sinon.stub();
       const auth = sinon.stub();
@@ -65,6 +92,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
@@ -91,6 +119,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
@@ -119,6 +148,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
       });
 
@@ -146,6 +176,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
@@ -181,6 +212,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
@@ -216,6 +248,7 @@ describe('import thunk', () => {
         statementImport: {
           statement,
           selectedAccountId,
+          importInProgress: false,
         },
         userData,
       });
@@ -241,6 +274,7 @@ describe('import thunk', () => {
         auth,
         statementImport: {
           statement,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());
@@ -267,6 +301,7 @@ describe('import thunk', () => {
         auth,
         statementImport: {
           statement,
+          importInProgress: false,
         },
       });
       const importStatementData = sinon.stub().returns(Promise.resolve());

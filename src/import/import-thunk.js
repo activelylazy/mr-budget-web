@@ -14,6 +14,9 @@ export const importStatement = () => (dispatch, getState) => {
   const statement = getState().statementImport.statement;
   const auth = getState().auth;
   const accountId = getState().statementImport.selectedAccountId;
+  if (getState().statementImport.importInProgress) {
+    return Promise.resolve();
+  }
   dispatch(importStarted());
   return importStatementData(auth, statement, accountId, dispatch, getState)
     .then(() => dispatch(updateLastStatement(statement.date, statement.balance, accountId)))
