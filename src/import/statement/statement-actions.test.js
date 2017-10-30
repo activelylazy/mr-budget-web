@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
-  loadFinancialDataIfRequired,
+  loadFinancialDataIfRequired, openingBalance,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -366,6 +366,37 @@ describe('import statement', () => {
       assert(result[0].name.should.equal('transaction'));
       assert(result[0].amount.should.equal(12.34));
       assert(result[0].accountId.should.equal(accountId));
+    });
+  });
+
+  describe('opening balance', () => {
+    it('is closing balance for empty transaction list', () => {
+      const statement = {
+        balance: 12.34,
+        transactions: [],
+      };
+
+      const result = openingBalance(statement);
+
+      assert(result.should.equal(12.34));
+    });
+
+    it('is closing balance minus transaction total', () => {
+      const statement = {
+        balance: 12.34,
+        transactions: [
+          {
+            amount: -5.00,
+          },
+          {
+            amount: 3.12,
+          },
+        ],
+      };
+
+      const result = openingBalance(statement);
+
+      assert(result.should.equal(14.22));
     });
   });
 });

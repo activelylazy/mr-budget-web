@@ -49,3 +49,8 @@ export const importStatementData = (auth, statement, accountId, dispatch, getSta
       .map(split => updateMonthData(auth, split.year, split.month,
         updateTransactionsWithAccount(split.transactions, accountId),
         dispatch, getState)));
+
+export const openingBalance = (statement) => {
+  const totals = statement.transactions.map(t => t.amount).reduce((a, b) => a + b, 0);
+  return +(statement.balance - totals).toFixed(2);
+};
