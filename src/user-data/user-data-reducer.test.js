@@ -136,8 +136,48 @@ describe('accounts reducer', () => {
       assert(state.accounts.length.should.equal(1));
       assert(state.accounts[0].id.should.equal(accountId));
       assert(state.accounts[0].name.should.equal('my account'));
-      assert(state.accounts[0].lastStatementDate.toString().should.equal(userData.accounts[0].lastStatementDate.toString()));
+      assert(state.accounts[0].lastStatementDate.toString().should.equal(
+        userData.accounts[0].lastStatementDate.toString()));
       assert(state.accounts[0].lastStatementBalance.should.equal(111.11));
+    });
+
+    it('updates opening balance when non already set', () => {
+      const accountId = 4;
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+        }],
+      });
+      const startDate = new Date();
+      const openingBalance = 11.22;
+
+      const state = accountsReducer(userData,
+        actions.updateOpeningBalance(startDate, openingBalance, accountId));
+
+      assert(state.accounts[0].openingBalance.should.equal(11.22));
+      assert(state.accounts[0].openingDate.toString().should.equal(startDate.toString()));
+    });
+
+    it('does not update opening balance when already set', () => {
+      const accountId = 4;
+      const openingDate = new Date(Date.now() - (24 * 3600 * 1000));
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+          openingBalance: 22.33,
+          openingDate,
+        }],
+      });
+      const newDate = new Date();
+      const newBalance = 11.22;
+
+      const state = accountsReducer(userData,
+        actions.updateOpeningBalance(newDate, newBalance, accountId));
+
+      assert(state.accounts[0].openingBalance.should.equal(22.33));
+      assert(state.accounts[0].openingDate.toString().should.equal(openingDate.toString()));
     });
   });
 });
