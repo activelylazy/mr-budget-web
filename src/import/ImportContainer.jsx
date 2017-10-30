@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import Import from './ImportComponent';
 import { readStatement, importStatement, importAccountSelected } from './import-thunk';
-import { errorAlert } from '../app-actions';
 
 const ImportContainer = props => (
   <Import
@@ -50,5 +49,4 @@ export default connect(
   mapStateToProps,
   { readStatement,
     importAccountSelected,
-    importStatement,
-    errorAlert })(ImportContainer);
+    importStatement })(ImportContainer);

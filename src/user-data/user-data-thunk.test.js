@@ -36,7 +36,8 @@ describe('user data thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            msg: 'Error loading user data: Error: testing',
+            msg: 'Error loading user data',
+            error,
           })));
           done();
         })

@@ -46,7 +46,8 @@ describe('import thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            msg: 'Error uploading statement: Error: testing',
+            msg: 'Error uploading statement',
+            error,
           })));
           done();
         });
@@ -127,7 +128,8 @@ describe('import thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            msg: 'Error importing statement: Error: testing',
+            msg: 'Error importing statement',
+            error,
           })));
           done();
         });
@@ -156,7 +158,8 @@ describe('import thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            msg: 'Error importing statement: Error: testing',
+            msg: 'Error importing statement',
+            error,
           })));
           done();
         })

@@ -48,7 +48,8 @@ describe('accounts thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
-            msg: 'Error adding account: Error: testing',
+            msg: 'Error adding account',
+            error,
           })));
           done();
         })
