@@ -4,7 +4,7 @@ import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financ
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired,
-  __RewireAPI__ as rewireApi } from './import-statement';
+  __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
 

@@ -1,6 +1,6 @@
 import parseOfx from '../ofx/parse-ofx';
 import { updateLastStatement, saveUserData } from '../user-data/user-data-actions';
-import { importStatementData } from './statement/import-statement';
+import { importStatementData } from './statement/statement-actions';
 import { statementUploaded, importStarted, importFinished,
   filterTransactions, setSelectedAccount } from './import-actions';
 import { infoAlert, errorAlert } from '../app-actions';
