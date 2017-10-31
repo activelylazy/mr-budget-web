@@ -4,7 +4,7 @@ import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financ
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired, openingBalance, monthsInRange,
-  accountOpeningBalanceInMonth,
+  accountOpeningBalanceInMonth, earliestDate,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -471,6 +471,21 @@ describe('import statement', () => {
       const result = accountOpeningBalanceInMonth(account, financialData, 2017, 7);
 
       assert(result.should.equal(111.11));
+    });
+  });
+
+  describe('earliest date', () => {
+    it('returns earliest date', () => {
+      const date1 = new Date(Date.now() - (24 * 3600 * 1000));
+      const date2 = new Date(Date.now() - (2 * 24 * 3600 * 1000));
+
+      assert(earliestDate(date1, date2).should.equal(date2));
+    });
+
+    it('returns other if one undefined', () => {
+      const date1 = new Date(Date.now() - (24 * 3600 * 1000));
+
+      assert(earliestDate(date1, undefined).should.equal(date1));
     });
   });
 });

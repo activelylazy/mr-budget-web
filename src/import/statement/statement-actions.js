@@ -86,6 +86,14 @@ export const monthsInRange = (startDate, endDate) => {
   return months;
 };
 
+export const earliestDate = (a, b) => {
+  if (b === undefined ||
+    a < b) {
+    return a;
+  }
+  return b;
+};
+
 export const accountOpeningBalanceInMonth = (account, financialData, year, month) => {
   if (financialData.openingBalances[account.id] !== undefined) {
     return financialData.openingBalances[account.id];
