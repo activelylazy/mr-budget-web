@@ -4,7 +4,7 @@ import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financ
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired, openingBalance, monthsInRange,
-  openingBalanceForAccountInMonth,
+  accountOpeningBalanceInMonth,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -451,7 +451,7 @@ describe('import statement', () => {
         id: 'abc-123',
       };
 
-      const result = openingBalanceForAccountInMonth(account, financialData);
+      const result = accountOpeningBalanceInMonth(account, financialData);
 
       assert(result.should.equal(123.45));
     });
@@ -468,7 +468,7 @@ describe('import statement', () => {
         id: 'abc-123',
       };
 
-      const result = openingBalanceForAccountInMonth(account, financialData, 2017, 7);
+      const result = accountOpeningBalanceInMonth(account, financialData, 2017, 7);
 
       assert(result.should.equal(111.11));
     });
