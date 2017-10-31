@@ -4,6 +4,7 @@ import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financ
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired, openingBalance, monthsInRange,
+  openingBalanceForAccountInMonth,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -433,6 +434,43 @@ describe('import statement', () => {
       assert(result[0].year.should.equal(2017));
       assert(result[4].month.should.equal(3));
       assert(result[4].year.should.equal(2018));
+    });
+  });
+
+  describe('opening balance for account in month', () => {
+    it('returns opening balance from financial data if present', () => {
+      const financialData = {
+        transactions: [],
+        openingBalances: {
+          'abc-123': 123.45,
+        },
+      };
+      const account = {
+        openingBalance: 111.11,
+        openingDate: new Date(),
+        id: 'abc-123',
+      };
+
+      const result = openingBalanceForAccountInMonth(account, financialData);
+
+      assert(result.should.equal(123.45));
+    });
+
+    it('returns opening balance from account if none in financial data and year and month match', () => {
+      const financialData = {
+        transactions: [],
+        openingBalances: {
+        },
+      };
+      const account = {
+        openingBalance: 111.11,
+        openingDate: new Date(2017, 7, 1),
+        id: 'abc-123',
+      };
+
+      const result = openingBalanceForAccountInMonth(account, financialData, 2017, 7);
+
+      assert(result.should.equal(111.11));
     });
   });
 });

@@ -81,3 +81,14 @@ export const monthsInRange = (startMonth, startYear, endMonth, endYear) => {
   }
   return months;
 };
+
+export const openingBalanceForAccountInMonth = (account, financialData, year, month) => {
+  if (financialData.openingBalances[account.id] !== undefined) {
+    return financialData.openingBalances[account.id];
+  }
+  if (account.openingDate.getMonth() === month &&
+    account.openingDate.getFullYear() === year) {
+    return account.openingBalance;
+  }
+  throw new Error(`Cannot get opening balance for account in ${month+1}/${year}`);
+};
