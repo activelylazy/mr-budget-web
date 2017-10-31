@@ -54,3 +54,30 @@ export const openingBalance = (statement) => {
   const totals = statement.transactions.map(t => t.amount).reduce((a, b) => a + b, 0);
   return +(statement.balance - totals).toFixed(2);
 };
+
+function monthIsBeforeEnd(month, year, endMonth, endYear) {
+  if (year === endYear) {
+    return month <= endMonth;
+  }
+  return month < 12;
+}
+
+function startMonthFor(startMonth, startYear, year) {
+  if (year === startYear) {
+    return startMonth;
+  }
+  return 0;
+}
+
+export const monthsInRange = (startMonth, startYear, endMonth, endYear) => {
+  const months = [];
+  for (let year = startYear; year <= endYear; year++) { // eslint-disable-line
+    for (let month = startMonthFor(startMonth, startYear, year); monthIsBeforeEnd(month, year, endMonth, endYear); month++ ) { // eslint-disable-line
+      months.push({
+        year,
+        month,
+      });
+    }
+  }
+  return months;
+};

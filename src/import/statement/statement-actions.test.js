@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
-  loadFinancialDataIfRequired, openingBalance,
+  loadFinancialDataIfRequired, openingBalance, monthsInRange,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -397,6 +397,42 @@ describe('import statement', () => {
       const result = openingBalance(statement);
 
       assert(result.should.equal(14.22));
+    });
+  });
+
+  describe('months in range', () => {
+    it('returns empty list when end before start', () => {
+      const result = monthsInRange(3, 2017, 2, 2017);
+
+      assert(result.length.should.equal(0));
+    });
+
+    it('returns single month when start and end equal', () => {
+      const result = monthsInRange(3, 2017, 3, 2017);
+
+      assert(result.length.should.equal(1));
+      assert(result[0].month.should.equal(3));
+      assert(result[0].year.should.equal(2017));
+    });
+
+    it('returns multiple months in same year', () => {
+      const result = monthsInRange(3, 2017, 7, 2017);
+
+      assert(result.length.should.equal(5));
+      assert(result[0].month.should.equal(3));
+      assert(result[0].year.should.equal(2017));
+      assert(result[4].month.should.equal(7));
+      assert(result[4].year.should.equal(2017));
+    });
+
+    it('returns months in two years', () => {
+      const result = monthsInRange(11, 2017, 3, 2018);
+
+      assert(result.length.should.equal(5));
+      assert(result[0].month.should.equal(11));
+      assert(result[0].year.should.equal(2017));
+      assert(result[4].month.should.equal(3));
+      assert(result[4].year.should.equal(2018));
     });
   });
 });
