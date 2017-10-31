@@ -54,10 +54,10 @@ function parse(data) {
     // XML parse failed.
     // Do the SGML->XML Manging and try again.
     parseXml(sgml2Xml(content)),
-  ).then((data) => {
+  ).then((data2) => {
     // Put the headers into the returned data
-    data.header = header;
-    return data;
+    data2.header = header; // eslint-disable-line
+    return data2;
   });
 }
 

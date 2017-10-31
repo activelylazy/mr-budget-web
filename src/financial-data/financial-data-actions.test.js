@@ -1,6 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { loadFinancialData, saveFinancialData, FINANCIAL_DATA_LOADED,
+import { loadFinancialData, saveFinancialData,
   fetchFinancialData, __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
