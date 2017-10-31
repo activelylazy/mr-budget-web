@@ -403,13 +403,13 @@ describe('import statement', () => {
 
   describe('months in range', () => {
     it('returns empty list when end before start', () => {
-      const result = monthsInRange(3, 2017, 2, 2017);
+      const result = monthsInRange(new Date(2017, 3), new Date(2017, 2));
 
       assert(result.length.should.equal(0));
     });
 
     it('returns single month when start and end equal', () => {
-      const result = monthsInRange(3, 2017, 3, 2017);
+      const result = monthsInRange(new Date(2017, 3), new Date(2017, 3));
 
       assert(result.length.should.equal(1));
       assert(result[0].month.should.equal(3));
@@ -417,7 +417,7 @@ describe('import statement', () => {
     });
 
     it('returns multiple months in same year', () => {
-      const result = monthsInRange(3, 2017, 7, 2017);
+      const result = monthsInRange(new Date(2017, 3), new Date(2017, 7));
 
       assert(result.length.should.equal(5));
       assert(result[0].month.should.equal(3));
@@ -427,7 +427,7 @@ describe('import statement', () => {
     });
 
     it('returns months in two years', () => {
-      const result = monthsInRange(11, 2017, 3, 2018);
+      const result = monthsInRange(new Date(2017, 11), new Date(2018, 3));
 
       assert(result.length.should.equal(5));
       assert(result[0].month.should.equal(11));

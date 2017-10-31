@@ -69,7 +69,11 @@ function startMonthFor(startMonth, startYear, year) {
   return 0;
 }
 
-export const monthsInRange = (startMonth, startYear, endMonth, endYear) => {
+export const monthsInRange = (startDate, endDate) => {
+  const startMonth = startDate.getMonth();
+  const startYear = startDate.getFullYear();
+  const endMonth = endDate.getMonth();
+  const endYear = endDate.getFullYear();
   const months = [];
   for (let year = startYear; year <= endYear; year++) { // eslint-disable-line
     for (let month = startMonthFor(startMonth, startYear, year); monthIsBeforeEnd(month, year, endMonth, endYear); month++ ) { // eslint-disable-line
