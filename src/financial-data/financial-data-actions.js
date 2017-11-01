@@ -86,5 +86,8 @@ export const getOpeningBalancesForMonths = (months, account) => {
     openingBalance += accountTransactionTotals(account, month);
   });
 
-  return results;
+  return {
+    openingBalances: results,
+    closingBalance: openingBalance,
+  };
 };

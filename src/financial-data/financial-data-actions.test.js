@@ -267,7 +267,8 @@ describe('financial data', () => {
 
       const result = getOpeningBalancesForMonths(months, accountId);
 
-      assert(result.length.should.equal(0));
+      assert(result.openingBalances.length.should.equal(0));
+      assert.isUndefined(result.closingBalance);
     });
 
     it('returns opening balance for one month', () => {
@@ -281,17 +282,20 @@ describe('financial data', () => {
         id: accountId,
       };
       const accountOpeningBalanceInMonthStub = sinon.stub().returns(123.45);
+      const accountTransactionTotals = sinon.stub().returns(100.11);
 
       rewireApi.__Rewire__('accountOpeningBalanceInMonth', accountOpeningBalanceInMonthStub);
+      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotals);
 
       const result = getOpeningBalancesForMonths(months, account);
 
       assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData, 2017, 7));
-      assert(result.length.should.equal(1));
-      assert(result[0].accountId.should.equal(accountId));
-      assert(result[0].year.should.equal(2017));
-      assert(result[0].month.should.equal(7));
-      assert(result[0].openingBalance.should.equal(123.45));
+      assert(result.openingBalances.length.should.equal(1));
+      assert(result.openingBalances[0].accountId.should.equal(accountId));
+      assert(result.openingBalances[0].year.should.equal(2017));
+      assert(result.openingBalances[0].month.should.equal(7));
+      assert(result.openingBalances[0].openingBalance.should.equal(123.45));
+      assert(result.closingBalance.should.equal(223.56));
     });
 
     it('returns opening balance for two months', () => {
@@ -309,7 +313,11 @@ describe('financial data', () => {
         id: accountId,
       };
       const accountOpeningBalanceInMonthStub = sinon.stub().returns(123.45);
-      const accountTransactionTotals = sinon.stub().returns(100.11);
+      const accountTransactionTotals = sinon.stub()
+        .onFirstCall()
+        .returns(100.11)
+        .onSecondCall()
+        .returns(-22.50);
 
       rewireApi.__Rewire__('accountOpeningBalanceInMonth', accountOpeningBalanceInMonthStub);
       rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotals);
@@ -318,17 +326,19 @@ describe('financial data', () => {
 
       assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData1, 2017, 7));
       assert(accountTransactionTotals.calledWith(account, monthData2));
-      assert(result.length.should.equal(2));
+      assert(result.openingBalances.length.should.equal(2));
 
-      assert(result[0].accountId.should.equal(accountId));
-      assert(result[0].year.should.equal(2017));
-      assert(result[0].month.should.equal(7));
-      assert(result[0].openingBalance.should.equal(123.45));
+      assert(result.openingBalances[0].accountId.should.equal(accountId));
+      assert(result.openingBalances[0].year.should.equal(2017));
+      assert(result.openingBalances[0].month.should.equal(7));
+      assert(result.openingBalances[0].openingBalance.should.equal(123.45));
 
-      assert(result[1].accountId.should.equal(accountId));
-      assert(result[1].year.should.equal(2017));
-      assert(result[1].month.should.equal(8));
-      assert(result[1].openingBalance.should.equal(223.56));
+      assert(result.openingBalances[1].accountId.should.equal(accountId));
+      assert(result.openingBalances[1].year.should.equal(2017));
+      assert(result.openingBalances[1].month.should.equal(8));
+      assert(result.openingBalances[1].openingBalance.should.equal(223.56));
+
+      assert(result.closingBalance.should.equal(201.06));
     });
   });
 });
