@@ -1,5 +1,6 @@
 import request from 'request-promise-native';
 import { pack, unpack } from '../security/data-packet';
+import { accountOpeningBalanceInMonth } from '../import/statement/statement-actions';
 
 export const FINANCIAL_DATA_LOADED = 'FINACIAL_DATA_LOADED';
 export function financialDataLoaded(financialData, year, month) {
@@ -66,3 +67,21 @@ export const setAccountOpeningBalanceInMonth = (year, month, accountId, openingB
   accountId,
   openingBalance,
 });
+
+export const getOpeningBalancesForMonths = (months, account) => {
+  const results = [];
+  const openingBalance = months.length > 0
+    ? accountOpeningBalanceInMonth(account, months[0], months[0].year, months[0].month)
+    : undefined;
+
+  months.forEach((month) => {
+    results.push({
+      accountId: account.id,
+      year: month.year,
+      month: month.month,
+      openingBalance,
+    });
+  });
+
+  return results;
+};

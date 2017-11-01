@@ -2,6 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { loadFinancialData, saveFinancialData,
   fetchFinancialData, loadFinancialDataForMonths,
+  getOpeningBalancesForMonths,
   __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
@@ -256,6 +257,41 @@ describe('financial data', () => {
           assert(result.should.equal(error));
           done();
         });
+    });
+  });
+
+  describe('get opening balances for months', () => {
+    it('returns empty for empty list of months', () => {
+      const months = [];
+      const accountId = 'abc-123';
+
+      const result = getOpeningBalancesForMonths(months, accountId);
+
+      assert(result.length.should.equal(0));
+    });
+
+    it('returns opening balance for one month', () => {
+      const monthData = {
+        year: 2017,
+        month: 7,
+      };
+      const months = [monthData];
+      const accountId = 'abc-123';
+      const account = {
+        id: accountId,
+      };
+      const accountOpeningBalanceInMonthStub = sinon.stub().returns(123.45);
+
+      rewireApi.__Rewire__('accountOpeningBalanceInMonth', accountOpeningBalanceInMonthStub);
+
+      const result = getOpeningBalancesForMonths(months, account);
+
+      assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData, 2017, 7));
+      assert(result.length.should.equal(1));
+      assert(result[0].accountId.should.equal(accountId));
+      assert(result[0].year.should.equal(2017));
+      assert(result[0].month.should.equal(7));
+      assert(result[0].openingBalance.should.equal(123.45));
     });
   });
 });
