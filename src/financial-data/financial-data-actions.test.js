@@ -1,7 +1,8 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { loadFinancialData, saveFinancialData,
-  fetchFinancialData, __RewireAPI__ as rewireApi } from './financial-data-actions';
+  fetchFinancialData, loadFinancialDataForMonths,
+  __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
 
@@ -74,6 +75,43 @@ describe('financial data', () => {
           assert(result.should.equal(error));
           done();
         });
+    });
+  });
+
+  describe('load financial data for months', () => {
+    it('loads financial data for multiple months', (done) => {
+      const auth = sinon.stub();
+      const first = sinon.stub();
+      const second = sinon.stub();
+      const loadFinancialDataStub = sinon.stub()
+        .onFirstCall()
+        .returns(Promise.resolve(first))
+        .onSecondCall()
+        .returns(Promise.resolve(second));
+
+      const months = [
+        {
+          month: 6,
+          year: 2017,
+        },
+        {
+          month: 7,
+          year: 2017,
+        },
+      ];
+
+      rewireApi.__Rewire__('loadFinancialData', loadFinancialDataStub);
+
+      loadFinancialDataForMonths(auth, months)
+        .then((result) => {
+          assert(loadFinancialDataStub.calledWith(auth, 2017, 6));
+          assert(loadFinancialDataStub.calledWith(auth, 2017, 7));
+          assert(result.length.should.equal(2));
+          assert(result[0].should.equal(first));
+          assert(result[1].should.equal(second));
+          done();
+        })
+        .catch(done);
     });
   });
 

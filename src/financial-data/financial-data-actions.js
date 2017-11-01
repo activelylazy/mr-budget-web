@@ -47,6 +47,9 @@ export const loadFinancialData = (auth, year, month) =>
       throw err;
     });
 
+export const loadFinancialDataForMonths = (auth, months) =>
+  Promise.all(months.map(month => loadFinancialData(auth, month.year, month.month)));
+
 export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';
 export const applyTransactionsToMonth = (year, month, transactions) => ({
   type: APPLY_TRANSACTIONS_TO_MONTH,
