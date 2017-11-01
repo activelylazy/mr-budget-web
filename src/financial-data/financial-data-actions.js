@@ -68,9 +68,11 @@ export const setAccountOpeningBalanceInMonth = (year, month, accountId, openingB
   openingBalance,
 });
 
+export const accountTransactionTotals = (account, monthData) => { };
+
 export const getOpeningBalancesForMonths = (months, account) => {
   const results = [];
-  const openingBalance = months.length > 0
+  let openingBalance = months.length > 0
     ? accountOpeningBalanceInMonth(account, months[0], months[0].year, months[0].month)
     : undefined;
 
@@ -81,6 +83,7 @@ export const getOpeningBalancesForMonths = (months, account) => {
       month: month.month,
       openingBalance,
     });
+    openingBalance += accountTransactionTotals(account, month);
   });
 
   return results;
