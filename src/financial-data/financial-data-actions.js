@@ -68,7 +68,11 @@ export const setAccountOpeningBalanceInMonth = (year, month, accountId, openingB
   openingBalance,
 });
 
-export const accountTransactionTotals = (account, monthData) => { };
+export const accountTransactionTotals = (account, monthData) =>
+  monthData.transactions
+    .filter(t => t.accountId === account.id)
+    .map(t => t.amount)
+    .reduce((a, b) => a + b, 0);
 
 export const getOpeningBalancesForMonths = (months, account) => {
   const results = [];

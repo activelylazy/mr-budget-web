@@ -2,7 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { loadFinancialData, saveFinancialData,
   fetchFinancialData, loadFinancialDataForMonths,
-  getOpeningBalancesForMonths,
+  getOpeningBalancesForMonths, accountTransactionTotals,
   __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
@@ -339,6 +339,45 @@ describe('financial data', () => {
       assert(result.openingBalances[1].openingBalance.should.equal(223.56));
 
       assert(result.closingBalance.should.equal(201.06));
+    });
+  });
+
+  describe('account transaction totals', () => {
+    it('returns zero for empty transaction list', () => {
+      const account = {
+        id: 'abc-123',
+      };
+      const monthData = {
+        transactions: [],
+      };
+      const result = accountTransactionTotals(account, monthData);
+
+      assert(result.should.equal(0));
+    });
+
+    it('returns total of matching transactions in list', () => {
+      const account = {
+        id: 'abc-123',
+      };
+      const monthData = {
+        transactions: [
+          {
+            amount: 10,
+            accountId: 'abc-123',
+          },
+          {
+            amount: 20,
+            accountId: 'another',
+          },
+          {
+            amount: 30,
+            accountId: 'abc-123',
+          },
+        ],
+      };
+      const result = accountTransactionTotals(account, monthData);
+
+      assert(result.should.equal(40));
     });
   });
 });
