@@ -54,3 +54,12 @@ export const applyTransactionsToMonth = (year, month, transactions) => ({
   month,
   transactions,
 });
+
+export const SET_ACCOUNT_OPENING_BALANCE_IN_MONTH = 'SET_ACCOUNT_OPENING_BALANCE_IN_MONTH';
+export const setAccountOpeningBalanceInMonth = (year, month, accountId, openingBalance) => ({
+  type: SET_ACCOUNT_OPENING_BALANCE_IN_MONTH,
+  year,
+  month,
+  accountId,
+  openingBalance,
+});

@@ -1,7 +1,8 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import Immutable from 'seamless-immutable';
-import { financialDataLoaded, applyTransactionsToMonth } from './financial-data-actions';
+import { financialDataLoaded, applyTransactionsToMonth,
+  setAccountOpeningBalanceInMonth } from './financial-data-actions';
 import financialDataReducer from './financial-data-reducer';
 
 should();
@@ -89,7 +90,7 @@ describe('financial data reducer', () => {
                 amount: -11.11,
               },
             ],
-            closingBalances: sinon.stub(),
+            openingBalances: sinon.stub(),
           },
         },
       });
@@ -112,7 +113,30 @@ describe('financial data reducer', () => {
       assert(state[2017][7].transactions[1].id.should.equal('1'));
       assert(state[2017][7].transactions[1].name.should.equal('transaction 1'));
       assert(state[2017][7].transactions[1].amount.should.equal(12.34));
-      assert(state[2017][7].closingBalances.should.equal(initialState[2017][7].closingBalances));
+      assert(state[2017][7].openingBalances.should.equal(initialState[2017][7].openingBalances));
+    });
+  });
+
+  describe('handles set account opening balance in month', () => {
+    it('updates opening balance', () => {
+      const initialState = Immutable({
+        2017: {
+          7: {
+            transactions: [],
+            openingBalances: {
+              other: 111.11,
+            },
+          },
+        },
+      });
+      const accountId = 'abc-123';
+      const openingBalance = 123.45;
+
+      const state = financialDataReducer(initialState,
+        setAccountOpeningBalanceInMonth(2017, 7, accountId, openingBalance));
+
+      assert(state[2017][7].openingBalances[accountId].should.equal(openingBalance));
+      assert(state[2017][7].openingBalances.other.should.equal(111.11));
     });
   });
 });
