@@ -55,6 +55,8 @@ describe('financial data', () => {
       loadFinancialData(auth, year, month, dispatch)
         .then((result) => {
           assert(result.transactions.length.should.equal(0));
+          assert(result.year.should.equal(2017));
+          assert(result.month.should.equal(10));
           done();
         })
         .catch(done);

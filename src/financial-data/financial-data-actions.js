@@ -34,8 +34,10 @@ export const saveFinancialData = (auth, state, year, month) =>
       return request(options);
     });
 
-const emptyMonth = () => ({
+const emptyMonth = (year, month) => ({
   transactions: [],
+  year,
+  month,
 });
 
 export const loadFinancialData = (auth, year, month) =>
@@ -43,7 +45,7 @@ export const loadFinancialData = (auth, year, month) =>
     .then(financialData => financialData)
     .catch((err) => {
       if (err.statusCode === 404) {
-        return emptyMonth();
+        return emptyMonth(year, month);
       }
       throw err;
     });
