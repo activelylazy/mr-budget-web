@@ -282,10 +282,10 @@ describe('financial data', () => {
         id: accountId,
       };
       const accountOpeningBalanceInMonthStub = sinon.stub().returns(123.45);
-      const accountTransactionTotals = sinon.stub().returns(100.11);
+      const accountTransactionTotalsStub = sinon.stub().returns(100.11);
 
       rewireApi.__Rewire__('accountOpeningBalanceInMonth', accountOpeningBalanceInMonthStub);
-      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotals);
+      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotalsStub);
 
       const result = getOpeningBalancesForMonths(months, account);
 
@@ -313,19 +313,19 @@ describe('financial data', () => {
         id: accountId,
       };
       const accountOpeningBalanceInMonthStub = sinon.stub().returns(123.45);
-      const accountTransactionTotals = sinon.stub()
+      const accountTransactionTotalsStub = sinon.stub()
         .onFirstCall()
         .returns(100.11)
         .onSecondCall()
         .returns(-22.50);
 
       rewireApi.__Rewire__('accountOpeningBalanceInMonth', accountOpeningBalanceInMonthStub);
-      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotals);
+      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotalsStub);
 
       const result = getOpeningBalancesForMonths(months, account);
 
       assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData1, 2017, 7));
-      assert(accountTransactionTotals.calledWith(account, monthData2));
+      assert(accountTransactionTotalsStub.calledWith(account, monthData2));
       assert(result.openingBalances.length.should.equal(2));
 
       assert(result.openingBalances[0].accountId.should.equal(accountId));
