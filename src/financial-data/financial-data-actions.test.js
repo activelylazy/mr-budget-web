@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { loadFinancialData, saveFinancialData,
   fetchFinancialData, loadFinancialDataForMonths,
   getOpeningBalancesForMonths, accountTransactionTotals,
+  setOpeningBalances, SET_ACCOUNT_OPENING_BALANCE_IN_MONTH,
   __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
@@ -380,6 +381,30 @@ describe('financial data', () => {
       const result = accountTransactionTotals(account, monthData);
 
       assert(result.should.equal(40));
+    });
+  });
+
+  describe('set opening balances', () => {
+    it('dispatches set opening balance for each month', () => {
+      const openingBalances = [
+        {
+          accountId: 'abc-123',
+          year: 2017,
+          month: 6,
+          openingBalance: 111.11,
+        },
+      ];
+      const dispatch = sinon.stub();
+
+      setOpeningBalances(openingBalances, dispatch);
+
+      assert(dispatch.calledWith(sinon.match({
+        type: SET_ACCOUNT_OPENING_BALANCE_IN_MONTH,
+        accountId: 'abc-123',
+        year: 2017,
+        month: 6,
+        openingBalance: 111.11,
+      })));
     });
   });
 });

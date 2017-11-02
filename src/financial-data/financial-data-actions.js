@@ -97,3 +97,9 @@ export const getOpeningBalancesForMonths = (months, account) => {
     closingBalance: openingBalance,
   };
 };
+
+export const setOpeningBalances = (openingBalances, dispatch) => {
+  openingBalances.forEach(openingBalance =>
+    dispatch(setAccountOpeningBalanceInMonth(openingBalance.year,
+      openingBalance.month, openingBalance.accountId, openingBalance.openingBalance)));
+};
