@@ -461,6 +461,8 @@ describe('import statement', () => {
         transactions: [],
         openingBalances: {
         },
+        year: 2017,
+        month: 7,
       };
       const account = {
         openingBalance: 111.11,
@@ -468,7 +470,7 @@ describe('import statement', () => {
         id: 'abc-123',
       };
 
-      const result = accountOpeningBalanceInMonth(account, financialData, 2017, 7);
+      const result = accountOpeningBalanceInMonth(account, financialData);
 
       assert(result.should.equal(111.11));
     });

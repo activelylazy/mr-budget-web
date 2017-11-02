@@ -291,7 +291,7 @@ describe('financial data', () => {
 
       const result = getOpeningBalancesForMonths(months, account);
 
-      assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData, 2017, 7));
+      assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData));
       assert(result.openingBalances.length.should.equal(1));
       assert(result.openingBalances[0].accountId.should.equal(accountId));
       assert(result.openingBalances[0].year.should.equal(2017));
@@ -326,7 +326,7 @@ describe('financial data', () => {
 
       const result = getOpeningBalancesForMonths(months, account);
 
-      assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData1, 2017, 7));
+      assert(accountOpeningBalanceInMonthStub.calledWith(account, monthData1));
       assert(accountTransactionTotalsStub.calledWith(account, monthData2));
       assert(result.openingBalances.length.should.equal(2));
 

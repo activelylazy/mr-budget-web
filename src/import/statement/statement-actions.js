@@ -94,13 +94,13 @@ export const earliestDate = (a, b) => {
   return b;
 };
 
-export const accountOpeningBalanceInMonth = (account, financialData, year, month) => {
+export const accountOpeningBalanceInMonth = (account, financialData) => {
   if (financialData.openingBalances[account.id] !== undefined) {
     return financialData.openingBalances[account.id];
   }
-  if (account.openingDate.getMonth() === month &&
-    account.openingDate.getFullYear() === year) {
+  if (account.openingDate.getMonth() === financialData.month &&
+    account.openingDate.getFullYear() === financialData.year) {
     return account.openingBalance;
   }
-  throw new Error(`Cannot get opening balance for account in ${month + 1}/${year}`);
+  throw new Error(`Cannot get opening balance for account in ${financialData.month + 1}/${financialData.year}`);
 };

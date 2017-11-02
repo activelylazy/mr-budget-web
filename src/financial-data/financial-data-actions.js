@@ -79,7 +79,7 @@ export const accountTransactionTotals = (account, monthData) =>
 export const getOpeningBalancesForMonths = (months, account) => {
   const results = [];
   let openingBalance = months.length > 0
-    ? accountOpeningBalanceInMonth(account, months[0], months[0].year, months[0].month)
+    ? accountOpeningBalanceInMonth(account, months[0])
     : undefined;
 
   months.forEach((month) => {
