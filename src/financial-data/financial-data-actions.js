@@ -1,6 +1,7 @@
 import request from 'request-promise-native';
 import { pack, unpack } from '../security/data-packet';
 import { accountOpeningBalanceInMonth } from '../import/statement/statement-actions';
+import { findAccountById } from '../accounts/accounts-actions';
 
 export const FINANCIAL_DATA_LOADED = 'FINACIAL_DATA_LOADED';
 export function financialDataLoaded(financialData, year, month) {
@@ -102,4 +103,10 @@ export const setOpeningBalances = (openingBalances, dispatch) => {
   openingBalances.forEach(openingBalance =>
     dispatch(setAccountOpeningBalanceInMonth(openingBalance.year,
       openingBalance.month, openingBalance.accountId, openingBalance.openingBalance)));
+};
+
+export const updateOpeningBalances = (auth, accountId, statement, dispatch, getState) => {
+  const accounts = getState().userData.accounts;
+  const account = findAccountById(accounts, accountId);
+  return Promise.resolve();
 };

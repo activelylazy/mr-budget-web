@@ -1,9 +1,11 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import Immutable from 'seamless-immutable';
 import { loadFinancialData, saveFinancialData,
   fetchFinancialData, loadFinancialDataForMonths,
   getOpeningBalancesForMonths, accountTransactionTotals,
   setOpeningBalances, SET_ACCOUNT_OPENING_BALANCE_IN_MONTH,
+  updateOpeningBalances,
   __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
@@ -405,6 +407,32 @@ describe('financial data', () => {
         month: 6,
         openingBalance: 111.11,
       })));
+    });
+  });
+
+  describe('update opening balances', () => {
+    it('fetches account by id', (done) => {
+      const account = sinon.stub();
+      const findAccountById = sinon.stub().returns(account);
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const statement = sinon.stub();
+      const dispatch = sinon.stub();
+      const accounts = sinon.stub();
+      const getState = sinon.stub().returns(Immutable({
+        userData: {
+          accounts,
+        },
+      }));
+
+      rewireApi.__Rewire__('findAccountById', findAccountById);
+
+      updateOpeningBalances(auth, accountId, statement, dispatch, getState)
+        .then(() => {
+          assert(findAccountById.calledWith(accounts, accountId));
+          done();
+        })
+        .catch(done);
     });
   });
 });
