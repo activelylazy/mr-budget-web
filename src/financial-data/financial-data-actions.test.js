@@ -194,13 +194,13 @@ describe('financial data', () => {
   describe('load financial data for months', () => {
     it('loads financial data for multiple months', (done) => {
       const auth = sinon.stub();
-      const first = sinon.stub();
-      const second = sinon.stub();
-      const loadFinancialDataStub = sinon.stub()
+      const loadFinancialDataIfRequiredStub = sinon.stub()
         .onFirstCall()
-        .returns(Promise.resolve(first))
+        .returns(Promise.resolve())
         .onSecondCall()
-        .returns(Promise.resolve(second));
+        .returns(Promise.resolve());
+      const dispatch = sinon.stub();
+      const getState = sinon.stub();
 
       const months = [
         {
@@ -213,15 +213,13 @@ describe('financial data', () => {
         },
       ];
 
-      rewireApi.__Rewire__('loadFinancialData', loadFinancialDataStub);
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      loadFinancialDataForMonths(auth, months)
+      loadFinancialDataForMonths(auth, months, dispatch, getState)
         .then((result) => {
-          assert(loadFinancialDataStub.calledWith(auth, 2017, 6));
-          assert(loadFinancialDataStub.calledWith(auth, 2017, 7));
-          assert(result.length.should.equal(2));
-          assert(result[0].should.equal(first));
-          assert(result[1].should.equal(second));
+          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 6, dispatch, getState));
+          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
+          assert.isUndefined(result);
           done();
         })
         .catch(done);
@@ -593,7 +591,7 @@ describe('financial data', () => {
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
-          assert(loadFinancialDataForMonthsStub.calledWith(auth, months));
+          assert(loadFinancialDataForMonthsStub.calledWith(auth, months, dispatch, getState));
           done();
         })
         .catch(done);

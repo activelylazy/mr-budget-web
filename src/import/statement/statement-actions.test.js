@@ -1,6 +1,6 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financial-data/financial-data-actions';
+import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   openingBalance, monthsInRange,

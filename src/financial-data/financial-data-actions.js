@@ -60,8 +60,10 @@ export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getStat
   return Promise.resolve();
 };
 
-export const loadFinancialDataForMonths = (auth, months) =>
-  Promise.all(months.map(month => loadFinancialData(auth, month.year, month.month)));
+export const loadFinancialDataForMonths = (auth, months, dispatch, getState) =>
+  Promise.all(months.map(month =>
+    loadFinancialDataIfRequired(auth, month.year, month.month, dispatch, getState)))
+    .then(() => undefined);
 
 export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';
 export const applyTransactionsToMonth = (year, month, transactions) => ({
@@ -118,5 +120,5 @@ export const updateOpeningBalances = (auth, accountId, statement, dispatch, getS
   const accounts = getState().userData.accounts;
   const account = findAccountById(accounts, accountId);
   const months = getStatementMonthsToUpdate(account, statement);
-  return loadFinancialDataForMonths(auth, months);
+  return loadFinancialDataForMonths(auth, months, dispatch, getState);
 };
