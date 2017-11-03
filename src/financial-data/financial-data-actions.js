@@ -122,7 +122,7 @@ export const updateOpeningBalances = (auth, accountId, statement, dispatch, getS
   const months = getStatementMonthsToUpdate(account, statement);
   return loadFinancialDataForMonths(auth, months, dispatch, getState)
     .then((financialData) => {
-      const balances = getOpeningBalancesForMonths(months, account);
+      const balances = getOpeningBalancesForMonths(financialData, account);
       setOpeningBalances(balances.openingBalances, dispatch);
     });
 };

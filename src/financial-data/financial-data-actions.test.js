@@ -628,7 +628,8 @@ describe('financial data', () => {
       }));
       const months = sinon.stub();
       const getStatementMonthsToUpdate = sinon.stub().returns(months);
-      const loadFinancialDataForMonthsStub = sinon.stub().returns(Promise.resolve());
+      const financialData = sinon.stub();
+      const loadFinancialDataForMonthsStub = sinon.stub().returns(Promise.resolve(financialData));
       const getOpeningBalancesForMonthsStub = sinon.stub().returns({
         openingBalances: [],
         closingBalance: undefined,
@@ -641,7 +642,7 @@ describe('financial data', () => {
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
-          assert(getOpeningBalancesForMonthsStub.calledWith(months, account));
+          assert(getOpeningBalancesForMonthsStub.calledWith(financialData, account));
           done();
         })
         .catch(done);
