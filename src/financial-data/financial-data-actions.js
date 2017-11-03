@@ -51,6 +51,15 @@ export const loadFinancialData = (auth, year, month) =>
       throw err;
     });
 
+export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getState) => {
+  if (getState().financialData[year] === undefined ||
+    getState().financialData[year][month] === undefined) {
+    return loadFinancialData(auth, year, month, dispatch)
+      .then(financialData => dispatch(financialDataLoaded(financialData, year, month)));
+  }
+  return Promise.resolve();
+};
+
 export const loadFinancialDataForMonths = (auth, months) =>
   Promise.all(months.map(month => loadFinancialData(auth, month.year, month.month)));
 

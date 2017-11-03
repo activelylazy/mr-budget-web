@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH, FINANCIAL_DATA_LOADED } from '../../financial-data/financial-data-actions';
 import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
-  loadFinancialDataIfRequired, openingBalance, monthsInRange,
+  openingBalance, monthsInRange,
   accountOpeningBalanceInMonth, earliestDate,
   getStatementMonthsToUpdate,
   __RewireAPI__ as rewireApi } from './statement-actions';
@@ -50,112 +50,6 @@ describe('import statement', () => {
       assert(splits[1].month.should.equal(8));
       assert(splits[1].transactions.length.should.equal(1));
       assert(splits[1].transactions[0].id.should.equal(3));
-    });
-  });
-
-  describe('load financial data if required', () => {
-    it('loads data if no data present in state for year and dispatches financialDataLoaded', (done) => {
-      const auth = sinon.stub();
-      const year = 2017;
-      const month = 7;
-      const dispatch = sinon.stub();
-      const getState = sinon.stub().returns({
-        financialData: {},
-      });
-      const financialData = sinon.stub();
-      const loadFinancialData = sinon.stub()
-        .returns(Promise.resolve(financialData));
-
-      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
-
-      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
-        .then((result) => {
-          assert.isUndefined(result);
-          assert(loadFinancialData.calledWith(auth, year, month));
-          assert(dispatch.calledWith(sinon.match({
-            type: FINANCIAL_DATA_LOADED,
-            financialData,
-          })));
-          done();
-        })
-        .catch(done);
-    });
-
-    it('loads data if no data present in state for month and dispatches financialDataLoaded', (done) => {
-      const auth = sinon.stub();
-      const year = 2017;
-      const month = 7;
-      const dispatch = sinon.stub();
-      const getState = sinon.stub().returns({
-        financialData: {
-          2017: {},
-        },
-      });
-      const financialData = sinon.stub();
-      const loadFinancialData = sinon.stub()
-        .returns(Promise.resolve(financialData));
-
-      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
-
-      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
-        .then((result) => {
-          assert.isUndefined(result);
-          assert(loadFinancialData.calledWith(auth, year, month));
-          assert(dispatch.calledWith(sinon.match({
-            type: FINANCIAL_DATA_LOADED,
-            financialData,
-          })));
-          done();
-        })
-        .catch(done);
-    });
-
-    it('uses existing data if present', (done) => {
-      const auth = sinon.stub();
-      const year = 2017;
-      const month = 7;
-      const dispatch = sinon.stub();
-      const getState = sinon.stub().returns({
-        financialData: {
-          2017: {
-            7: sinon.stub(),
-          },
-        },
-      });
-
-      rewireApi.__Rewire__('loadFinancialData', undefined);
-
-      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
-        .then((result) => {
-          assert.isUndefined(result);
-          assert(dispatch.notCalled);
-          done();
-        })
-        .catch(done);
-    });
-
-    it('rejects if load financial data rejects', (done) => {
-      const auth = sinon.stub();
-      const year = 2017;
-      const month = 7;
-      const dispatch = sinon.stub();
-      const getState = sinon.stub().returns({
-        financialData: {},
-      });
-      const error = sinon.stub();
-      const loadFinancialData = sinon.stub()
-        .returns(Promise.reject(error));
-
-      rewireApi.__Rewire__('loadFinancialData', loadFinancialData);
-
-      loadFinancialDataIfRequired(auth, year, month, dispatch, getState)
-        .then(() => {
-          done(new Error('Expected promise to be rejected'));
-        })
-        .catch((result) => {
-          assert(result.should.equal(error));
-          done();
-        });
     });
   });
 
