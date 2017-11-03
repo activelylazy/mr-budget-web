@@ -200,7 +200,16 @@ describe('financial data', () => {
         .onSecondCall()
         .returns(Promise.resolve());
       const dispatch = sinon.stub();
-      const getState = sinon.stub();
+      const firstMonth = sinon.stub();
+      const secondMonth = sinon.stub();
+      const getState = sinon.stub().returns({
+        financialData: {
+          2017: {
+            6: firstMonth,
+            7: secondMonth,
+          },
+        },
+      });
 
       const months = [
         {
@@ -219,7 +228,9 @@ describe('financial data', () => {
         .then((result) => {
           assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 6, dispatch, getState));
           assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
-          assert.isUndefined(result);
+          assert(result.length.should.equal(2));
+          assert(result[0].should.equal(firstMonth));
+          assert(result[1].should.equal(secondMonth));
           done();
         })
         .catch(done);
