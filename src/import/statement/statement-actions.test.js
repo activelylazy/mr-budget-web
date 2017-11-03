@@ -5,6 +5,7 @@ import { loadFinancialDataAndApplyTransactions, updateMonthData,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   loadFinancialDataIfRequired, openingBalance, monthsInRange,
   accountOpeningBalanceInMonth, earliestDate,
+  getStatementMonthsToUpdate,
   __RewireAPI__ as rewireApi } from './statement-actions';
 
 should();
@@ -488,6 +489,57 @@ describe('import statement', () => {
       const date1 = new Date(Date.now() - (24 * 3600 * 1000));
 
       assert(earliestDate(date1, undefined).should.equal(date1));
+    });
+  });
+
+  describe('get statement months to update', () => {
+    it('returns range of months covering statement', () => {
+      const statement = {
+        startDate: new Date(2017, 2, 5),
+        endDate: new Date(2017, 4, 7),
+      };
+      const account = {
+        lastStatementDate: new Date(2017, 3, 8),
+      };
+
+      const range = getStatementMonthsToUpdate(account, statement);
+
+      assert(range.length.should.equal(3));
+
+      assert(range[0].year.should.equal(2017));
+      assert(range[0].month.should.equal(2));
+
+      assert(range[1].year.should.equal(2017));
+      assert(range[1].month.should.equal(3));
+
+      assert(range[2].year.should.equal(2017));
+      assert(range[2].month.should.equal(4));
+    });
+
+    it('returns range of months starting from last statement date if earlier', () => {
+      const statement = {
+        startDate: new Date(2017, 2, 5),
+        endDate: new Date(2017, 4, 7),
+      };
+      const account = {
+        lastStatementDate: new Date(2017, 1, 8),
+      };
+
+      const range = getStatementMonthsToUpdate(account, statement);
+
+      assert(range.length.should.equal(4));
+
+      assert(range[0].year.should.equal(2017));
+      assert(range[0].month.should.equal(1));
+
+      assert(range[1].year.should.equal(2017));
+      assert(range[1].month.should.equal(2));
+
+      assert(range[2].year.should.equal(2017));
+      assert(range[2].month.should.equal(3));
+
+      assert(range[3].year.should.equal(2017));
+      assert(range[3].month.should.equal(4));
     });
   });
 });

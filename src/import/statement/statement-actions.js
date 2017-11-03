@@ -104,3 +104,6 @@ export const accountOpeningBalanceInMonth = (account, financialData) => {
   }
   throw new Error(`Cannot get opening balance for account in ${financialData.month + 1}/${financialData.year}`);
 };
+
+export const getStatementMonthsToUpdate = (account, statement) =>
+  monthsInRange(earliestDate(account.lastStatementDate, statement.startDate), statement.endDate);
