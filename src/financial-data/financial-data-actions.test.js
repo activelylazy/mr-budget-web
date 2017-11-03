@@ -424,12 +424,40 @@ describe('financial data', () => {
           accounts,
         },
       }));
+      const getStatementMonthsToUpdate = sinon.stub().returns([]);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
+      rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
           assert(findAccountById.calledWith(accounts, accountId));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('gets months to update', (done) => {
+      const account = sinon.stub();
+      const findAccountById = sinon.stub().returns(account);
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const statement = sinon.stub();
+      const dispatch = sinon.stub();
+      const accounts = sinon.stub();
+      const getState = sinon.stub().returns(Immutable({
+        userData: {
+          accounts,
+        },
+      }));
+      const getStatementMonthsToUpdate = sinon.stub().returns([]);
+
+      rewireApi.__Rewire__('findAccountById', findAccountById);
+      rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
+
+      updateOpeningBalances(auth, accountId, statement, dispatch, getState)
+        .then(() => {
+          assert(getStatementMonthsToUpdate.calledWith(account, statement));
           done();
         })
         .catch(done);

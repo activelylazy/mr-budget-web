@@ -1,6 +1,6 @@
 import request from 'request-promise-native';
 import { pack, unpack } from '../security/data-packet';
-import { accountOpeningBalanceInMonth } from '../import/statement/statement-actions';
+import { accountOpeningBalanceInMonth, getStatementMonthsToUpdate } from '../import/statement/statement-actions';
 import { findAccountById } from '../accounts/accounts-actions';
 
 export const FINANCIAL_DATA_LOADED = 'FINACIAL_DATA_LOADED';
@@ -108,5 +108,6 @@ export const setOpeningBalances = (openingBalances, dispatch) => {
 export const updateOpeningBalances = (auth, accountId, statement, dispatch, getState) => {
   const accounts = getState().userData.accounts;
   const account = findAccountById(accounts, accountId);
+  const months = getStatementMonthsToUpdate(account, statement);
   return Promise.resolve();
 };
