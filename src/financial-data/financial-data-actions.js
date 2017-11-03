@@ -109,5 +109,5 @@ export const updateOpeningBalances = (auth, accountId, statement, dispatch, getS
   const accounts = getState().userData.accounts;
   const account = findAccountById(accounts, accountId);
   const months = getStatementMonthsToUpdate(account, statement);
-  return Promise.resolve();
+  return loadFinancialDataForMonths(auth, months);
 };
