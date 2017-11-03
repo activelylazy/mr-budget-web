@@ -595,14 +595,53 @@ describe('financial data', () => {
       const months = sinon.stub();
       const getStatementMonthsToUpdate = sinon.stub().returns(months);
       const loadFinancialDataForMonthsStub = sinon.stub().returns(Promise.resolve());
+      const getOpeningBalancesForMonthsStub = sinon.stub().returns({
+        openingBalances: [],
+        closingBalance: undefined,
+      });
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
       rewireApi.__Rewire__('loadFinancialDataForMonths', loadFinancialDataForMonthsStub);
+      rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
           assert(loadFinancialDataForMonthsStub.calledWith(auth, months, dispatch, getState));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('gets opening balances for months', (done) => {
+      const account = sinon.stub();
+      const findAccountById = sinon.stub().returns(account);
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const statement = sinon.stub();
+      const dispatch = sinon.stub();
+      const accounts = sinon.stub();
+      const getState = sinon.stub().returns(Immutable({
+        userData: {
+          accounts,
+        },
+      }));
+      const months = sinon.stub();
+      const getStatementMonthsToUpdate = sinon.stub().returns(months);
+      const loadFinancialDataForMonthsStub = sinon.stub().returns(Promise.resolve());
+      const getOpeningBalancesForMonthsStub = sinon.stub().returns({
+        openingBalances: [],
+        closingBalance: undefined,
+      });
+
+      rewireApi.__Rewire__('findAccountById', findAccountById);
+      rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
+      rewireApi.__Rewire__('loadFinancialDataForMonths', loadFinancialDataForMonthsStub);
+      rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
+
+      updateOpeningBalances(auth, accountId, statement, dispatch, getState)
+        .then(() => {
+          assert(getOpeningBalancesForMonthsStub.calledWith(months, account));
           done();
         })
         .catch(done);

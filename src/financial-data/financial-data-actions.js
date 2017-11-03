@@ -120,5 +120,8 @@ export const updateOpeningBalances = (auth, accountId, statement, dispatch, getS
   const accounts = getState().userData.accounts;
   const account = findAccountById(accounts, accountId);
   const months = getStatementMonthsToUpdate(account, statement);
-  return loadFinancialDataForMonths(auth, months, dispatch, getState);
+  return loadFinancialDataForMonths(auth, months, dispatch, getState)
+    .then((financialData) => {
+      getOpeningBalancesForMonths(months, account);
+    });
 };
