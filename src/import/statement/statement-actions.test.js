@@ -1,7 +1,7 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { APPLY_TRANSACTIONS_TO_MONTH } from '../../financial-data/financial-data-actions';
-import { loadFinancialDataAndApplyTransactions, updateMonthData,
+import { loadFinancialDataAndApplyTransactions,
   splitStatement, importStatementData, updateTransactionsWithAccount,
   openingBalance, monthsInRange,
   accountOpeningBalanceInMonth, earliestDate,
@@ -108,78 +108,6 @@ describe('import statement', () => {
     });
   });
 
-  describe('update month data', () => {
-    it('loads financial data & applies transactions then saves updated data', (done) => {
-      const auth = sinon.stub();
-      const dispatch = sinon.stub();
-      const getState = sinon.stub();
-      const monthData = sinon.stub();
-      const transactions = sinon.stub();
-      const loadFinancialDataAndApplyTransactionStub =
-        sinon.stub().returns(Promise.resolve(monthData));
-      const saveFinancialData = sinon.stub();
-
-      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions',
-        loadFinancialDataAndApplyTransactionStub);
-      rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
-
-      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
-        .then((result) => {
-          assert(loadFinancialDataAndApplyTransactionStub
-            .calledWith(auth, 2017, 7, transactions, dispatch, getState));
-          assert(saveFinancialData.calledWith(auth, monthData));
-          assert.isUndefined(result);
-          done();
-        })
-        .catch(done);
-    });
-
-    it('rejects if loadFinancialDataAndApplyTransactions is rejected', (done) => {
-      const error = sinon.stub();
-      const auth = sinon.stub();
-      const dispatch = sinon.stub();
-      const getState = sinon.stub();
-      const transactions = sinon.stub();
-
-      const loadFinancialDataAndApplyTransactionStub =
-        sinon.stub().returns(Promise.reject(error));
-
-      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions',
-        loadFinancialDataAndApplyTransactionStub);
-
-      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
-        .then(() => done(new Error('Expected promise to be rejected')))
-        .catch((result) => {
-          assert(result.should.equal(error));
-          done();
-        });
-    });
-
-    it('rejects if saveFinancialData is rejected', (done) => {
-      const error = sinon.stub();
-      const auth = sinon.stub();
-      const dispatch = sinon.stub();
-      const getState = sinon.stub();
-      const transactions = sinon.stub();
-      const monthData = sinon.stub();
-      const saveFinancialData = sinon.stub().returns(Promise.reject(error));
-
-      const loadFinancialDataAndApplyTransactionStub =
-        sinon.stub().returns(Promise.resolve(monthData));
-
-      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions',
-        loadFinancialDataAndApplyTransactionStub);
-      rewireApi.__Rewire__('saveFinancialData', saveFinancialData);
-
-      updateMonthData(auth, 2017, 7, transactions, dispatch, getState)
-        .then(() => done(new Error('Expected promise to be rejected')))
-        .catch((result) => {
-          assert(result.should.equal(error));
-          done();
-        });
-    });
-  });
-
   describe('import statement data', () => {
     it('imports statement by splitting into year+months and updating each month\'s data', (done) => {
       const auth = sinon.stub();
@@ -193,29 +121,29 @@ describe('import statement', () => {
         transactions,
       };
       const splitStatementStub = sinon.stub().returns([yearMonthPair]);
-      const updateMonthDataStub = sinon.stub().returns(Promise.resolve());
+      const loadFinancialDataAndApplyTransactionsStub = sinon.stub().returns(Promise.resolve());
       const getState = sinon.stub();
       const updateTransactionsWithAccountStub = sinon.stub().returns(updatedTransactions);
       const accountId = sinon.stub();
 
       rewireApi.__Rewire__('splitStatement', splitStatementStub);
-      rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
+      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions', loadFinancialDataAndApplyTransactionsStub);
       rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccountStub);
 
       importStatementData(auth, statement, accountId, dispatch, getState)
         .then(() => {
           assert(splitStatementStub.calledWith(statement));
           assert(updateTransactionsWithAccountStub.calledWith(transactions, accountId));
-          assert(updateMonthDataStub.calledWith(auth, 2017, 7, updatedTransactions,
+          assert(loadFinancialDataAndApplyTransactionsStub.calledWith(auth, 2017, 7, updatedTransactions,
             dispatch, getState));
           done();
         })
         .catch(done);
     });
 
-    it('rejects if updateMonthData is rejected', (done) => {
+    it('rejects if loadFinancialDataAndApplyTransactions is rejected', (done) => {
       const error = sinon.stub();
-      const updateMonthDataStub = sinon.stub().returns(Promise.reject(error));
+      const loadFinancialDataAndApplyTransactionsStub = sinon.stub().returns(Promise.reject(error));
       const auth = sinon.stub();
       const dispatch = sinon.stub();
       const statement = sinon.stub();
@@ -232,7 +160,7 @@ describe('import statement', () => {
       const updateTransactionsWithAccountStub = sinon.stub().returns(updatedTransactions);
 
       rewireApi.__Rewire__('splitStatement', splitStatementStub);
-      rewireApi.__Rewire__('updateMonthData', updateMonthDataStub);
+      rewireApi.__Rewire__('loadFinancialDataAndApplyTransactions', loadFinancialDataAndApplyTransactionsStub);
       rewireApi.__Rewire__('updateTransactionsWithAccount', updateTransactionsWithAccountStub);
 
       importStatementData(auth, statement, accountId, dispatch, getState)

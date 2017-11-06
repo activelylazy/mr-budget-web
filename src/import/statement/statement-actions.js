@@ -27,17 +27,13 @@ export const loadFinancialDataAndApplyTransactions = (auth, year, month, transac
     .then(() => dispatch(applyTransactionsToMonth(year, month, transactions)))
     .then(() => getState().financialData[year][month]);
 
-export const updateMonthData = (auth, year, month, transactions, dispatch, getState) =>
-  loadFinancialDataAndApplyTransactions(auth, year, month, transactions, dispatch, getState)
-    .then(monthData => saveFinancialData(auth, monthData));
-
 export const updateTransactionsWithAccount = (transactions, accountId) =>
   transactions.map(transaction => ({ ...transaction, accountId }));
 
 export const importStatementData = (auth, statement, accountId, dispatch, getState) =>
   Promise.all(
     splitStatement(statement)
-      .map(split => updateMonthData(auth, split.year, split.month,
+      .map(split => loadFinancialDataAndApplyTransactions(auth, split.year, split.month,
         updateTransactionsWithAccount(split.transactions, accountId),
         dispatch, getState)));
 
