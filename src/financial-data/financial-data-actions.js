@@ -35,6 +35,9 @@ export const saveFinancialData = (auth, financialData) =>
       return request(options);
     });
 
+export const saveAllFinancialData = (auth, financialDatas) =>
+  Promise.all(financialDatas.map(financialData => saveFinancialData(auth, financialData)));
+
 const emptyMonth = (year, month) => ({
   transactions: [],
   year,

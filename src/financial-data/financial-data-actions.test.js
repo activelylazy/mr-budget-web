@@ -6,7 +6,7 @@ import { loadFinancialData, saveFinancialData,
   getOpeningBalancesForMonths, accountTransactionTotals,
   setOpeningBalances, SET_ACCOUNT_OPENING_BALANCE_IN_MONTH,
   updateOpeningBalances, loadFinancialDataIfRequired,
-  FINANCIAL_DATA_LOADED,
+  FINANCIAL_DATA_LOADED, saveAllFinancialData,
   __RewireAPI__ as rewireApi } from './financial-data-actions';
 
 should();
@@ -297,7 +297,7 @@ describe('financial data', () => {
       const error = sinon.stub();
       const year = 2017;
       const month = 10;
-      const financialData = { 
+      const financialData = {
         financialData: true,
         year,
         month,
@@ -319,6 +319,26 @@ describe('financial data', () => {
           assert(result.should.equal(error));
           done();
         });
+    });
+  });
+
+  describe('save all financial data', () => {
+    it('saves multiple months of financial data', (done) => {
+      const auth = sinon.stub();
+      const month1 = sinon.stub();
+      const month2 = sinon.stub();
+      const financialDatas = [month1, month2];
+      const saveFinancialDataStub = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('saveFinancialData', saveFinancialDataStub);
+
+      saveAllFinancialData(auth, financialDatas)
+        .then(() => {
+          assert(saveFinancialDataStub.calledWith(auth, month1));
+          assert(saveFinancialDataStub.calledWith(auth, month2));
+          done();
+        })
+        .catch(done);
     });
   });
 
