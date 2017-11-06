@@ -20,7 +20,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />);
 
@@ -36,7 +35,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />);
 
@@ -56,7 +54,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />);
 
@@ -75,7 +72,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -95,7 +91,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -116,7 +111,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -137,7 +131,6 @@ describe('import component', () => {
         onAccountSelected={onAccountSelected}
         onImport={sinon.stub()}
         infoAlert={sinon.stub()}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />,
     );
@@ -160,7 +153,6 @@ describe('import component', () => {
         onAccountSelected={sinon.stub()}
         selectedAccountId={'abc-123'}
         onImport={onImport}
-        errorAlert={sinon.stub()}
         importInProgress={false}
       />,
     );

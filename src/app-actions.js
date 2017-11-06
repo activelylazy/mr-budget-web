@@ -17,3 +17,10 @@ export const errorAlert = (msg, error) => ({
   msg,
   error,
 });
+
+export const onError = (dispatch, msg, error) => {
+  dispatch(errorAlert(msg, error));
+  if (process.env.NODE_ENV !== 'test') {
+    throw error;
+  }
+};

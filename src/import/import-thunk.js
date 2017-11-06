@@ -4,12 +4,12 @@ import { importStatementData, openingBalance } from './statement/statement-actio
 import { statementUploaded, importStarted, importFinished,
   filterTransactions, setSelectedAccount } from './import-actions';
 import { updateOpeningBalances } from '../financial-data/financial-data-actions';
-import { infoAlert, errorAlert } from '../app-actions';
+import { infoAlert, onError } from '../app-actions';
 
 export const readStatement = fileContents => dispatch =>
   parseOfx(fileContents)
     .then(statement => dispatch(statementUploaded(statement)))
-    .catch(error => dispatch(errorAlert('Error uploading statement', error)));
+    .catch(error => onError(dispatch, 'Error uploading statement', error));
 
 export const importStatement = () => (dispatch, getState) => {
   const statement = getState().statementImport.statement;
@@ -27,7 +27,7 @@ export const importStatement = () => (dispatch, getState) => {
     .then(() => saveUserData(auth, getState().userData))
     .then(() => dispatch(importFinished()))
     .then(() => dispatch(infoAlert('Statement imported')))
-    .catch(error => dispatch(errorAlert('Error importing statement', error)));
+    .catch(error => onError(dispatch, 'Error importing statement', error));
 };
 
 export const importAccountSelected = accountId => (dispatch, getState) => {
