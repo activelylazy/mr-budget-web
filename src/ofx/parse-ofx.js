@@ -3,7 +3,7 @@ import { parse as parseOFX } from './ofx';
 
 function readDate(input) {
   const year = input.substring(0, 4);
-  const month = input.substring(4, 6);
+  const month = input.substring(4, 6) - 1;
   const day = input.substring(6, 8);
   return new Date(year, month, day);
 }
