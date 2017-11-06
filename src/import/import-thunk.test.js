@@ -182,10 +182,12 @@ describe('import thunk', () => {
       const importStatementData = sinon.stub().returns(Promise.resolve());
       const saveUserData = sinon.stub().returns(Promise.reject(error));
       const openingBalance = sinon.stub().returns();
+      const updateOpeningBalances = sinon.stub().returns(Promise.resolve());
 
       rewireApi.__Rewire__('importStatementData', importStatementData);
       rewireApi.__Rewire__('saveUserData', saveUserData);
       rewireApi.__Rewire__('openingBalance', openingBalance);
+      rewireApi.__Rewire__('updateOpeningBalances', updateOpeningBalances);
 
       importStatement()(dispatch, getState)
         .then(() => {
@@ -269,6 +271,44 @@ describe('import thunk', () => {
             openingBalance: startBalance,
             accountId: selectedAccountId,
           })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('updates opening balances for months', (done) => {
+      const dispatch = sinon.stub();
+      const statementDate = sinon.stub();
+      const statementBalance = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const auth = sinon.stub();
+      const startDate = sinon.stub();
+      const statement = {
+        date: statementDate,
+        balance: statementBalance,
+        startDate,
+      };
+      const getState = sinon.stub().returns({
+        auth,
+        statementImport: {
+          statement,
+          selectedAccountId,
+          importInProgress: false,
+        },
+      });
+      const startBalance = sinon.stub();
+      const importStatementData = sinon.stub().returns(Promise.resolve());
+      const openingBalance = sinon.stub().returns(startBalance);
+      const updateOpeningBalances = sinon.stub().returns(Promise.resolve());
+
+      rewireApi.__Rewire__('importStatementData', importStatementData);
+      rewireApi.__Rewire__('openingBalance', openingBalance);
+      rewireApi.__Rewire__('updateOpeningBalances', updateOpeningBalances);
+
+      importStatement()(dispatch, getState)
+        .then(() => {
+          assert(updateOpeningBalances.calledWith(auth, selectedAccountId,
+            statement, dispatch, getState));
           done();
         })
         .catch(done);

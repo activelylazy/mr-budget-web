@@ -3,6 +3,7 @@ import { updateLastStatement, updateOpeningBalance, saveUserData } from '../user
 import { importStatementData, openingBalance } from './statement/statement-actions';
 import { statementUploaded, importStarted, importFinished,
   filterTransactions, setSelectedAccount } from './import-actions';
+import { updateOpeningBalances } from '../financial-data/financial-data-actions';
 import { infoAlert, errorAlert } from '../app-actions';
 
 export const readStatement = fileContents => dispatch =>
@@ -22,6 +23,7 @@ export const importStatement = () => (dispatch, getState) => {
     .then(() => dispatch(updateLastStatement(statement.date, statement.balance, accountId)))
     .then(() => dispatch(
       updateOpeningBalance(statement.startDate, openingBalance(statement), accountId)))
+    .then(() => updateOpeningBalances(auth, accountId, statement, dispatch, getState))
     .then(() => saveUserData(auth, getState().userData))
     .then(() => dispatch(importFinished()))
     .then(() => dispatch(infoAlert('Statement imported')))
