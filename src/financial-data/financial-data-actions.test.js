@@ -239,19 +239,23 @@ describe('financial data', () => {
 
   describe('save financial data', () => {
     it('packs then issues request', (done) => {
-      const financialData = { financialData: true };
+      const year = 2017;
+      const month = 10;
+      const financialData = {
+        financialData: true,
+        year,
+        month,
+      };
       const packedData = { packed: true };
       const auth = {
         userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
         password: 'my password',
       };
-      const year = 2017;
-      const month = 10;
 
       packStub.returns(Promise.resolve(packedData));
       requestStub.returns(Promise.resolve());
 
-      saveFinancialData(auth, financialData, year, month)
+      saveFinancialData(auth, financialData)
         .then(() => {
           assert(requestStub.calledWith(sinon.match({
             method: 'POST',
@@ -265,17 +269,21 @@ describe('financial data', () => {
 
     it('rejects if pack is rejected', (done) => {
       const error = sinon.stub();
-      const financialData = { financialData: true };
+      const year = 2017;
+      const month = 10;
+      const financialData = {
+        financialData: true,
+        year,
+        month,
+      };
       const auth = {
         userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
         password: 'my password',
       };
-      const year = 2017;
-      const month = 10;
 
       packStub.returns(Promise.reject(error));
 
-      saveFinancialData(auth, financialData, year, month)
+      saveFinancialData(auth, financialData)
         .then(() => {
           done(new Error('Expected proimse to be rejected'));
         })
@@ -287,19 +295,23 @@ describe('financial data', () => {
 
     it('rejects if request is rejected', (done) => {
       const error = sinon.stub();
-      const financialData = { financialData: true };
+      const year = 2017;
+      const month = 10;
+      const financialData = { 
+        financialData: true,
+        year,
+        month,
+      };
       const packedData = { packed: true };
       const auth = {
         userId: '49f6f8b6-5526-452f-9a5e-8af17c7ccf8e',
         password: 'my password',
       };
-      const year = 2017;
-      const month = 10;
 
       packStub.returns(Promise.resolve(packedData));
       requestStub.returns(Promise.reject(error));
 
-      saveFinancialData(auth, financialData, year, month)
+      saveFinancialData(auth, financialData)
         .then(() => {
           done(new Error('Expected proimse to be rejected'));
         })

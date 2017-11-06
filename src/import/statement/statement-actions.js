@@ -29,7 +29,7 @@ export const loadFinancialDataAndApplyTransactions = (auth, year, month, transac
 
 export const updateMonthData = (auth, year, month, transactions, dispatch, getState) =>
   loadFinancialDataAndApplyTransactions(auth, year, month, transactions, dispatch, getState)
-    .then(monthData => saveFinancialData(auth, monthData, year, month));
+    .then(monthData => saveFinancialData(auth, monthData));
 
 export const updateTransactionsWithAccount = (transactions, accountId) =>
   transactions.map(transaction => ({ ...transaction, accountId }));

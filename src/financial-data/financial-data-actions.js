@@ -23,12 +23,12 @@ export const fetchFinancialData = (auth, year, month) => {
     .then(response => unpack(response, auth.password));
 };
 
-export const saveFinancialData = (auth, state, year, month) =>
-  pack(state, auth.password)
+export const saveFinancialData = (auth, financialData) =>
+  pack(financialData, auth.password)
     .then((packed) => {
       const options = {
         method: 'POST',
-        uri: `${process.env.REACT_APP_SERVER}${auth.userId}/${year}/${month}`,
+        uri: `${process.env.REACT_APP_SERVER}${auth.userId}/${financialData.year}/${financialData.month}`,
         body: packed,
         json: true,
       };

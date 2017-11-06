@@ -127,7 +127,7 @@ describe('import statement', () => {
         .then((result) => {
           assert(loadFinancialDataAndApplyTransactionStub
             .calledWith(auth, 2017, 7, transactions, dispatch, getState));
-          assert(saveFinancialData.calledWith(auth, monthData, 2017, 7));
+          assert(saveFinancialData.calledWith(auth, monthData));
           assert.isUndefined(result);
           done();
         })
