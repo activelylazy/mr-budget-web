@@ -48,7 +48,7 @@ export const updateLastStatement = (statementDate, statementBalance, accountId) 
 });
 
 export const UPDATE_OPENING_BALANCE = 'UPDATE_OPENING_BALANCE';
-export const updateOpeningBalance = (startDate, openingBalance, accountId) => ({
+export const updateAccountOpeningBalance = (startDate, openingBalance, accountId) => ({
   type: UPDATE_OPENING_BALANCE,
   startDate,
   openingBalance,

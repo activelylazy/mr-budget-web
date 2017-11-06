@@ -153,7 +153,7 @@ describe('accounts reducer', () => {
       const openingBalance = 11.22;
 
       const state = accountsReducer(userData,
-        actions.updateOpeningBalance(startDate, openingBalance, accountId));
+        actions.updateAccountOpeningBalance(startDate, openingBalance, accountId));
 
       assert(state.accounts[0].openingBalance.should.equal(11.22));
       assert(state.accounts[0].openingDate.toString().should.equal(startDate.toString()));
@@ -174,7 +174,7 @@ describe('accounts reducer', () => {
       const newBalance = 11.22;
 
       const state = accountsReducer(userData,
-        actions.updateOpeningBalance(newDate, newBalance, accountId));
+        actions.updateAccountOpeningBalance(newDate, newBalance, accountId));
 
       assert(state.accounts[0].openingBalance.should.equal(22.33));
       assert(state.accounts[0].openingDate.toString().should.equal(openingDate.toString()));

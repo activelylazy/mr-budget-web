@@ -1,5 +1,5 @@
 import parseOfx from '../ofx/parse-ofx';
-import { updateLastStatement, updateOpeningBalance, saveUserData } from '../user-data/user-data-actions';
+import { updateLastStatement, updateAccountOpeningBalance, saveUserData } from '../user-data/user-data-actions';
 import { importStatementData, openingBalance } from './statement/statement-actions';
 import { statementUploaded, importStarted, importFinished,
   filterTransactions, setSelectedAccount } from './import-actions';
@@ -22,7 +22,7 @@ export const importStatement = () => (dispatch, getState) => {
   return importStatementData(auth, statement, accountId, dispatch, getState)
     .then(() => dispatch(updateLastStatement(statement.date, statement.balance, accountId)))
     .then(() => dispatch(
-      updateOpeningBalance(statement.startDate, openingBalance(statement), accountId)))
+      updateAccountOpeningBalance(statement.startDate, openingBalance(statement), accountId)))
     .then(() => updateOpeningBalances(auth, accountId, statement, dispatch, getState))
     .then(() => saveUserData(auth, getState().userData))
     .then(() => dispatch(importFinished()))

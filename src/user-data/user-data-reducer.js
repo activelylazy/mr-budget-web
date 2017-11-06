@@ -24,7 +24,7 @@ const updateAccount = (account, action) => {
   return account;
 };
 
-const updateOpeningBalance = (account, action) => {
+const updateAccountOpeningBalance = (account, action) => {
   if (account.id === action.accountId &&
     account.openingBalance === undefined) {
     return { ...account,
@@ -47,7 +47,7 @@ export default (state = defaultState, action) => {
     case UPDATE_LAST_STATEMENT:
       return Immutable.set(state, 'accounts', state.accounts.map(account => updateAccount(account, action)));
     case UPDATE_OPENING_BALANCE:
-      return Immutable.set(state, 'accounts', state.accounts.map(account => updateOpeningBalance(account, action)));
+      return Immutable.set(state, 'accounts', state.accounts.map(account => updateAccountOpeningBalance(account, action)));
     default:
       return state;
   }
