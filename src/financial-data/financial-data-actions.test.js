@@ -61,6 +61,7 @@ describe('financial data', () => {
           assert(result.transactions.length.should.equal(0));
           assert(result.year.should.equal(2017));
           assert(result.month.should.equal(10));
+          assert(Object.keys(result.openingBalances).length.should.equal(0));
           done();
         })
         .catch(done);

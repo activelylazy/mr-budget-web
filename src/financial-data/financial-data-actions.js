@@ -40,6 +40,7 @@ export const saveAllFinancialData = (auth, financialDatas) =>
 
 const emptyMonth = (year, month) => ({
   transactions: [],
+  openingBalances: {},
   year,
   month,
 });
