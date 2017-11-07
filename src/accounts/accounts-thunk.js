@@ -1,6 +1,6 @@
 import { saveUserData, addAccountToState } from '../user-data/user-data-actions';
 import { onError } from '../app-actions';
-import { navigateToPeriod } from '../navigation/navigation-actions';
+import { navigateToPeriod, navigateAccount } from '../navigation/navigation-actions';
 
 export const addAccount = (auth, accountName) => (dispatch, getState) =>
   saveUserData(auth, getState().userData)
@@ -13,5 +13,6 @@ export const viewAccountTransactions = (auth, accountId) => (dispatch, getState)
     const account = getState().userData.accounts.find(a => a.id === accountId);
     dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
       account.lastStatementDate.getMonth() - 1));
+    dispatch(navigateAccount(accountId));
   }
 };

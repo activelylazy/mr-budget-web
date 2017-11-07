@@ -2,7 +2,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { SHOW_ERROR } from '../app-actions';
 import { ADD_ACCOUNT } from '../user-data/user-data-actions';
-import { NAVIGATE_TO_PERIOD } from '../navigation/navigation-actions';
+import { NAVIGATE_TO_PERIOD, NAVIGATE_ACCOUNT } from '../navigation/navigation-actions';
 import { addAccount, viewAccountTransactions,
   __RewireAPI__ as rewireApi } from './accounts-thunk';
 
@@ -106,6 +106,30 @@ describe('accounts thunk', () => {
 
       viewAccountTransactions(auth, accountId)(dispatch, getState);
       assert(dispatch.notCalled);
+    });
+
+    it('updates selected account', () => {
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        userData: {
+          accounts: [
+            {
+              id: accountId,
+              lastStatementDate: new Date(2017, 8, 21),
+            },
+          ],
+        },
+        navigation: {
+        },
+      });
+
+      viewAccountTransactions(auth, accountId)(dispatch, getState);
+      assert(dispatch.calledWith(sinon.match({
+        type: NAVIGATE_ACCOUNT,
+        accountId,
+      })));
     });
   });
 });

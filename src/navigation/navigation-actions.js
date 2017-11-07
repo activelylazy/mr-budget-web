@@ -11,3 +11,9 @@ export const navigateToPeriod = (year, month) => ({
   year,
   month,
 });
+
+export const NAVIGATE_ACCOUNT = 'NAVIGATE_ACCOUNT';
+export const navigateAccount = accountId => ({
+  type: NAVIGATE_ACCOUNT,
+  accountId,
+});
