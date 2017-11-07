@@ -81,7 +81,7 @@ describe('accounts thunk', () => {
       assert(dispatch.calledWith(sinon.match({
         type: NAVIGATE_TO_PERIOD,
         year: 2017,
-        // month: 7,
+        month: 7,
       })));
     });
 
