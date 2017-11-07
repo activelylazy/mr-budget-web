@@ -2,7 +2,9 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import { SHOW_ERROR } from '../app-actions';
 import { ADD_ACCOUNT } from '../user-data/user-data-actions';
-import { addAccount, __RewireAPI__ as rewireApi } from './accounts-thunk';
+import { NAVIGATE_TO_PERIOD } from '../navigation/navigation-actions';
+import { addAccount, viewAccountTransactions,
+  __RewireAPI__ as rewireApi } from './accounts-thunk';
 
 should();
 
@@ -54,6 +56,33 @@ describe('accounts thunk', () => {
           done();
         })
         .catch(done);
+    });
+  });
+
+  describe('view account transactions', () => {
+    it('navigates to last statement date of account if no date set', () => {
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        userData: {
+          accounts: [
+            {
+              id: accountId,
+              lastStatementDate: new Date(2017, 8, 21),
+            },
+          ],
+        },
+        navigation: {
+        },
+      });
+
+      viewAccountTransactions(auth, accountId)(dispatch, getState);
+      assert(dispatch.calledWith(sinon.match({
+        type: NAVIGATE_TO_PERIOD,
+        year: 2017,
+        // month: 7,
+      })));
     });
   });
 });

@@ -5,3 +5,9 @@ export const changeArea = area => ({
   area,
 });
 
+export const NAVIGATE_TO_PERIOD = 'NAVIGATE_TO_PERIOD';
+export const navigateToPeriod = (year, month) => ({
+  type: NAVIGATE_TO_PERIOD,
+  year,
+  month,
+});
