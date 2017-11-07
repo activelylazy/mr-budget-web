@@ -84,5 +84,28 @@ describe('accounts thunk', () => {
         // month: 7,
       })));
     });
+
+    it('does not navigate to new period if navigation dates already set', () => {
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        userData: {
+          accounts: [
+            {
+              id: accountId,
+              lastStatementDate: new Date(2017, 8, 21),
+            },
+          ],
+        },
+        navigation: {
+          currentYear: 2017,
+          currentMonth: 8,
+        },
+      });
+
+      viewAccountTransactions(auth, accountId)(dispatch, getState);
+      assert(dispatch.notCalled);
+    });
   });
 });

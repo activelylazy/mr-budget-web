@@ -8,7 +8,10 @@ export const addAccount = (auth, accountName) => (dispatch, getState) =>
     .catch(error => onError(dispatch, 'Error adding account', error));
 
 export const viewAccountTransactions = (auth, accountId) => (dispatch, getState) => {
-  const account = getState().userData.accounts.find(a => a.id === accountId);
-  dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
-    account.lastStatementDate.getMonth() - 1));
+  if (getState().navigation.currentMonth === undefined &&
+    getState().navigation.currrentYear === undefined) {
+    const account = getState().userData.accounts.find(a => a.id === accountId);
+    dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
+      account.lastStatementDate.getMonth() - 1));
+  }
 };
