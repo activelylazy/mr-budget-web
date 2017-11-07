@@ -134,8 +134,8 @@ describe('import statement', () => {
         .then(() => {
           assert(splitStatementStub.calledWith(statement));
           assert(updateTransactionsWithAccountStub.calledWith(transactions, accountId));
-          assert(loadFinancialDataAndApplyTransactionsStub.calledWith(auth, 2017, 7, updatedTransactions,
-            dispatch, getState));
+          assert(loadFinancialDataAndApplyTransactionsStub.calledWith(
+            auth, 2017, 7, updatedTransactions, dispatch, getState));
           done();
         })
         .catch(done);

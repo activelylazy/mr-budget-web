@@ -24,7 +24,7 @@ describe('accounts actions', () => {
 
     it('should return undefined if not found', () => {
       const result = findAccountById([], 'abc-123');
-    
+
       assert.isUndefined(result);
     });
   });

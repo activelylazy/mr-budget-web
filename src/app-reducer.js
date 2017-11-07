@@ -13,7 +13,7 @@ export default (state = defaultState, action) => {
       });
       return state;
     case SHOW_ERROR:
-      console.log(`Error: ${action.error}`);
+      console.log(`Error: ${action.error}`); // eslint-disable-line
       state.alertContainer.show(action.msg, {
         time: 5000,
         type: 'error',

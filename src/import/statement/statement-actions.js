@@ -1,5 +1,4 @@
-import { loadFinancialDataIfRequired, applyTransactionsToMonth,
-  saveFinancialData } from '../../financial-data/financial-data-actions';
+import { loadFinancialDataIfRequired, applyTransactionsToMonth } from '../../financial-data/financial-data-actions';
 
 function findSplit(splits, date) {
   return splits.find(split => split.year === date.getFullYear() && split.month === date.getMonth());

@@ -33,7 +33,10 @@ export default (state = defaultState, action) => {
     case SET_ACCOUNT_OPENING_BALANCE_IN_MONTH:
       return state.set(action.year,
         mergeMonth(state[action.year], action.month,
-          existingMonth => setAccountOpeningBalance(existingMonth, action.accountId, action.openingBalance)));
+          existingMonth => setAccountOpeningBalance(
+            existingMonth,
+            action.accountId,
+            action.openingBalance)));
     default:
       return state;
   }
