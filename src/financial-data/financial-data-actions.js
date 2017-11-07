@@ -64,10 +64,13 @@ export const loadFinancialDataIfRequired = (auth, year, month, dispatch, getStat
   return Promise.resolve();
 };
 
+const getLatestFinancialDataFromState = (months, getState) =>
+  months.map(month => getState().financialData[month.year][month.month]);
+
 export const loadFinancialDataForMonths = (auth, months, dispatch, getState) =>
   Promise.all(months.map(month =>
     loadFinancialDataIfRequired(auth, month.year, month.month, dispatch, getState)))
-    .then(() => months.map(month => getState().financialData[month.year][month.month]));
+    .then(() => getLatestFinancialDataFromState(months, getState));
 
 export const APPLY_TRANSACTIONS_TO_MONTH = 'APPLY_TRANSACTIONS_TO_MONTH';
 export const applyTransactionsToMonth = (year, month, transactions) => ({
@@ -128,7 +131,8 @@ export const updateOpeningBalances = (auth, accountId, statement, dispatch, getS
     .then((financialData) => {
       const balances = getOpeningBalancesForMonths(financialData, account);
       setOpeningBalances(balances.openingBalances, dispatch);
-      return saveAllFinancialData(auth, financialData)
+      const updatedData = getLatestFinancialDataFromState(months, getState);
+      return saveAllFinancialData(auth, updatedData)
         .then(() => balances.closingBalance);
     });
 };

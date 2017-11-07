@@ -20,10 +20,10 @@ export const importStatement = () => (dispatch, getState) => {
   }
   dispatch(importStarted());
   return importStatementData(auth, statement, accountId, dispatch, getState)
-    .then(() => dispatch(updateLastStatement(statement.date, statement.balance, accountId)))
     .then(() => dispatch(
       updateAccountOpeningBalance(statement.startDate, openingBalance(statement), accountId)))
     .then(() => updateOpeningBalances(auth, accountId, statement, dispatch, getState))
+    .then(() => dispatch(updateLastStatement(statement.date, statement.balance, accountId)))
     .then(() => saveUserData(auth, getState().userData))
     .then(() => dispatch(importFinished()))
     .then(() => dispatch(infoAlert('Statement imported')))

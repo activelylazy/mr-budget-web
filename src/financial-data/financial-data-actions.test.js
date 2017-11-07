@@ -633,12 +633,15 @@ describe('financial data', () => {
         closingBalance: undefined,
       });
       const saveAllFinancialDataStub = sinon.stub().returns(Promise.resolve());
+      const updatedData = sinon.stub();
+      const getLatestFinancialDataFromStateStub = sinon.stub().returns(updatedData);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
       rewireApi.__Rewire__('loadFinancialDataForMonths', loadFinancialDataForMonthsStub);
       rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
       rewireApi.__Rewire__('saveAllFinancialData', saveAllFinancialDataStub);
+      rewireApi.__Rewire__('getLatestFinancialDataFromState', getLatestFinancialDataFromStateStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
@@ -670,12 +673,15 @@ describe('financial data', () => {
         closingBalance: undefined,
       });
       const saveAllFinancialDataStub = sinon.stub().returns(Promise.resolve());
+      const updatedData = sinon.stub();
+      const getLatestFinancialDataFromStateStub = sinon.stub().returns(updatedData);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
       rewireApi.__Rewire__('loadFinancialDataForMonths', loadFinancialDataForMonthsStub);
       rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
       rewireApi.__Rewire__('saveAllFinancialData', saveAllFinancialDataStub);
+      rewireApi.__Rewire__('getLatestFinancialDataFromState', getLatestFinancialDataFromStateStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
@@ -709,6 +715,8 @@ describe('financial data', () => {
       });
       const setOpeningBalancesStub = sinon.stub();
       const saveAllFinancialDataStub = sinon.stub().returns(Promise.resolve());
+      const updatedData = sinon.stub();
+      const getLatestFinancialDataFromStateStub = sinon.stub().returns(updatedData);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
@@ -716,6 +724,7 @@ describe('financial data', () => {
       rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
       rewireApi.__Rewire__('setOpeningBalances', setOpeningBalancesStub);
       rewireApi.__Rewire__('saveAllFinancialData', saveAllFinancialDataStub);
+      rewireApi.__Rewire__('getLatestFinancialDataFromState', getLatestFinancialDataFromStateStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
@@ -749,6 +758,8 @@ describe('financial data', () => {
       });
       const setOpeningBalancesStub = sinon.stub();
       const saveAllFinancialDataStub = sinon.stub().returns(Promise.resolve());
+      const updatedData = sinon.stub();
+      const getLatestFinancialDataFromStateStub = sinon.stub().returns(updatedData);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
@@ -756,10 +767,11 @@ describe('financial data', () => {
       rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
       rewireApi.__Rewire__('setOpeningBalances', setOpeningBalancesStub);
       rewireApi.__Rewire__('saveAllFinancialData', saveAllFinancialDataStub);
+      rewireApi.__Rewire__('getLatestFinancialDataFromState', getLatestFinancialDataFromStateStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then(() => {
-          assert(saveAllFinancialDataStub.calledWith(auth, financialData));
+          assert(saveAllFinancialDataStub.calledWith(auth, updatedData));
           done();
         })
         .catch(done);
@@ -789,12 +801,15 @@ describe('financial data', () => {
         closingBalance,
       });
       const setOpeningBalancesStub = sinon.stub();
+      const updatedData = sinon.stub();
+      const getLatestFinancialDataFromStateStub = sinon.stub().returns(updatedData);
 
       rewireApi.__Rewire__('findAccountById', findAccountById);
       rewireApi.__Rewire__('getStatementMonthsToUpdate', getStatementMonthsToUpdate);
       rewireApi.__Rewire__('loadFinancialDataForMonths', loadFinancialDataForMonthsStub);
       rewireApi.__Rewire__('getOpeningBalancesForMonths', getOpeningBalancesForMonthsStub);
       rewireApi.__Rewire__('setOpeningBalances', setOpeningBalancesStub);
+      rewireApi.__Rewire__('getLatestFinancialDataFromState', getLatestFinancialDataFromStateStub);
 
       updateOpeningBalances(auth, accountId, statement, dispatch, getState)
         .then((result) => {
