@@ -4,6 +4,7 @@ import { Button, FormControl, InputGroup, Glyphicon, FormGroup } from 'react-boo
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './accounts.css';
 import AccountSelector from './AccountSelector';
+import TransactionList from '../transactions/TransactionListComponent';
 
 class AccountsComponent extends Component {
   constructor() {
@@ -116,10 +117,7 @@ class AccountsComponent extends Component {
           </ReactCSSTransitionGroup>
         </div>
         <div className="col-md-9 right-list">
-          <ul>
-            <li>A transaction</li>
-            <li>Another transaction</li>
-          </ul>
+          <TransactionList />
         </div>
       </div>
     );

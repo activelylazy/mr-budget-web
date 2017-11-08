@@ -102,4 +102,24 @@ describe('accounts component', () => {
     accountSelector.prop('onSelect')();
     assert(selectAccount.calledWith(account2.id));
   });
+
+  it('renders transaction list for transactions in selected account', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+    };
+    const userAccounts = [ account ];
+    const selectAccount = sinon.stub();
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+      />);
+    
+    const transactionList = accounts.find(TransactionList);
+    assert(transactionList.exists());
+  });
 });
