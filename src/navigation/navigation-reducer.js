@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { NAVIGATE, NAVIGATE_TO_PERIOD } from './navigation-actions';
+import { NAVIGATE, NAVIGATE_TO_PERIOD, NAVIGATE_ACCOUNT } from './navigation-actions';
 import * as areas from './navigation-areas';
 
 const defaultState = Immutable({
@@ -15,6 +15,11 @@ export default (state = defaultState, action) => {
         ...state,
         currentMonth: action.month,
         currentYear: action.year,
+      });
+    case NAVIGATE_ACCOUNT:
+      return Immutable({
+        ...state,
+        selectedAccountId: action.accountId,
       });
     default:
       return state;

@@ -21,4 +21,10 @@ describe('navigation reducer', () => {
     assert(state.currentMonth.should.equal(7));
     assert(state.currentYear.should.equal(2017));
   });
+
+  it('navigates to account', () => {
+    const accountId = 'abc-123';
+    const state = navigationReducer(undefined, actions.navigateAccount(accountId));
+    assert(state.selectedAccountId.should.equal(accountId));
+  });
 });
