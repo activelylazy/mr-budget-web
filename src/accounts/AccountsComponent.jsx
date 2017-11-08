@@ -103,7 +103,14 @@ class AccountsComponent extends Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
           >
-            {this.props.accounts.map(account => (<AccountSelector key={account.name} account={account} />))}
+            {this.props.accounts.map(account =>
+              (
+                <AccountSelector
+                  key={account.name}
+                  account={account}
+                  onSelect={() => this.props.selectAccount(account.id)}
+                />
+              ))}
             {this.renderAddInput()}
             {this.renderAddButton()}
           </ReactCSSTransitionGroup>
@@ -121,7 +128,10 @@ class AccountsComponent extends Component {
 
 AccountsComponent.propTypes = {
   addAccount: PropTypes.func.isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  selectAccount: PropTypes.func.isRequired,
 };
 
 export default AccountsComponent;
