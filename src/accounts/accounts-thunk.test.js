@@ -26,7 +26,7 @@ describe('accounts thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: ADD_ACCOUNT,
-            // accountName,
+            accountName,
           })));
           done();
         })
@@ -60,7 +60,7 @@ describe('accounts thunk', () => {
   });
 
   describe('view account transactions', () => {
-    it('navigates to last statement date of account if no date set', () => {
+    it('navigates to last statement date of account if no date set', (done) => {
       const auth = sinon.stub();
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
@@ -76,16 +76,22 @@ describe('accounts thunk', () => {
         navigation: {
         },
       });
+      const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState);
-      assert(dispatch.calledWith(sinon.match({
-        type: NAVIGATE_TO_PERIOD,
-        year: 2017,
-        month: 7,
-      })));
+      viewAccountTransactions(auth, accountId)(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: NAVIGATE_TO_PERIOD,
+            year: 2017,
+            month: 7,
+          })));
+          done();
+        })
+        .catch(done);
     });
 
-    it('does not navigate to new period if navigation dates already set', () => {
+    it('does not navigate to new period if navigation dates already set', (done) => {
       const auth = sinon.stub();
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
@@ -104,11 +110,15 @@ describe('accounts thunk', () => {
         },
       });
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState);
-      assert(dispatch.notCalled);
+      viewAccountTransactions(auth, accountId)(dispatch, getState)
+        .then(() => {
+          assert(dispatch.notCalled);
+          done();
+        })
+        .catch(done);
     });
 
-    it('updates selected account', () => {
+    it('updates selected account', (done) => {
       const auth = sinon.stub();
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
@@ -124,12 +134,45 @@ describe('accounts thunk', () => {
         navigation: {
         },
       });
+      const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState);
-      assert(dispatch.calledWith(sinon.match({
-        type: NAVIGATE_ACCOUNT,
-        accountId,
-      })));
+      viewAccountTransactions(auth, accountId)(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: NAVIGATE_ACCOUNT,
+            accountId,
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('loads financial data if required', (done) => {
+      const auth = sinon.stub();
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        userData: {
+          accounts: [
+            {
+              id: accountId,
+              lastStatementDate: new Date(2017, 8, 21),
+            },
+          ],
+        },
+        navigation: {
+        },
+      });
+      const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
+
+      viewAccountTransactions(auth, accountId)(dispatch, getState)
+        .then(() => {
+          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
+          done();
+        })
+        .catch(done);      
     });
   });
 });
