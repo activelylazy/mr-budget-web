@@ -15,4 +15,10 @@ describe('navigation reducer', () => {
     const state = navigationReducer(undefined, actions.changeArea(areas.CATEGORIES));
     assert(state.area.should.equal(areas.CATEGORIES));
   });
+
+  it('navigates to period', () => {
+    const state = navigationReducer(undefined, actions.navigateToPeriod(2017, 7));
+    assert(state.currentMonth.should.equal(7));
+    assert(state.currentYear.should.equal(2017));
+  });
 });
