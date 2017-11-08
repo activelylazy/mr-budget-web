@@ -109,7 +109,7 @@ describe('accounts component', () => {
       id: 'abc-123',
       name: 'account one',
     };
-    const userAccounts = [ account ];
+    const userAccounts = [account];
     const selectAccount = sinon.stub();
 
     const accounts = shallow(
@@ -118,7 +118,7 @@ describe('accounts component', () => {
         accounts={userAccounts}
         selectAccount={selectAccount}
       />);
-    
+
     const transactionList = accounts.find(TransactionList);
     assert(transactionList.exists());
   });
