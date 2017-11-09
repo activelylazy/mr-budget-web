@@ -65,6 +65,7 @@ describe('accounts thunk', () => {
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub().returns({
+        auth,
         userData: {
           accounts: [
             {
@@ -79,7 +80,7 @@ describe('accounts thunk', () => {
       const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
       rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState)
+      viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: NAVIGATE_TO_PERIOD,
@@ -96,6 +97,7 @@ describe('accounts thunk', () => {
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub().returns({
+        auth,
         userData: {
           accounts: [
             {
@@ -110,7 +112,7 @@ describe('accounts thunk', () => {
         },
       });
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState)
+      viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
           assert(dispatch.notCalled);
           done();
@@ -123,6 +125,7 @@ describe('accounts thunk', () => {
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub().returns({
+        auth,
         userData: {
           accounts: [
             {
@@ -137,7 +140,7 @@ describe('accounts thunk', () => {
       const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
       rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState)
+      viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: NAVIGATE_ACCOUNT,
@@ -153,6 +156,7 @@ describe('accounts thunk', () => {
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub().returns({
+        auth,
         userData: {
           accounts: [
             {
@@ -167,7 +171,7 @@ describe('accounts thunk', () => {
       const loadFinancialDataIfRequiredStub = sinon.stub().returns(Promise.resolve());
       rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequiredStub);
 
-      viewAccountTransactions(auth, accountId)(dispatch, getState)
+      viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
           assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
           done();
