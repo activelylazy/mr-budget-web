@@ -20,6 +20,23 @@ describe('accounts container', () => {
       assert(result.accounts.should.equal(accounts));
     });
 
+    it('maps selected account id', () => {
+      const accounts = sinon.stub();
+      const selectedAccountId = sinon.stub();
+      const state = {
+        userData: {
+          accounts,
+        },
+        navigation: {
+          selectedAccountId,
+        },
+      };
+
+      const result = mapStateToProps(state);
+
+      assert(result.selectedAccountId.should.equal(selectedAccountId));
+    });
+
     it('maps to undefined month data when no month selected', () => {
       const accounts = sinon.stub();
       const state = {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Button, FormControl, InputGroup, Glyphicon, FormGroup } from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { transactionsForAccount } from '../transactions/transaction-renderer';
 import './accounts.css';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
@@ -13,6 +14,7 @@ class AccountsComponent extends Component {
     this.addAccountSubmit = this.addAccountSubmit.bind(this);
     this.addAccountNameChanged = this.addAccountNameChanged.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
+    this.getAccountTransactions = this.getAccountTransactions.bind(this);
   }
   componentWillMount() {
     this.setState({
@@ -27,14 +29,12 @@ class AccountsComponent extends Component {
     }
     return 'error';
   }
-  toggleButton() {
-    this.setState({ showInput: true });
-  }
-  addAccountNameChanged(e) {
-    this.setState({
-      showInput: true,
-      accountName: e.target.value,
-    });
+  getAccountTransactions() {
+    if (this.props.selectedAccountId === undefined ||
+      this.props.monthData === undefined) {
+      return [];
+    }
+    return transactionsForAccount(this.props.monthData, this.props.selectedAccountId);
   }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
@@ -45,6 +45,15 @@ class AccountsComponent extends Component {
       });
     }
     e.preventDefault();
+  }
+  toggleButton() {
+    this.setState({ showInput: true });
+  }
+  addAccountNameChanged(e) {
+    this.setState({
+      showInput: true,
+      accountName: e.target.value,
+    });
   }
   renderAddInput() {
     if (this.state.showInput) {
@@ -117,7 +126,9 @@ class AccountsComponent extends Component {
           </ReactCSSTransitionGroup>
         </div>
         <div className="col-md-9 right-list">
-          <TransactionList />
+          <TransactionList
+            transactions={this.getAccountTransactions()}
+          />
         </div>
       </div>
     );
@@ -130,6 +141,14 @@ AccountsComponent.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   selectAccount: PropTypes.func.isRequired,
+  monthData: PropTypes.shape({
+  }),
+  selectedAccountId: PropTypes.string,
+};
+
+AccountsComponent.defaultProps = {
+  monthData: undefined,
+  selectedAccountId: undefined,
 };
 
 export default AccountsComponent;

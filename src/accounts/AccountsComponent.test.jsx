@@ -3,9 +3,9 @@ import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import Immutable from 'seamless-immutable';
-import Accounts from './AccountsComponent';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
+import Accounts, { __RewireAPI__ as rewireApi } from './AccountsComponent';
 
 should();
 
@@ -103,7 +103,30 @@ describe('accounts component', () => {
     assert(selectAccount.calledWith(account2.id));
   });
 
-  it('renders transaction list for transactions in selected account', () => {
+  it('renders empty transaction list when no account selected', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+    };
+    const userAccounts = [account];
+    const selectAccount = sinon.stub();
+    const monthData = {};
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+        monthData={monthData}
+      />);
+
+    const transactionList = accounts.find(TransactionList);
+    assert(transactionList.exists());
+    assert(transactionList.prop('transactions').length.should.equal(0));
+  });
+
+  it('renders empty transaction list when no month selected', () => {
     const addAccount = sinon.stub();
     const account = {
       id: 'abc-123',
@@ -117,9 +140,40 @@ describe('accounts component', () => {
         addAccount={addAccount}
         accounts={userAccounts}
         selectAccount={selectAccount}
+        selectedAccountId={account.id}
       />);
 
     const transactionList = accounts.find(TransactionList);
     assert(transactionList.exists());
+    assert(transactionList.prop('transactions').length.should.equal(0));
+  });
+
+  it('renders transaction list for transactions in selected account', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+    };
+    const userAccounts = [account];
+    const selectAccount = sinon.stub();
+    const monthData = {};
+
+    const accountTransactions = sinon.stub();
+    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
+    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+        monthData={monthData}
+        selectedAccountId={account.id}
+      />);
+
+    const transactionList = accounts.find(TransactionList);
+    assert(transactionList.exists());
+    assert(transactionsForAccountStub.calledWith(monthData, account.id));
+    assert(transactionList.prop('transactions').should.equal(accountTransactions));
   });
 });

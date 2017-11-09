@@ -33,6 +33,7 @@ function selectedMonthData(state) {
 export const mapStateToProps = state => ({
   accounts: state.userData.accounts,
   monthData: selectedMonthData(state),
+  selectedAccountId: state.navigation.selectedAccountId,
 });
 
 export default connect(mapStateToProps, { addAccount, navigateAccount })(AccountsContainer);
