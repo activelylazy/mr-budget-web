@@ -13,11 +13,13 @@ export const viewAccountTransactions = accountId => (dispatch, getState) => {
   if (getState().navigation.currentMonth === undefined &&
     getState().navigation.currrentYear === undefined) {
     const account = getState().userData.accounts.find(a => a.id === accountId);
-    dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
-      account.lastStatementDate.getMonth() - 1));
-    dispatch(navigateAccount(accountId));
     return loadFinancialDataIfRequired(auth, account.lastStatementDate.getFullYear(),
-      account.lastStatementDate.getMonth() - 1, dispatch, getState);
+      account.lastStatementDate.getMonth() - 1, dispatch, getState)
+      .then(() => {
+        dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
+          account.lastStatementDate.getMonth() - 1));
+        dispatch(navigateAccount(accountId));        
+      });
   }
   return Promise.resolve();
 };

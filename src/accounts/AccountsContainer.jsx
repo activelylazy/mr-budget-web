@@ -1,15 +1,14 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { navigateAccount } from '../navigation/navigation-actions';
 import Accounts from './AccountsComponent';
-import { addAccount } from './accounts-thunk';
+import { addAccount, viewAccountTransactions } from './accounts-thunk';
 
 const AccountsContainer = props => (
   <Accounts
     addAccount={name => props.addAccount(props.auth, name)}
     accounts={props.accounts}
-    selectAccount={props.navigateAccount}
+    selectAccount={props.viewAccountTransactions}
   />
 );
 
@@ -19,7 +18,7 @@ AccountsContainer.propTypes = {
   auth: PropTypes.shape({
     password: PropTypes.string.isRequired,
   }).isRequired,
-  navigateAccount: PropTypes.func.isRequired,
+  viewAccountTransactions: PropTypes.func.isRequired,
 };
 
 function selectedMonthData(state) {
@@ -36,4 +35,4 @@ export const mapStateToProps = state => ({
   selectedAccountId: state.navigation.selectedAccountId,
 });
 
-export default connect(mapStateToProps, { addAccount, navigateAccount })(AccountsContainer);
+export default connect(mapStateToProps, { addAccount, viewAccountTransactions })(AccountsContainer);
