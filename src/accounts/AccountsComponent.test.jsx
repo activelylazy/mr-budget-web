@@ -158,7 +158,7 @@ describe('accounts component', () => {
     const selectAccount = sinon.stub();
     const monthData = {};
 
-    const accountTransactions = sinon.stub();
+    const accountTransactions = [];
     const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
     rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
 
