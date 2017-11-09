@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
 import AccountSelector from './AccountSelector';
@@ -14,7 +15,10 @@ describe('account selector', () => {
     };
 
     const component = shallow(
-      <AccountSelector account={account} />,
+      <AccountSelector
+        account={account}
+        onSelect={sinon.stub()}
+      />,
     );
 
     const accountName = component.find('.account-name');
@@ -36,7 +40,10 @@ describe('account selector', () => {
     };
 
     const component = shallow(
-      <AccountSelector account={account} />,
+      <AccountSelector
+        account={account}
+        onSelect={sinon.stub()}
+      />,
     );
 
     const accountName = component.find('.account-name');

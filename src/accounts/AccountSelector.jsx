@@ -48,6 +48,7 @@ AccountsSelector.propTypes = {
   account: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default AccountsSelector;
