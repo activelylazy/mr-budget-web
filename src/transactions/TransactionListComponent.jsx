@@ -1,8 +1,11 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import Transaction from './TransactionComponent';
 
-const TransactionListComponent = () => (
-  <div>transactions</div>
+const TransactionListComponent = ({ transactions }) => (
+  <div>
+    {transactions.map(transaction => (<Transaction transaction={transaction}/>))}
+  </div>
 );
 
 TransactionListComponent.propTypes = {
