@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { assert, should } from 'chai';
+import { Button } from 'react-bootstrap';
 import AccountSelector from './AccountSelector';
 
 should();
@@ -56,5 +57,25 @@ describe('account selector', () => {
     const lastUpdated = component.find('.account-updated');
     assert(lastUpdated.exists().should.equal(true));
     assert(lastUpdated.text().should.equal(' '));
+  });
+
+  it('clicking button fires onSelect', () => {
+    const account = {
+      name: 'my account',
+    };
+    const onSelect = sinon.stub();
+
+    const component = shallow(
+      <AccountSelector
+        account={account}
+        onSelect={onSelect}
+      />,
+    );
+
+    const button = component.find(Button);
+    assert(button.exists());
+
+    button.prop('onClick')();
+    assert(onSelect.calledOnce);
   });
 });

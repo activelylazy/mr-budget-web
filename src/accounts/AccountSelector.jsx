@@ -23,11 +23,12 @@ const accountUpdated = (account) => {
   return (<td className="account-updated">&nbsp;</td>);
 };
 
-const AccountsSelector = ({ account }) => (
+const AccountsSelector = ({ account, onSelect }) => (
   <div className="account">
     <Button
       bsStyle="default"
       block
+      onClick={() => onSelect()}
     >
       <table className="account-selector-table">
         <tbody>
