@@ -22,10 +22,17 @@ AccountsContainer.propTypes = {
   navigateAccount: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    accounts: state.userData.accounts,
-  };
+function selectedMonthData(state) {
+  if (state.navigation.currentMonth === undefined ||
+    state.navigation.currentYear === undefined) {
+    return undefined;
+  }
+  return state.financialData[state.navigation.currentYear][state.navigation.currentMonth];
 }
+
+export const mapStateToProps = state => ({
+  accounts: state.userData.accounts,
+  monthData: selectedMonthData(state),
+});
 
 export default connect(mapStateToProps, { addAccount, navigateAccount })(AccountsContainer);
