@@ -4,7 +4,7 @@ import Transaction from './TransactionComponent';
 
 const TransactionListComponent = ({ transactions }) => (
   <div>
-    {transactions.map(transaction => (<Transaction transaction={transaction}/>))}
+    {transactions.map(transaction => (<Transaction key={transaction.id} transaction={transaction} />))}
   </div>
 );
 

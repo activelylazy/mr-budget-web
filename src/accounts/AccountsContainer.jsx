@@ -9,6 +9,8 @@ const AccountsContainer = props => (
     addAccount={name => props.addAccount(props.auth, name)}
     accounts={props.accounts}
     selectAccount={props.viewAccountTransactions}
+    selectedAccountId={props.selectedAccountId}
+    monthData={props.monthData}
   />
 );
 
@@ -19,6 +21,14 @@ AccountsContainer.propTypes = {
     password: PropTypes.string.isRequired,
   }).isRequired,
   viewAccountTransactions: PropTypes.func.isRequired,
+  selectedAccountId: PropTypes.string,
+  monthData: PropTypes.shape({
+  }),
+};
+
+AccountsContainer.defaultProps = {
+  selectedAccountId: undefined,
+  monthData: undefined,
 };
 
 function selectedMonthData(state) {
