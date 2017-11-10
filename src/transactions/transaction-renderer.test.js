@@ -1,4 +1,5 @@
 import { assert, should } from 'chai';
+import Immutable from 'seamless-immutable';
 import { transactionsForAccount } from './transaction-renderer';
 
 should();
@@ -6,9 +7,9 @@ should();
 describe('transaction renderer', () => {
   describe('transactions for account', () => {
     it('returns empty list when no transactions', () => {
-      const monthData = {
+      const monthData = Immutable({
         transactions: [],
-      };
+      });
       const accountId = 'abc-123';
 
       const result = transactionsForAccount(monthData, accountId);
@@ -16,13 +17,13 @@ describe('transaction renderer', () => {
     });
 
     it('does not return transactions with different account id', () => {
-      const monthData = {
+      const monthData = Immutable({
         transactions: [
           {
             accountId: 'other',
           },
         ],
-      };
+      });
       const accountId = 'abc-123';
 
       const result = transactionsForAccount(monthData, accountId);
@@ -31,13 +32,13 @@ describe('transaction renderer', () => {
 
     it('does return transactions with same account id', () => {
       const accountId = 'abc-123';
-      const monthData = {
+      const monthData = Immutable({
         transactions: [
           {
             accountId,
           },
         ],
-      };
+      });
 
       const result = transactionsForAccount(monthData, accountId);
       assert(result.length.should.equal(1));
@@ -45,20 +46,20 @@ describe('transaction renderer', () => {
 
     it('sorts transactions in ascending date order', () => {
       const accountId = 'abc-123';
-      const monthData = {
+      const monthData = Immutable({
         transactions: [
           {
             id: 'transaction-1',
             accountId,
-            date: new Date(Date.now() - (24 * 3600 * 1000)),
+            date: new Date(2017, 9, 10),
           },
           {
             id: 'transaction-2',
             accountId,
-            date: new Date(Date.now() - (2 * 24 * 3600 * 1000)),
+            date: new Date(2017, 9, 1),
           },
         ],
-      };
+      });
 
       const result = transactionsForAccount(monthData, accountId);
       assert(result.length.should.equal(2));
