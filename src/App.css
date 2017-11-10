@@ -58,3 +58,8 @@ body {
 .right-list {
   padding-top: 15px;
 }
+
+.right-full {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}

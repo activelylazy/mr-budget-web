@@ -125,7 +125,7 @@ class AccountsComponent extends Component {
             {this.renderAddButton()}
           </ReactCSSTransitionGroup>
         </div>
-        <div className="col-md-9 right-list">
+        <div className="col-md-9 right-full">
           <TransactionList
             transactions={this.getAccountTransactions()}
           />

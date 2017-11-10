@@ -1,0 +1,33 @@
+
+.transaction {
+  width: 100%;
+}
+
+.transaction > table {
+  width: 100%;
+  border-spacing: 2px;
+  border-collapse: separate;
+}
+
+.transaction > table > tbody > tr > td {
+  background: #E1E0F2;
+  padding: 4px;
+}
+
+.transaction > table > tbody > tr > td.date {
+  font-size: 14pt;
+  width: 15%;
+  text-align: center;
+}
+
+.transaction > table > tbody > tr > td.desc {
+  font-size: 12pt;
+  text-align: left;
+}
+
+.transaction > table > tbody > tr > td.amount {
+  font-size: 14pt;
+  width: 15%;
+  text-align: right;
+  padding-right: 10px;
+}
