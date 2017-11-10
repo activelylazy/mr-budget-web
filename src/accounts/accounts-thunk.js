@@ -18,8 +18,9 @@ export const viewAccountTransactions = accountId => (dispatch, getState) => {
       .then(() => {
         dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
           account.lastStatementDate.getMonth() - 1));
-        dispatch(navigateAccount(accountId));        
+        dispatch(navigateAccount(accountId));
       });
   }
+  dispatch(navigateAccount(accountId));
   return Promise.resolve();
 };

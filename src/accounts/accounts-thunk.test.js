@@ -92,20 +92,10 @@ describe('accounts thunk', () => {
         .catch(done);
     });
 
-    it('does not navigate to new period if navigation dates already set', (done) => {
-      const auth = sinon.stub();
+    it('does not navigate to new period if period already selected', (done) => {
       const accountId = sinon.stub();
       const dispatch = sinon.stub();
       const getState = sinon.stub().returns({
-        auth,
-        userData: {
-          accounts: [
-            {
-              id: accountId,
-              lastStatementDate: new Date(2017, 8, 21),
-            },
-          ],
-        },
         navigation: {
           currentYear: 2017,
           currentMonth: 8,
@@ -114,7 +104,30 @@ describe('accounts thunk', () => {
 
       viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
-          assert(dispatch.notCalled);
+          sinon.assert.neverCalledWithMatch(dispatch, {
+            type: NAVIGATE_TO_PERIOD,            
+          });
+          done();
+        })
+        .catch(done);
+    });
+
+
+    it('dispatches select account if period already selected', (done) => {
+      const accountId = sinon.stub();
+      const dispatch = sinon.stub();
+      const getState = sinon.stub().returns({
+        navigation: {
+          currentMonth: 7,
+          currentYear: 2017,
+        },
+      });
+      viewAccountTransactions(accountId)(dispatch, getState)
+        .then(() => {
+          assert(dispatch.calledWith(sinon.match({
+            type: NAVIGATE_ACCOUNT,
+            accountId,            
+          })));
           done();
         })
         .catch(done);
@@ -176,7 +189,7 @@ describe('accounts thunk', () => {
           assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
           done();
         })
-        .catch(done);      
+        .catch(done);
     });
   });
 });
