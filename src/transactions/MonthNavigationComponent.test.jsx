@@ -26,6 +26,17 @@ describe('month navigation component', () => {
     assert(navigation.find(Button).length.should.equal(2));
   });
 
+  it('renders current month', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={7}
+        currentYear={2017}
+      />,
+    );
+
+    assert(navigation.find('#current-month').text().should.equal('August 2017'));
+  });
+
   it('renders prev month as disabled when showing start month & year', () => {
     const navigation = shallow(
       <MonthNavigationComponent

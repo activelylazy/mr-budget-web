@@ -3,6 +3,24 @@ import { PropTypes } from 'prop-types';
 import { Button, Glyphicon } from 'react-bootstrap';
 import './transactions.css';
 
+function monthString(month) {
+  switch (month) {
+    case 0: return 'January';
+    case 1: return 'February';
+    case 2: return 'March';
+    case 3: return 'April';
+    case 4: return 'May';
+    case 5: return 'June';
+    case 6: return 'July';
+    case 7: return 'August';
+    case 8: return 'September';
+    case 9: return 'October';
+    case 10: return 'November';
+    case 11: return 'December';
+    default: return undefined;
+  }
+}
+
 const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
   startYear, endMonth, endYear }) => {
   if (currentMonth !== undefined && currentYear !== undefined) {
@@ -15,8 +33,8 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
         >
           <Glyphicon glyph="arrow-left" />
         </Button>
-        <span className="current-month">
-          October 2017
+        <span id="current-month">
+          {monthString(currentMonth)} {currentYear}
         </span>
         <Button
           bsSize="large"

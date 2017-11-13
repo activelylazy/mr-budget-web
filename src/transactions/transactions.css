@@ -9,7 +9,7 @@
   display: inline-block;
 }
 
-.current-month {
+#current-month {
   font-size: 18px;
   padding-left: 12px;
   padding-right: 12px;
