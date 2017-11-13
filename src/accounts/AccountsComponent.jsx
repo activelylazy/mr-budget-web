@@ -49,6 +49,22 @@ class AccountsComponent extends Component {
     }
     return this.props.monthData.year;
   }
+  getAccountOpeningMonth() {
+    if (this.props.selectedAccountId === undefined) {
+      return undefined;
+    }
+    return this.props.accounts
+      .find(a => a.id === this.props.selectedAccountId)
+      .openingDate.getMonth();
+  }
+  getAccountOpeningYear() {
+    if (this.props.selectedAccountId === undefined) {
+      return undefined;
+    }
+    return this.props.accounts
+      .find(a => a.id === this.props.selectedAccountId)
+      .openingDate.getFullYear();
+  }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
       this.props.addAccount(this.state.accountName);
@@ -142,6 +158,8 @@ class AccountsComponent extends Component {
           <MonthNavigation
             currentMonth={this.getCurrentMonth()}
             currentYear={this.getCurrentYear()}
+            startMonth={this.getAccountOpeningMonth()}
+            startYear={this.getAccountOpeningYear()}
           />
           <TransactionList
             transactions={this.getAccountTransactions()}
@@ -156,6 +174,7 @@ AccountsComponent.propTypes = {
   addAccount: PropTypes.func.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
+    openingDate: PropTypes.instanceOf(Date),
   })).isRequired,
   selectAccount: PropTypes.func.isRequired,
   monthData: PropTypes.shape({

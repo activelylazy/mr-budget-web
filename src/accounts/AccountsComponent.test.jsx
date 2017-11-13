@@ -79,6 +79,7 @@ describe('accounts component', () => {
     const account1 = {
       id: 'abc-123',
       name: 'account one',
+      openingDate: new Date(),
     };
     const account2 = {
       id: 'def-456',
@@ -108,6 +109,7 @@ describe('accounts component', () => {
     const account = {
       id: 'abc-123',
       name: 'account one',
+      openingDate: new Date(),
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
@@ -134,6 +136,7 @@ describe('accounts component', () => {
     const account = {
       id: 'abc-123',
       name: 'account one',
+      openingDate: new Date(),
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
@@ -156,6 +159,7 @@ describe('accounts component', () => {
     const account = {
       id: 'abc-123',
       name: 'account one',
+      openingDate: new Date(),
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
