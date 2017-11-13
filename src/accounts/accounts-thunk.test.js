@@ -85,7 +85,7 @@ describe('accounts thunk', () => {
           assert(dispatch.calledWith(sinon.match({
             type: NAVIGATE_TO_PERIOD,
             year: 2017,
-            month: 7,
+            month: 8,
           })));
           done();
         })
@@ -105,7 +105,7 @@ describe('accounts thunk', () => {
       viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
           sinon.assert.neverCalledWithMatch(dispatch, {
-            type: NAVIGATE_TO_PERIOD,            
+            type: NAVIGATE_TO_PERIOD,
           });
           done();
         })
@@ -126,7 +126,7 @@ describe('accounts thunk', () => {
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: NAVIGATE_ACCOUNT,
-            accountId,            
+            accountId,
           })));
           done();
         })
@@ -186,7 +186,7 @@ describe('accounts thunk', () => {
 
       viewAccountTransactions(accountId)(dispatch, getState)
         .then(() => {
-          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 7, dispatch, getState));
+          assert(loadFinancialDataIfRequiredStub.calledWith(auth, 2017, 8, dispatch, getState));
           done();
         })
         .catch(done);

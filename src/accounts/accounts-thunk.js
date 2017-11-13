@@ -14,10 +14,10 @@ export const viewAccountTransactions = accountId => (dispatch, getState) => {
     getState().navigation.currrentYear === undefined) {
     const account = getState().userData.accounts.find(a => a.id === accountId);
     return loadFinancialDataIfRequired(auth, account.lastStatementDate.getFullYear(),
-      account.lastStatementDate.getMonth() - 1, dispatch, getState)
+      account.lastStatementDate.getMonth(), dispatch, getState)
       .then(() => {
         dispatch(navigateToPeriod(account.lastStatementDate.getFullYear(),
-          account.lastStatementDate.getMonth() - 1));
+          account.lastStatementDate.getMonth()));
         dispatch(navigateAccount(accountId));
       });
   }
