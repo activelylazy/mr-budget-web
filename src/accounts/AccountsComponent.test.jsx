@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import Immutable from 'seamless-immutable';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
+import MonthNavigation from '../transactions/MonthNavigationComponent';
 import Accounts, { __RewireAPI__ as rewireApi } from './AccountsComponent';
 
 should();
@@ -159,7 +160,6 @@ describe('accounts component', () => {
     const account = {
       id: 'abc-123',
       name: 'account one',
-      openingDate: new Date(),
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
@@ -185,5 +185,42 @@ describe('accounts component', () => {
     assert(transactionList.exists());
     assert(transactionsForAccountStub.calledWith(monthData, account.id));
     assert(transactionList.prop('transactions').should.equal(accountTransactions));
+  });
+
+  it('passes opening and closing dates to month navigation', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+      openingDate: new Date(2016, 4, 1),
+      lastStatementDate: new Date(2018, 10, 1),
+    };
+    const userAccounts = [account];
+    const selectAccount = sinon.stub();
+    const monthData = {
+      year: 2017,
+      month: 7,
+    };
+
+    const accountTransactions = [];
+    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
+    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+        monthData={monthData}
+        selectedAccountId={account.id}
+      />);
+
+    const navigation = accounts.find(MonthNavigation);
+    assert(navigation.prop('currentMonth').should.equal(7));
+    assert(navigation.prop('currentYear').should.equal(2017));
+    assert(navigation.prop('startMonth').should.equal(4));
+    assert(navigation.prop('startYear').should.equal(2016));
+    assert(navigation.prop('endMonth').should.equal(10));
+    assert(navigation.prop('endYear').should.equal(2018));
   });
 });

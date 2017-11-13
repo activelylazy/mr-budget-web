@@ -8,6 +8,14 @@ import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
 import MonthNavigation from '../transactions/MonthNavigationComponent';
 
+function getMonthIfPresent(date) {
+  return date === undefined ? undefined : date.getMonth();
+}
+
+function getYearIfPresent(date) {
+  return date === undefined ? undefined : date.getFullYear();
+}
+
 class AccountsComponent extends Component {
   constructor() {
     super();
@@ -49,21 +57,21 @@ class AccountsComponent extends Component {
     }
     return this.props.monthData.year;
   }
-  getAccountOpeningMonth() {
+  getAccountOpeningDate() {
     if (this.props.selectedAccountId === undefined) {
       return undefined;
     }
     return this.props.accounts
       .find(a => a.id === this.props.selectedAccountId)
-      .openingDate.getMonth();
+      .openingDate;
   }
-  getAccountOpeningYear() {
+  getAccountStatementDate() {
     if (this.props.selectedAccountId === undefined) {
       return undefined;
     }
     return this.props.accounts
       .find(a => a.id === this.props.selectedAccountId)
-      .openingDate.getFullYear();
+      .lastStatementDate;
   }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
@@ -158,8 +166,10 @@ class AccountsComponent extends Component {
           <MonthNavigation
             currentMonth={this.getCurrentMonth()}
             currentYear={this.getCurrentYear()}
-            startMonth={this.getAccountOpeningMonth()}
-            startYear={this.getAccountOpeningYear()}
+            startMonth={getMonthIfPresent(this.getAccountOpeningDate())}
+            startYear={getYearIfPresent(this.getAccountOpeningDate())}
+            endMonth={getMonthIfPresent(this.getAccountStatementDate())}
+            endYear={getYearIfPresent(this.getAccountStatementDate())}
           />
           <TransactionList
             transactions={this.getAccountTransactions()}
