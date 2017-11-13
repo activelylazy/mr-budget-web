@@ -49,4 +49,32 @@ describe('month navigation component', () => {
 
     assert(navigation.find('#prev-month').prop('disabled').should.equal(false));
   });
+
+  it('renders next month as disabled when showing end month & year', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={10}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2017}
+      />);
+
+    assert(navigation.find('#next-month').prop('disabled'));
+  });
+
+  it('renders next month as enabled when not showing end month & year', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={9}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2017}
+      />);
+
+    assert(navigation.find('#next-month').prop('disabled').should.equal(false));
+  });
 });

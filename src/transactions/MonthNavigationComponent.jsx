@@ -3,7 +3,8 @@ import { PropTypes } from 'prop-types';
 import { Button, Glyphicon } from 'react-bootstrap';
 import './transactions.css';
 
-const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth, startYear }) => {
+const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
+  startYear, endMonth, endYear }) => {
   if (currentMonth !== undefined && currentYear !== undefined) {
     return (
       <div className="transaction-list-navigation">
@@ -17,7 +18,11 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth, start
         <span className="current-month">
           October 2017
         </span>
-        <Button bsSize="large" id="next-month">
+        <Button
+          bsSize="large"
+          id="next-month"
+          disabled={currentMonth === endMonth && currentYear === endYear}
+        >
           <Glyphicon glyph="arrow-right" />
         </Button>
       </div>
@@ -31,6 +36,8 @@ MonthNavigationComponent.propTypes = {
   currentYear: PropTypes.number,
   startMonth: PropTypes.number,
   startYear: PropTypes.number,
+  endMonth: PropTypes.number,
+  endYear: PropTypes.number,
 };
 
 MonthNavigationComponent.defaultProps = {
@@ -38,6 +45,8 @@ MonthNavigationComponent.defaultProps = {
   currentYear: undefined,
   startMonth: undefined,
   startYear: undefined,
+  endMonth: undefined,
+  endYear: undefined,
 };
 
 export default MonthNavigationComponent;
