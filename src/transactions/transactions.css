@@ -3,6 +3,18 @@
   width: 100%;
 }
 
+.transaction-list-navigation {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+.current-month {
+  font-size: 18px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 .transaction > table {
   width: 100%;
   border-spacing: 2px;
