@@ -25,4 +25,28 @@ describe('month navigation component', () => {
 
     assert(navigation.find(Button).length.should.equal(2));
   });
+
+  it('renders prev month as disabled when showing start month & year', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={7}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+      />);
+
+    assert(navigation.find('#prev-month').prop('disabled'));
+  });
+
+  it('renders prev month as enabled when showing period after start', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={7}
+        currentYear={2017}
+        startMonth={4}
+        startYear={2017}
+      />);
+
+    assert(navigation.find('#prev-month').prop('disabled').should.equal(false));
+  });
 });
