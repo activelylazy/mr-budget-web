@@ -111,7 +111,10 @@ describe('accounts component', () => {
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
-    const monthData = {};
+    const monthData = {
+      year: 2017,
+      month: 7,
+    };
 
     const accounts = shallow(
       <Accounts
@@ -156,7 +159,10 @@ describe('accounts component', () => {
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
-    const monthData = {};
+    const monthData = {
+      year: 2017,
+      month: 7,
+    };
 
     const accountTransactions = [];
     const transactionsForAccountStub = sinon.stub().returns(accountTransactions);

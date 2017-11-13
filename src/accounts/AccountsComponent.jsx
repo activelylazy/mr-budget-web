@@ -6,6 +6,7 @@ import { transactionsForAccount } from '../transactions/transaction-renderer';
 import './accounts.css';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
+import MonthNavigation from '../transactions/MonthNavigationComponent';
 
 class AccountsComponent extends Component {
   constructor() {
@@ -35,6 +36,18 @@ class AccountsComponent extends Component {
       return [];
     }
     return transactionsForAccount(this.props.monthData, this.props.selectedAccountId);
+  }
+  getCurrentMonth() {
+    if (this.props.monthData === undefined) {
+      return undefined;
+    }
+    return this.props.monthData.month;
+  }
+  getCurrentYear() {
+    if (this.props.monthData === undefined) {
+      return undefined;
+    }
+    return this.props.monthData.year;
   }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
@@ -126,6 +139,10 @@ class AccountsComponent extends Component {
           </ReactCSSTransitionGroup>
         </div>
         <div className="col-md-9 right-full">
+          <MonthNavigation
+            currentMonth={this.getCurrentMonth()}
+            currentYear={this.getCurrentYear()}
+          />
           <TransactionList
             transactions={this.getAccountTransactions()}
           />
@@ -142,6 +159,8 @@ AccountsComponent.propTypes = {
   })).isRequired,
   selectAccount: PropTypes.func.isRequired,
   monthData: PropTypes.shape({
+    year: PropTypes.number.isRequired,
+    month: PropTypes.number.isRequired,
   }),
   selectedAccountId: PropTypes.string,
 };

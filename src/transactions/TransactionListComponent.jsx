@@ -1,11 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import Transaction from './TransactionComponent';
-import MonthNavigation from './MonthNavigationComponent';
 
 const TransactionListComponent = ({ transactions }) => (
   <div>
-    <MonthNavigation />
     {transactions.map(transaction => (
       <Transaction
         key={transaction.id}
