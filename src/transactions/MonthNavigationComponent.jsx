@@ -21,6 +21,20 @@ function monthString(month) {
   }
 }
 
+function isPrevDisabled(currentMonth, currentYear, startMonth, startYear) {
+  if (currentYear < startYear) {
+    return true;
+  }
+  return currentMonth <= startMonth && currentYear === startYear;
+}
+
+function isNextDisabled(currentMonth, currentYear, endMonth, endYear) {
+  if (currentYear > endYear) {
+    return true;
+  }
+  return currentMonth >= endMonth && currentYear === endYear;
+}
+
 function prevMonth(month, year, changePeriod) {
   if (month > 0) {
     changePeriod(year, month - 1);
@@ -45,7 +59,7 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
         <Button
           bsSize="large"
           id="prev-month"
-          disabled={currentMonth === startMonth && currentYear === startYear}
+          disabled={isPrevDisabled(currentMonth, currentYear, startMonth, startYear)}
           onClick={() => prevMonth(currentMonth, currentYear, changePeriod)}
         >
           <Glyphicon glyph="arrow-left" />
@@ -59,7 +73,7 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
         <Button
           bsSize="large"
           id="next-month"
-          disabled={currentMonth === endMonth && currentYear === endYear}
+          disabled={isNextDisabled(currentMonth, currentYear, endMonth, endYear)}
           onClick={() => nextMonth(currentMonth, currentYear, changePeriod)}
         >
           <Glyphicon glyph="arrow-right" />

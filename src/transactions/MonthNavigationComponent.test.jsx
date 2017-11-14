@@ -74,6 +74,34 @@ describe('month navigation component', () => {
     assert(navigation.find('#prev-month').prop('disabled'));
   });
 
+  it('renders prev month as disabled when showing before start month & year', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={6}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        changePeriod={changePeriod}
+        title="the title"
+      />);
+
+    assert(navigation.find('#prev-month').prop('disabled'));
+  });
+
+  it('renders prev month as disabled when showing year prior to start', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={11}
+        currentYear={2016}
+        startMonth={7}
+        startYear={2017}
+        changePeriod={changePeriod}
+        title="the title"
+      />);
+
+    assert(navigation.find('#prev-month').prop('disabled'));
+  });
+
   it('renders prev month as enabled when showing period after start', () => {
     const navigation = shallow(
       <MonthNavigationComponent
@@ -93,6 +121,38 @@ describe('month navigation component', () => {
       <MonthNavigationComponent
         currentMonth={10}
         currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2017}
+        changePeriod={changePeriod}
+        title="the title"
+      />);
+
+    assert(navigation.find('#next-month').prop('disabled'));
+  });
+
+  it('renders next month as disabled when showing after end month & year', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={11}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2017}
+        changePeriod={changePeriod}
+        title="the title"
+      />);
+
+    assert(navigation.find('#next-month').prop('disabled'));
+  });
+
+  it('renders next month as disabled when showing following year after end', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={0}
+        currentYear={2018}
         startMonth={7}
         startYear={2017}
         endMonth={10}
