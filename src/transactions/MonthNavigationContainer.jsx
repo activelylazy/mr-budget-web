@@ -13,6 +13,7 @@ const MonthNavigationContainer = props => (
     endMonth={props.endMonth}
     endYear={props.endYear}
     changePeriod={(year, month) => props.loadAndViewFinancialDataForPeriod(props.auth, year, month)}
+    title={props.title}
   />
 );
 
@@ -27,6 +28,7 @@ MonthNavigationContainer.propTypes = {
   auth: PropTypes.shape({
     password: PropTypes.string.isRequired,
   }).isRequired,
+  title: PropTypes.string,
 };
 
 MonthNavigationContainer.defaultProps = {
@@ -36,6 +38,7 @@ MonthNavigationContainer.defaultProps = {
   startYear: undefined,
   endMonth: undefined,
   endYear: undefined,
+  title: undefined,
 };
 
 function mapStateToProps(state) {

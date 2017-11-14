@@ -223,4 +223,36 @@ describe('accounts component', () => {
     assert(navigation.prop('endMonth').should.equal(10));
     assert(navigation.prop('endYear').should.equal(2018));
   });
+
+  it('passes account name as title month navigation', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+      openingDate: new Date(2016, 4, 1),
+      lastStatementDate: new Date(2018, 10, 1),
+    };
+    const userAccounts = [account];
+    const selectAccount = sinon.stub();
+    const monthData = {
+      year: 2017,
+      month: 7,
+    };
+
+    const accountTransactions = [];
+    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
+    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+        monthData={monthData}
+        selectedAccountId={account.id}
+      />);
+
+    const navigation = accounts.find(MonthNavigation);
+    assert(navigation.prop('title').should.equal(account.name));
+  });
 });

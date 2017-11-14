@@ -38,7 +38,7 @@ function nextMonth(month, year, changePeriod) {
 }
 
 const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
-  startYear, endMonth, endYear, changePeriod }) => {
+  startYear, endMonth, endYear, changePeriod, title }) => {
   if (currentMonth !== undefined && currentYear !== undefined) {
     return (
       <div className="transaction-list-navigation">
@@ -50,6 +50,9 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
         >
           <Glyphicon glyph="arrow-left" />
         </Button>
+        <span id="title">
+          {title}
+        </span>
         <span id="current-month">
           {monthString(currentMonth)} {currentYear}
         </span>
@@ -75,6 +78,7 @@ MonthNavigationComponent.propTypes = {
   endMonth: PropTypes.number,
   endYear: PropTypes.number,
   changePeriod: PropTypes.func.isRequired,
+  title: PropTypes.string,
 };
 
 MonthNavigationComponent.defaultProps = {
@@ -84,6 +88,7 @@ MonthNavigationComponent.defaultProps = {
   startYear: undefined,
   endMonth: undefined,
   endYear: undefined,
+  title: undefined,
 };
 
 export default MonthNavigationComponent;

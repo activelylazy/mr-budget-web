@@ -9,6 +9,13 @@
   display: inline-block;
 }
 
+#title {
+  font-size: 18px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-right: 1px solid #CCCCCC;
+}
+
 #current-month {
   font-size: 18px;
   padding-left: 12px;

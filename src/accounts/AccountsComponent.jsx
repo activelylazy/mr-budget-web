@@ -73,6 +73,14 @@ class AccountsComponent extends Component {
       .find(a => a.id === this.props.selectedAccountId)
       .lastStatementDate;
   }
+  getAccountTitle() {
+    if (this.props.selectedAccountId === undefined) {
+      return undefined;
+    }
+    return this.props.accounts
+      .find(a => a.id === this.props.selectedAccountId)
+      .name;
+  }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
       this.props.addAccount(this.state.accountName);
@@ -170,6 +178,7 @@ class AccountsComponent extends Component {
             startYear={getYearIfPresent(this.getAccountOpeningDate())}
             endMonth={getMonthIfPresent(this.getAccountStatementDate())}
             endYear={getYearIfPresent(this.getAccountStatementDate())}
+            title={this.getAccountTitle()}
           />
           <TransactionList
             transactions={this.getAccountTransactions()}

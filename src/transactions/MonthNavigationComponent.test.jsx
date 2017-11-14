@@ -14,6 +14,7 @@ describe('month navigation component', () => {
     const navigation = shallow(
       <MonthNavigationComponent
         changePeriod={changePeriod}
+        title="the title"
       />,
     );
 
@@ -26,10 +27,24 @@ describe('month navigation component', () => {
         currentMonth={7}
         currentYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />,
     );
 
     assert(navigation.find(Button).length.should.equal(2));
+  });
+
+  it('renders title', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={7}
+        currentYear={2017}
+        changePeriod={changePeriod}
+        title="the title"
+      />,
+    );
+
+    assert(navigation.find('#title').text().should.equal('the title'));
   });
 
   it('renders current month', () => {
@@ -38,6 +53,7 @@ describe('month navigation component', () => {
         currentMonth={7}
         currentYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />,
     );
 
@@ -52,6 +68,7 @@ describe('month navigation component', () => {
         startMonth={7}
         startYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     assert(navigation.find('#prev-month').prop('disabled'));
@@ -65,6 +82,7 @@ describe('month navigation component', () => {
         startMonth={4}
         startYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     assert(navigation.find('#prev-month').prop('disabled').should.equal(false));
@@ -80,6 +98,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     assert(navigation.find('#next-month').prop('disabled'));
@@ -95,6 +114,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     assert(navigation.find('#next-month').prop('disabled').should.equal(false));
@@ -110,6 +130,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     const prevMonth = navigation.find('#prev-month');
@@ -128,6 +149,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     const prevMonth = navigation.find('#prev-month');
@@ -146,6 +168,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2017}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     const nextMonth = navigation.find('#next-month');
@@ -164,6 +187,7 @@ describe('month navigation component', () => {
         endMonth={10}
         endYear={2018}
         changePeriod={changePeriod}
+        title="the title"
       />);
 
     const nextMonth = navigation.find('#next-month');
