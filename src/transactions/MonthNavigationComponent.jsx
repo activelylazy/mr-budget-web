@@ -21,8 +21,16 @@ function monthString(month) {
   }
 }
 
+function prevMonth(month, year, changePeriod) {
+  if (month > 0) {
+    changePeriod(year, month - 1);
+  } else {
+    changePeriod(year - 1, 11);
+  }
+}
+
 const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
-  startYear, endMonth, endYear }) => {
+  startYear, endMonth, endYear, changePeriod }) => {
   if (currentMonth !== undefined && currentYear !== undefined) {
     return (
       <div className="transaction-list-navigation">
@@ -30,6 +38,7 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
           bsSize="large"
           id="prev-month"
           disabled={currentMonth === startMonth && currentYear === startYear}
+          onClick={() => prevMonth(currentMonth, currentYear, changePeriod)}
         >
           <Glyphicon glyph="arrow-left" />
         </Button>
@@ -56,6 +65,7 @@ MonthNavigationComponent.propTypes = {
   startYear: PropTypes.number,
   endMonth: PropTypes.number,
   endYear: PropTypes.number,
+  changePeriod: PropTypes.func.isRequired,
 };
 
 MonthNavigationComponent.defaultProps = {
