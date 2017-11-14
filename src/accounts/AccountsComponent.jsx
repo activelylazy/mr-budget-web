@@ -6,7 +6,7 @@ import { transactionsForAccount } from '../transactions/transaction-renderer';
 import './accounts.css';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
-import MonthNavigation from '../transactions/MonthNavigationComponent';
+import MonthNavigation from '../transactions/MonthNavigationContainer';
 
 function getMonthIfPresent(date) {
   return date === undefined ? undefined : date.getMonth();

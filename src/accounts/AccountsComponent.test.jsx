@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import Immutable from 'seamless-immutable';
 import AccountSelector from './AccountSelector';
 import TransactionList from '../transactions/TransactionListComponent';
-import MonthNavigation from '../transactions/MonthNavigationComponent';
+import MonthNavigation from '../transactions/MonthNavigationContainer';
 import Accounts, { __RewireAPI__ as rewireApi } from './AccountsComponent';
 
 should();
