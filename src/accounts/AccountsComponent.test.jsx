@@ -216,8 +216,6 @@ describe('accounts component', () => {
       />);
 
     const navigation = accounts.find(MonthNavigation);
-    assert(navigation.prop('currentMonth').should.equal(7));
-    assert(navigation.prop('currentYear').should.equal(2017));
     assert(navigation.prop('startMonth').should.equal(4));
     assert(navigation.prop('startYear').should.equal(2016));
     assert(navigation.prop('endMonth').should.equal(10));

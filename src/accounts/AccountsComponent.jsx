@@ -45,18 +45,6 @@ class AccountsComponent extends Component {
     }
     return transactionsForAccount(this.props.monthData, this.props.selectedAccountId);
   }
-  getCurrentMonth() {
-    if (this.props.monthData === undefined) {
-      return undefined;
-    }
-    return this.props.monthData.month;
-  }
-  getCurrentYear() {
-    if (this.props.monthData === undefined) {
-      return undefined;
-    }
-    return this.props.monthData.year;
-  }
   getAccountOpeningDate() {
     if (this.props.selectedAccountId === undefined) {
       return undefined;
@@ -172,8 +160,6 @@ class AccountsComponent extends Component {
         </div>
         <div className="col-md-9 right-full">
           <MonthNavigation
-            currentMonth={this.getCurrentMonth()}
-            currentYear={this.getCurrentYear()}
             startMonth={getMonthIfPresent(this.getAccountOpeningDate())}
             startYear={getYearIfPresent(this.getAccountOpeningDate())}
             endMonth={getMonthIfPresent(this.getAccountStatementDate())}

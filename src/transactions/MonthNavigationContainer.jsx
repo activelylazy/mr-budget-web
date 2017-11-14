@@ -44,6 +44,8 @@ MonthNavigationContainer.defaultProps = {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
+    currentMonth: state.navigation.currentMonth,
+    currentYear: state.navigation.currentYear,
   };
 }
 export default connect(mapStateToProps, { loadAndViewFinancialDataForPeriod })(MonthNavigationContainer);
