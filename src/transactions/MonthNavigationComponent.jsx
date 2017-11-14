@@ -29,6 +29,14 @@ function prevMonth(month, year, changePeriod) {
   }
 }
 
+function nextMonth(month, year, changePeriod) {
+  if (month < 11) {
+    changePeriod(year, month + 1);
+  } else {
+    changePeriod(year + 1, 0);
+  }
+}
+
 const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
   startYear, endMonth, endYear, changePeriod }) => {
   if (currentMonth !== undefined && currentYear !== undefined) {
@@ -49,6 +57,7 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
           bsSize="large"
           id="next-month"
           disabled={currentMonth === endMonth && currentYear === endYear}
+          onClick={() => nextMonth(currentMonth, currentYear, changePeriod)}
         >
           <Glyphicon glyph="arrow-right" />
         </Button>

@@ -135,4 +135,40 @@ describe('month navigation component', () => {
 
     assert(changePeriod.calledWith(2016, 11));
   });
+
+  it('navigates to next month on click next month', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={9}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2017}
+        changePeriod={changePeriod}
+      />);
+
+    const nextMonth = navigation.find('#next-month');
+    nextMonth.prop('onClick')();
+
+    assert(changePeriod.calledWith(2017, 10));
+  });
+
+  it('navigates to first month of next year on click next month', () => {
+    const navigation = shallow(
+      <MonthNavigationComponent
+        currentMonth={11}
+        currentYear={2017}
+        startMonth={7}
+        startYear={2017}
+        endMonth={10}
+        endYear={2018}
+        changePeriod={changePeriod}
+      />);
+
+    const nextMonth = navigation.find('#next-month');
+    nextMonth.prop('onClick')();
+
+    assert(changePeriod.calledWith(2018, 0));
+  });
 });
