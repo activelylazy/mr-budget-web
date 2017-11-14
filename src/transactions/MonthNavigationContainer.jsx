@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import MonthNavigation from './MonthNavigationComponent';
-import { navigateToPeriod } from '../navigation/navigation-actions';
+import { loadAndViewFinancialDataForPeriod } from '../navigation/navigation-thunk';
 
 const MonthNavigationContainer = props => (
   <MonthNavigation
@@ -12,7 +12,7 @@ const MonthNavigationContainer = props => (
     startYear={props.startYear}
     endMonth={props.endMonth}
     endYear={props.endYear}
-    changePeriod={props.navigateToPeriod}
+    changePeriod={(year, month) => props.loadAndViewFinancialDataForPeriod(props.auth, year, month)}
   />
 );
 
@@ -23,7 +23,10 @@ MonthNavigationContainer.propTypes = {
   startYear: PropTypes.number,
   endMonth: PropTypes.number,
   endYear: PropTypes.number,
-  navigateToPeriod: PropTypes.func.isRequired,
+  loadAndViewFinancialDataForPeriod: PropTypes.func.isRequired,
+  auth: PropTypes.shape({
+    password: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 MonthNavigationContainer.defaultProps = {
@@ -35,7 +38,9 @@ MonthNavigationContainer.defaultProps = {
   endYear: undefined,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
 }
-export default connect(mapStateToProps, { navigateToPeriod })(MonthNavigationContainer);
+export default connect(mapStateToProps, { loadAndViewFinancialDataForPeriod })(MonthNavigationContainer);
