@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Button } from 'react-bootstrap';
-import relativeDate from 'relative-date';
+import moment from 'moment';
 
 const accountBalance = (account) => {
   if (account.lastStatementBalance !== undefined) {
@@ -16,7 +16,7 @@ const accountBalance = (account) => {
 const accountUpdated = (account) => {
   if (account.lastStatementDate !== undefined) {
     return (<td className="account-updated">
-      last updated {relativeDate(account.lastStatementDate)}
+      last updated {moment(account.lastStatementDate).fromNow()}
     </td>
     );
   }

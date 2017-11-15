@@ -32,7 +32,7 @@ describe('account selector', () => {
 
     const lastUpdated = component.find('.account-updated');
     assert(lastUpdated.exists().should.equal(true));
-    assert(lastUpdated.text().should.equal('last updated yesterday'));
+    assert(lastUpdated.text().should.equal('last updated a day ago'));
   });
 
   it('does not display balance or date when not updated', () => {
