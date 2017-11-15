@@ -187,6 +187,38 @@ describe('accounts component', () => {
     assert(transactionList.prop('transactions').should.equal(accountTransactions));
   });
 
+  it('passes account opening balance to transaction list', () => {
+    const addAccount = sinon.stub();
+    const account = {
+      id: 'abc-123',
+      name: 'account one',
+      openingBalance: 111.11,
+    };
+    const userAccounts = [account];
+    const selectAccount = sinon.stub();
+    const monthData = {
+      year: 2017,
+      month: 7,
+    };
+
+    const accountTransactions = [];
+    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
+    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
+
+    const accounts = shallow(
+      <Accounts
+        addAccount={addAccount}
+        accounts={userAccounts}
+        selectAccount={selectAccount}
+        monthData={monthData}
+        selectedAccountId={account.id}
+      />);
+
+    const transactionList = accounts.find(TransactionList);
+    assert(transactionList.exists());
+    assert(transactionList.prop('openingBalance').should.equal(111.11));
+  });
+
   it('passes opening and closing dates to month navigation', () => {
     const addAccount = sinon.stub();
     const account = {

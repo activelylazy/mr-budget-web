@@ -69,6 +69,14 @@ class AccountsComponent extends Component {
       .find(a => a.id === this.props.selectedAccountId)
       .name;
   }
+  getAccountOpeningBalance() {
+    if (this.props.selectedAccountId === undefined) {
+      return undefined;
+    }
+    return this.props.accounts
+      .find(a => a.id === this.props.selectedAccountId)
+      .openingBalance;
+  }
   addAccountSubmit(e) {
     if (this.getValidationState() === 'success') {
       this.props.addAccount(this.state.accountName);
@@ -168,6 +176,7 @@ class AccountsComponent extends Component {
           />
           <TransactionList
             transactions={this.getAccountTransactions()}
+            openingBalance={this.getAccountOpeningBalance()}
           />
         </div>
       </div>
