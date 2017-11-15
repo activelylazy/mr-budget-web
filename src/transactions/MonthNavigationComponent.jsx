@@ -56,28 +56,30 @@ const MonthNavigationComponent = ({ currentMonth, currentYear, startMonth,
   if (currentMonth !== undefined && currentYear !== undefined) {
     return (
       <div className="transaction-list-navigation">
-        <Button
-          bsSize="large"
-          id="prev-month"
-          disabled={isPrevDisabled(currentMonth, currentYear, startMonth, startYear)}
-          onClick={() => prevMonth(currentMonth, currentYear, changePeriod)}
-        >
-          <Glyphicon glyph="arrow-left" />
-        </Button>
-        <span id="title">
-          {title}
-        </span>
-        <span id="current-month">
-          {monthString(currentMonth)} {currentYear}
-        </span>
-        <Button
-          bsSize="large"
-          id="next-month"
-          disabled={isNextDisabled(currentMonth, currentYear, endMonth, endYear)}
-          onClick={() => nextMonth(currentMonth, currentYear, changePeriod)}
-        >
-          <Glyphicon glyph="arrow-right" />
-        </Button>
+        <div className="month-navigation">
+          <Button
+            bsSize="large"
+            id="prev-month"
+            disabled={isPrevDisabled(currentMonth, currentYear, startMonth, startYear)}
+            onClick={() => prevMonth(currentMonth, currentYear, changePeriod)}
+          >
+            <Glyphicon glyph="arrow-left" />
+          </Button>
+          <span id="title">
+            {title}
+          </span>
+          <span id="current-month">
+            {monthString(currentMonth)} {currentYear}
+          </span>
+          <Button
+            bsSize="large"
+            id="next-month"
+            disabled={isNextDisabled(currentMonth, currentYear, endMonth, endYear)}
+            onClick={() => nextMonth(currentMonth, currentYear, changePeriod)}
+          >
+            <Glyphicon glyph="arrow-right" />
+          </Button>
+        </div>
       </div>
     );
   }
