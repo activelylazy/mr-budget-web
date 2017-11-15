@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import moment from 'moment';
 import './transactions.css';
 
 const TransactionComponent = ({ transaction }) => (
@@ -7,7 +8,7 @@ const TransactionComponent = ({ transaction }) => (
     <table>
       <tbody>
         <tr>
-          <td rowSpan="2" className="date">{transaction.date.toLocaleDateString('en-GB')}</td>
+          <td rowSpan="2" className="date">{moment(transaction.date).format('DD/MM/YYYY')}</td>
           <td className="desc">{transaction.name}</td>
           <td rowSpan="2" className="amount">£ {transaction.amount.toFixed(2)}</td>
         </tr>
