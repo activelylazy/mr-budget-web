@@ -39,7 +39,7 @@
   text-align: center;
 }
 
-.transaction > table > tbody > tr > td.desc {
+.transaction > table > tbody > tr > td.name {
   font-size: 12pt;
   text-align: left;
 }
@@ -47,6 +47,13 @@
 .transaction > table > tbody > tr > td.amount {
   font-size: 14pt;
   width: 15%;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.transaction > table > tbody > tr > td.balance {
+  font-size: 12pt;
+  width: 12%;
   text-align: right;
   padding-right: 10px;
 }
