@@ -6,7 +6,9 @@ const TransactionListComponent = ({ transactions, openingBalance }) => {
   let balance = openingBalance;
   const transactionElements = [];
   transactions.forEach((transaction) => {
-    balance += transaction.amount;
+    if (balance !== undefined) {
+      balance += transaction.amount;
+    }
     transactionElements.push(<Transaction
       key={transaction.id}
       transaction={transaction}
