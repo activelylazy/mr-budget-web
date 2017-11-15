@@ -10,7 +10,8 @@ const AccountsContainer = props => (
     accounts={props.accounts}
     selectAccount={props.viewAccountTransactions}
     selectedAccountId={props.selectedAccountId}
-    monthData={props.monthData}
+    selectedMonth={props.selectedMonth}
+    selectedYear={props.selectedYear}
   />
 );
 
@@ -22,27 +23,21 @@ AccountsContainer.propTypes = {
   }).isRequired,
   viewAccountTransactions: PropTypes.func.isRequired,
   selectedAccountId: PropTypes.string,
-  monthData: PropTypes.shape({
-  }),
+  selectedMonth: PropTypes.number,
+  selectedYear: PropTypes.number,
 };
 
 AccountsContainer.defaultProps = {
   selectedAccountId: undefined,
-  monthData: undefined,
+  selectedMonth: undefined,
+  selectedYear: undefined,
 };
-
-function selectedMonthData(state) {
-  if (state.navigation.currentMonth === undefined ||
-    state.navigation.currentYear === undefined) {
-    return undefined;
-  }
-  return state.financialData[state.navigation.currentYear][state.navigation.currentMonth];
-}
 
 export const mapStateToProps = state => ({
   accounts: state.userData.accounts,
-  monthData: selectedMonthData(state),
   selectedAccountId: state.navigation.selectedAccountId,
+  selectedMonth: state.navigation.currentYear,
+  selectedYear: state.navigation.currentMonth,
 });
 
 export default connect(mapStateToProps, { addAccount, viewAccountTransactions })(AccountsContainer);

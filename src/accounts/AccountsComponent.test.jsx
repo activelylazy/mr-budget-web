@@ -4,9 +4,8 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import Immutable from 'seamless-immutable';
 import AccountSelector from './AccountSelector';
-import TransactionList from '../transactions/TransactionListComponent';
-import MonthNavigation from '../transactions/MonthNavigationContainer';
-import Accounts, { __RewireAPI__ as rewireApi } from './AccountsComponent';
+import Accounts from './AccountsComponent';
+import AccountTransactions from './AccountTransactionsContainer';
 
 should();
 
@@ -105,7 +104,7 @@ describe('accounts component', () => {
     assert(selectAccount.calledWith(account2.id));
   });
 
-  it('renders empty transaction list when no account selected', () => {
+  it('does not render account transactions when no account selected', () => {
     const addAccount = sinon.stub();
     const account = {
       id: 'abc-123',
@@ -127,12 +126,11 @@ describe('accounts component', () => {
         monthData={monthData}
       />);
 
-    const transactionList = accounts.find(TransactionList);
-    assert(transactionList.exists());
-    assert(transactionList.prop('transactions').length.should.equal(0));
+    const accountTransactions = accounts.find(AccountTransactions);
+    assert(accountTransactions.exists().should.equal(false));
   });
 
-  it('renders empty transaction list when no month selected', () => {
+  it('does not render account transactions when no month selected', () => {
     const addAccount = sinon.stub();
     const account = {
       id: 'abc-123',
@@ -150,12 +148,11 @@ describe('accounts component', () => {
         selectedAccountId={account.id}
       />);
 
-    const transactionList = accounts.find(TransactionList);
-    assert(transactionList.exists());
-    assert(transactionList.prop('transactions').length.should.equal(0));
+    const accountTransactions = accounts.find(AccountTransactions);
+    assert(accountTransactions.exists().should.equal(false));
   });
 
-  it('renders transaction list for transactions in selected account', () => {
+  it('renders account transaction list when account and period selected', () => {
     const addAccount = sinon.stub();
     const account = {
       id: 'abc-123',
@@ -163,126 +160,18 @@ describe('accounts component', () => {
     };
     const userAccounts = [account];
     const selectAccount = sinon.stub();
-    const monthData = {
-      year: 2017,
-      month: 7,
-    };
-
-    const accountTransactions = [];
-    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
-    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
 
     const accounts = shallow(
       <Accounts
         addAccount={addAccount}
         accounts={userAccounts}
         selectAccount={selectAccount}
-        monthData={monthData}
         selectedAccountId={account.id}
+        selectedYear={2017}
+        selectedMonth={7}
       />);
 
-    const transactionList = accounts.find(TransactionList);
-    assert(transactionList.exists());
-    assert(transactionsForAccountStub.calledWith(monthData, account.id));
-    assert(transactionList.prop('transactions').should.equal(accountTransactions));
-  });
-
-  it('passes account opening balance to transaction list', () => {
-    const addAccount = sinon.stub();
-    const account = {
-      id: 'abc-123',
-      name: 'account one',
-      openingBalance: 111.11,
-    };
-    const userAccounts = [account];
-    const selectAccount = sinon.stub();
-    const monthData = {
-      year: 2017,
-      month: 7,
-    };
-
-    const accountTransactions = [];
-    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
-    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
-
-    const accounts = shallow(
-      <Accounts
-        addAccount={addAccount}
-        accounts={userAccounts}
-        selectAccount={selectAccount}
-        monthData={monthData}
-        selectedAccountId={account.id}
-      />);
-
-    const transactionList = accounts.find(TransactionList);
-    assert(transactionList.exists());
-    assert(transactionList.prop('openingBalance').should.equal(111.11));
-  });
-
-  it('passes opening and closing dates to month navigation', () => {
-    const addAccount = sinon.stub();
-    const account = {
-      id: 'abc-123',
-      name: 'account one',
-      openingDate: new Date(2016, 4, 1),
-      lastStatementDate: new Date(2018, 10, 1),
-    };
-    const userAccounts = [account];
-    const selectAccount = sinon.stub();
-    const monthData = {
-      year: 2017,
-      month: 7,
-    };
-
-    const accountTransactions = [];
-    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
-    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
-
-    const accounts = shallow(
-      <Accounts
-        addAccount={addAccount}
-        accounts={userAccounts}
-        selectAccount={selectAccount}
-        monthData={monthData}
-        selectedAccountId={account.id}
-      />);
-
-    const navigation = accounts.find(MonthNavigation);
-    assert(navigation.prop('startMonth').should.equal(4));
-    assert(navigation.prop('startYear').should.equal(2016));
-    assert(navigation.prop('endMonth').should.equal(10));
-    assert(navigation.prop('endYear').should.equal(2018));
-  });
-
-  it('passes account name as title month navigation', () => {
-    const addAccount = sinon.stub();
-    const account = {
-      id: 'abc-123',
-      name: 'account one',
-      openingDate: new Date(2016, 4, 1),
-      lastStatementDate: new Date(2018, 10, 1),
-    };
-    const userAccounts = [account];
-    const selectAccount = sinon.stub();
-    const monthData = {
-      year: 2017,
-      month: 7,
-    };
-
-    const accountTransactions = [];
-    const transactionsForAccountStub = sinon.stub().returns(accountTransactions);
-    rewireApi.__Rewire__('transactionsForAccount', transactionsForAccountStub);
-
-    const accounts = shallow(
-      <Accounts
-        addAccount={addAccount}
-        accounts={userAccounts}
-        selectAccount={selectAccount}
-        monthData={monthData}
-        selectedAccountId={account.id}
-      />);
-
-    const navigation = accounts.find(MonthNavigation);
-    assert(navigation.prop('title').should.equal(account.name));
+    const accountTransactions = accounts.find(AccountTransactions);
+    assert(accountTransactions.exists());
   });
 });
