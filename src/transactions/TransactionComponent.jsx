@@ -22,19 +22,25 @@ const TransactionComponent = ({ transaction, balance }) => {
   if (balance !== undefined) {
     cells.push(<td key="balance" rowSpan="2" className="balance">£ {balance.toFixed(2)}</td>);
   }
+  const rows = [];
+  rows.push(
+    (<tr key="first">
+      <td rowSpan="2" className="date">{renderDate(transaction.date)}</td>
+      <td className="name">{transaction.name}</td>
+      <td rowSpan="2" className="amount">{renderAmount(transaction.amount)}</td>
+      {cells}
+    </tr>));
+  if (transaction.date !== undefined) {
+    rows.push(
+      (<tr key="second">
+        <td className="category">A category</td>
+      </tr>));
+  }
   return (
     <div className="transaction">
       <table>
         <tbody>
-          <tr>
-            <td rowSpan="2" className="date">{renderDate(transaction.date)}</td>
-            <td className="name">{transaction.name}</td>
-            <td rowSpan="2" className="amount">{renderAmount(transaction.amount)}</td>
-            {cells}
-          </tr>
-          <tr>
-            <td className="category">A category</td>
-          </tr>
+          {rows}
         </tbody>
       </table>
     </div>

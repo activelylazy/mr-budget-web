@@ -80,4 +80,13 @@ describe('transaction component', () => {
 
     assert(component.find('.balance').text().should.equal('£ 22.33'));
   });
+
+  it('renders only one row if no date present', () => {
+    const transaction = {
+      name: 'Opening balance',
+    };
+    const component = shallow(<Transaction transaction={transaction} />);
+
+    assert(component.find('tr').length.should.equal(1));
+  });
 });
