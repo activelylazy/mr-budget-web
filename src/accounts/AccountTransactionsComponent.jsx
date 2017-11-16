@@ -13,7 +13,7 @@ function getYearIfPresent(date) {
 }
 
 const AccountTransactionsComponent = ({ account, monthData }) => (
-  <div>
+  <div className="full-height account-transactions">
     <MonthNavigation
       startMonth={getMonthIfPresent(account.openingDate)}
       startYear={getYearIfPresent(account.openingDate)}

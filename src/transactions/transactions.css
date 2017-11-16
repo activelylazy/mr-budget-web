@@ -1,11 +1,17 @@
 
-.transaction {
-  width: 100%;
+.transaction-list {
+  overflow-y: scroll;
+  flex: 1 1 auto;
 }
 
 .transaction-list-navigation {
   width: 100%;
   padding: 2px 2px 0px 2px;
+  flex: 0 1 auto;
+}
+
+.transaction {
+  width: 100%;
 }
 
 .month-navigation {

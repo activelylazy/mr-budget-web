@@ -27,7 +27,7 @@ const TransactionListComponent = ({ transactions, openingBalance }) => {
   });
 
   return (
-    <div>
+    <div className="full-height transaction-list">
       {transactionElements}
     </div>
   );
