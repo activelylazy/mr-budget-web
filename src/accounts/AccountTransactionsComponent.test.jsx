@@ -17,6 +17,7 @@ describe('account transactions component', () => {
     const monthData = {
       year: 2017,
       month: 7,
+      openingBalances: {},
     };
 
     const accountTransactions = [];
@@ -39,11 +40,13 @@ describe('account transactions component', () => {
     const account = {
       id: 'abc-123',
       name: 'account one',
-      openingBalance: 111.11,
     };
     const monthData = {
       year: 2017,
       month: 7,
+      openingBalances: {
+        'abc-123': 111.11,
+      },
     };
 
     const accountTransactions = [];
@@ -71,6 +74,7 @@ describe('account transactions component', () => {
     const monthData = {
       year: 2017,
       month: 7,
+      openingBalances: {},
     };
 
     const accountTransactions = [];
@@ -100,6 +104,7 @@ describe('account transactions component', () => {
     const monthData = {
       year: 2017,
       month: 7,
+      openingBalances: {},
     };
 
     const accountTransactions = [];

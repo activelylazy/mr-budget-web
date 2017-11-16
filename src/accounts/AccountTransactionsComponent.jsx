@@ -23,7 +23,7 @@ const AccountTransactionsComponent = ({ account, monthData }) => (
     />
     <TransactionList
       transactions={transactionsForAccount(monthData, account.id)}
-      openingBalance={account.openingBalance}
+      openingBalance={monthData.openingBalances[account.id]}
     />
   </div>
 );
@@ -39,6 +39,7 @@ AccountTransactionsComponent.propTypes = {
   monthData: PropTypes.shape({
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
+    openingBalances: PropTypes.shape({}).isRequired,
   }),
 };
 
