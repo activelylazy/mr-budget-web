@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import TransactionList from '../transactions/TransactionListComponent';
 import MonthNavigation from '../transactions/MonthNavigationContainer';
@@ -12,44 +12,21 @@ function getYearIfPresent(date) {
   return date === undefined ? undefined : date.getFullYear();
 }
 
-class AccountTransactionsComponent extends Component {
-  constructor() {
-    super();
-    this.getAccountTransactions = this.getAccountTransactions.bind(this);
-  }
-  getAccountTransactions() {
-    return transactionsForAccount(this.props.monthData, this.props.account.id);
-  }
-  getAccountOpeningDate() {
-    return this.props.account.openingDate;
-  }
-  getAccountStatementDate() {
-    return this.props.account.lastStatementDate;
-  }
-  getAccountTitle() {
-    return this.props.account.name;
-  }
-  getAccountOpeningBalance() {
-    return this.props.account.openingBalance;
-  }
-  render() {
-    return (
-      <div>
-        <MonthNavigation
-          startMonth={getMonthIfPresent(this.getAccountOpeningDate())}
-          startYear={getYearIfPresent(this.getAccountOpeningDate())}
-          endMonth={getMonthIfPresent(this.getAccountStatementDate())}
-          endYear={getYearIfPresent(this.getAccountStatementDate())}
-          title={this.getAccountTitle()}
-        />
-        <TransactionList
-          transactions={this.getAccountTransactions()}
-          openingBalance={this.getAccountOpeningBalance()}
-        />
-      </div>
-    );
-  }
-}
+const AccountTransactionsComponent = ({ account, monthData }) => (
+  <div>
+    <MonthNavigation
+      startMonth={getMonthIfPresent(account.openingDate)}
+      startYear={getYearIfPresent(account.openingDate)}
+      endMonth={getMonthIfPresent(account.lastStatementDate)}
+      endYear={getYearIfPresent(account.lastStatementDate)}
+      title={account.name}
+    />
+    <TransactionList
+      transactions={transactionsForAccount(monthData, account.id)}
+      openingBalance={account.openingBalance}
+    />
+  </div>
+);
 
 AccountTransactionsComponent.propTypes = {
   account: PropTypes.shape({
