@@ -5,6 +5,16 @@ import Transaction from './TransactionComponent';
 const TransactionListComponent = ({ transactions, openingBalance }) => {
   let balance = openingBalance;
   const transactionElements = [];
+  if (openingBalance !== undefined) {
+    const openingBalanceTransaction = {
+      name: 'Opening balance',
+    };
+    transactionElements.push(<Transaction
+      key={'opening-balance'}
+      transaction={openingBalanceTransaction}
+      balance={openingBalance}
+    />);
+  }
   transactions.forEach((transaction) => {
     if (balance !== undefined) {
       balance += transaction.amount;
