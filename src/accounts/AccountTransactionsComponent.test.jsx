@@ -14,7 +14,6 @@ describe('account transactions component', () => {
       id: 'abc-123',
       name: 'account one',
     };
-    const userAccounts = [account];
     const monthData = {
       year: 2017,
       month: 7,
@@ -26,9 +25,8 @@ describe('account transactions component', () => {
 
     const accounts = shallow(
       <AccountTransactions
-        accounts={userAccounts}
+        account={account}
         monthData={monthData}
-        selectedAccountId={account.id}
       />);
 
     const transactionList = accounts.find(TransactionList);
@@ -43,7 +41,6 @@ describe('account transactions component', () => {
       name: 'account one',
       openingBalance: 111.11,
     };
-    const userAccounts = [account];
     const monthData = {
       year: 2017,
       month: 7,
@@ -55,9 +52,8 @@ describe('account transactions component', () => {
 
     const accounts = shallow(
       <AccountTransactions
-        accounts={userAccounts}
+        account={account}
         monthData={monthData}
-        selectedAccountId={account.id}
       />);
 
     const transactionList = accounts.find(TransactionList);
@@ -72,7 +68,6 @@ describe('account transactions component', () => {
       openingDate: new Date(2016, 4, 1),
       lastStatementDate: new Date(2018, 10, 1),
     };
-    const userAccounts = [account];
     const monthData = {
       year: 2017,
       month: 7,
@@ -84,9 +79,8 @@ describe('account transactions component', () => {
 
     const accounts = shallow(
       <AccountTransactions
-        accounts={userAccounts}
+        account={account}
         monthData={monthData}
-        selectedAccountId={account.id}
       />);
 
     const navigation = accounts.find(MonthNavigation);
@@ -103,7 +97,6 @@ describe('account transactions component', () => {
       openingDate: new Date(2016, 4, 1),
       lastStatementDate: new Date(2018, 10, 1),
     };
-    const userAccounts = [account];
     const monthData = {
       year: 2017,
       month: 7,
@@ -115,9 +108,8 @@ describe('account transactions component', () => {
 
     const accounts = shallow(
       <AccountTransactions
-        accounts={userAccounts}
+        account={account}
         monthData={monthData}
-        selectedAccountId={account.id}
       />);
 
     const navigation = accounts.find(MonthNavigation);

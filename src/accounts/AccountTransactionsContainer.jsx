@@ -3,11 +3,13 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import AccountTransactions from './AccountTransactionsComponent';
 
+const getAccount = (accounts, accountId) =>
+  accounts.find(a => a.id === accountId);
+
 const AccountTransactionsContainer = props => (
   <AccountTransactions
-    accounts={props.accounts}
+    account={getAccount(props.accounts, props.selectedAccountId)}
     monthData={props.monthData}
-    selectedAccountId={props.selectedAccountId}
   />
 );
 

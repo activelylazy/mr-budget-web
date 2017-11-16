@@ -18,27 +18,19 @@ class AccountTransactionsComponent extends Component {
     this.getAccountTransactions = this.getAccountTransactions.bind(this);
   }
   getAccountTransactions() {
-    return transactionsForAccount(this.props.monthData, this.props.selectedAccountId);
+    return transactionsForAccount(this.props.monthData, this.props.account.id);
   }
   getAccountOpeningDate() {
-    return this.props.accounts
-      .find(a => a.id === this.props.selectedAccountId)
-      .openingDate;
+    return this.props.account.openingDate;
   }
   getAccountStatementDate() {
-    return this.props.accounts
-      .find(a => a.id === this.props.selectedAccountId)
-      .lastStatementDate;
+    return this.props.account.lastStatementDate;
   }
   getAccountTitle() {
-    return this.props.accounts
-      .find(a => a.id === this.props.selectedAccountId)
-      .name;
+    return this.props.account.name;
   }
   getAccountOpeningBalance() {
-    return this.props.accounts
-      .find(a => a.id === this.props.selectedAccountId)
-      .openingBalance;
+    return this.props.account.openingBalance;
   }
   render() {
     return (
@@ -60,15 +52,17 @@ class AccountTransactionsComponent extends Component {
 }
 
 AccountTransactionsComponent.propTypes = {
-  accounts: PropTypes.arrayOf(PropTypes.shape({
+  account: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     openingDate: PropTypes.instanceOf(Date),
-  })).isRequired,
+    lastStatementDate: PropTypes.instanceOf(Date),
+    openingBalance: PropTypes.number,
+  }).isRequired,
   monthData: PropTypes.shape({
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
   }),
-  selectedAccountId: PropTypes.string.isRequired,
 };
 
 AccountTransactionsComponent.defaultProps = {
