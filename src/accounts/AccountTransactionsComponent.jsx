@@ -26,25 +26,16 @@ class AccountTransactionsComponent extends Component {
       .openingDate;
   }
   getAccountStatementDate() {
-    if (this.props.selectedAccountId === undefined) {
-      return undefined;
-    }
     return this.props.accounts
       .find(a => a.id === this.props.selectedAccountId)
       .lastStatementDate;
   }
   getAccountTitle() {
-    if (this.props.selectedAccountId === undefined) {
-      return undefined;
-    }
     return this.props.accounts
       .find(a => a.id === this.props.selectedAccountId)
       .name;
   }
   getAccountOpeningBalance() {
-    if (this.props.selectedAccountId === undefined) {
-      return undefined;
-    }
     return this.props.accounts
       .find(a => a.id === this.props.selectedAccountId)
       .openingBalance;
@@ -77,12 +68,11 @@ AccountTransactionsComponent.propTypes = {
     year: PropTypes.number.isRequired,
     month: PropTypes.number.isRequired,
   }),
-  selectedAccountId: PropTypes.string,
+  selectedAccountId: PropTypes.string.isRequired,
 };
 
 AccountTransactionsComponent.defaultProps = {
   monthData: undefined,
-  selectedAccountId: undefined,
 };
 
 export default AccountTransactionsComponent;
