@@ -1,8 +1,8 @@
 
-export const checkAccountNeedsReconcile = (account, dispatch, getState) => undefined;
+export const checkAccountReconciles = (account, dispatch, getState) => undefined;
 
-export const checkAllAccountsNeedReconcile = (dispatch, getState) => {
+export const checkAllAccountsReconcile = (dispatch, getState) => {
   getState().userData.accounts.forEach(account =>
-    checkAccountNeedsReconcile(account, dispatch, getState));
+    checkAccountReconciles(account, dispatch, getState));
   return Promise.resolve();
 };

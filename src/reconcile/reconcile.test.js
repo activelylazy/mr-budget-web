@@ -1,13 +1,13 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { checkAllAccountsNeedReconcile, __RewireAPI__ as rewireApi } from './reconcile';
+import { checkAllAccountsReconcile, __RewireAPI__ as rewireApi } from './reconcile';
 
 should();
 
 describe('reconcile', () => {
-  describe('check all accounts need reconcile', () => {
-    it('checks each account needs reconcile', (done) => {
-      const checkAccountNeedsReconcile = sinon.stub();
+  describe('check all accounts do reconcile', () => {
+    it('checks each account does reconcile', (done) => {
+      const checkAccountReconciles = sinon.stub();
       const account = sinon.stub();
       const accounts = [account];
       const getState = sinon.stub().returns({
@@ -16,14 +16,18 @@ describe('reconcile', () => {
         },
       });
       const dispatch = sinon.stub();
-      rewireApi.__Rewire__('checkAccountNeedsReconcile', checkAccountNeedsReconcile);
+      rewireApi.__Rewire__('checkAccountReconciles', checkAccountReconciles);
 
-      checkAllAccountsNeedReconcile(dispatch, getState)
+      checkAllAccountsReconcile(dispatch, getState)
         .then(() => {
-          assert(checkAccountNeedsReconcile.calledWith(account, dispatch, getState));
+          assert(checkAccountReconciles.calledWith(account, dispatch, getState));
           done();
         })
         .catch(done);
     });
+  });
+
+  describe('check account needs reconcile', () => {
+    it('');
   });
 });
