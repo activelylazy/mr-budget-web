@@ -86,7 +86,7 @@ describe('reconcile', () => {
         .catch(done);
     });
 
-    it('dispatches account does not reconcile if calculated balance does not match statement balance', (done) => {
+    it('dispatches account does not reconcile if calculated balance does not match last statement balance', (done) => {
       const account = {
         id: 'abc-123',
         lastStatementDate: new Date(2017, 7, 1),
@@ -120,6 +120,46 @@ describe('reconcile', () => {
           assert(dispatch.calledWith(sinon.match({
             type: ACCOUNT_RECONCILES,
             reconciles: false,
+          })));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('dispatches account does reconcile if calculated balance matches last statement balance', (done) => {
+      const account = {
+        id: 'abc-123',
+        lastStatementDate: new Date(2017, 7, 1),
+        lastStatementBalance: 223.45,
+      };
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const loadFinancialDataIfRequired = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('loadFinancialDataIfRequired', loadFinancialDataIfRequired);
+      const accountTransactionTotals = sinon.stub().returns(100.00);
+      rewireApi.__Rewire__('accountTransactionTotals', accountTransactionTotals);
+      const monthData = {
+        transactions: [],
+        openingBalances: {
+          'abc-123': 123.45,
+        },
+      };
+      const getState = sinon.stub().returns({
+        auth,
+        financialData: {
+          2017: {
+            7: monthData,
+          },
+        },
+      });
+
+      checkAccountReconciles(account, dispatch, getState)
+        .then(() => {
+          assert(loadFinancialDataIfRequired.calledWith(auth, 2017, 7, dispatch, getState));
+          assert(accountTransactionTotals.calledWith(account, monthData));
+          assert(dispatch.calledWith(sinon.match({
+            type: ACCOUNT_RECONCILES,
+            reconciles: true,
           })));
           done();
         })

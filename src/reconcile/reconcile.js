@@ -24,7 +24,7 @@ export const checkAccountReconciles = (account, dispatch, getState) => {
       const monthData = getState().financialData[year][month];
       const openingBalance = monthData.openingBalances[account.id];
       const calculatedBalance = openingBalance + accountTransactionTotals(account, monthData);
-      dispatch(accountReconciles(false));
+      dispatch(accountReconciles(calculatedBalance === account.lastStatementBalance));
     });
 };
 
