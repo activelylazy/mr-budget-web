@@ -13,7 +13,7 @@ export const accountNeedsReconcile = (account) => {
 
 export const checkAccountReconciles = (account, dispatch, getState) => {
   if (account.lastStatementDate === undefined) {
-    dispatch(accountReconciles(true));
+    dispatch(accountReconciles(account.id, true));
     return Promise.resolve();
   }
   const year = account.lastStatementDate.getFullYear();
@@ -24,7 +24,7 @@ export const checkAccountReconciles = (account, dispatch, getState) => {
       const monthData = getState().financialData[year][month];
       const openingBalance = monthData.openingBalances[account.id];
       const calculatedBalance = openingBalance + accountTransactionTotals(account, monthData);
-      dispatch(accountReconciles(calculatedBalance === account.lastStatementBalance));
+      dispatch(accountReconciles(account.id, calculatedBalance === account.lastStatementBalance));
     });
 };
 

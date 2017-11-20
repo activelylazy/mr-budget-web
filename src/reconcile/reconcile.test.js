@@ -69,6 +69,7 @@ describe('reconcile', () => {
   describe('check account reconciles', () => {
     it('dispatches account reconciles if no last statement date', (done) => {
       const account = {
+        id: 'abc-123',
         lastStatementDate: undefined,
       };
       const dispatch = sinon.stub();
@@ -79,6 +80,7 @@ describe('reconcile', () => {
           assert(getState.notCalled);
           assert(dispatch.calledWith(sinon.match({
             type: ACCOUNT_RECONCILES,
+            accountId: 'abc-123',
             reconciles: true,
           })));
           done();
@@ -119,6 +121,7 @@ describe('reconcile', () => {
           assert(accountTransactionTotals.calledWith(account, monthData));
           assert(dispatch.calledWith(sinon.match({
             type: ACCOUNT_RECONCILES,
+            accountId: 'abc-123',
             reconciles: false,
           })));
           done();
@@ -159,6 +162,7 @@ describe('reconcile', () => {
           assert(accountTransactionTotals.calledWith(account, monthData));
           assert(dispatch.calledWith(sinon.match({
             type: ACCOUNT_RECONCILES,
+            accountId: 'abc-123',
             reconciles: true,
           })));
           done();

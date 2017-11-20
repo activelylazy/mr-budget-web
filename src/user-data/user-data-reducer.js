@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import uuid from 'uuid';
 import { ADD_ACCOUNT, USER_DATA_LOADED, UPDATE_LAST_STATEMENT,
-  UPDATE_OPENING_BALANCE } from './user-data-actions';
+  UPDATE_OPENING_BALANCE, ACCOUNT_RECONCILES } from './user-data-actions';
 
 const defaultState = Immutable.from({
   accounts: [],
@@ -35,6 +35,15 @@ const updateAccountOpeningBalance = (account, action) => {
   return account;
 };
 
+const setAccountReconciles = (account, action) => {
+  if (account.id === action.accountId) {
+    return { ...account,
+      accountReconciles: action.reconciles,
+    };
+  }
+  return account;
+};
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case ADD_ACCOUNT:
@@ -48,6 +57,8 @@ export default (state = defaultState, action) => {
       return Immutable.set(state, 'accounts', state.accounts.map(account => updateAccount(account, action)));
     case UPDATE_OPENING_BALANCE:
       return Immutable.set(state, 'accounts', state.accounts.map(account => updateAccountOpeningBalance(account, action)));
+    case ACCOUNT_RECONCILES:
+      return Immutable.set(state, 'accounts', state.accounts.map(account => setAccountReconciles(account, action)));
     default:
       return state;
   }

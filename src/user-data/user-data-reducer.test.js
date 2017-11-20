@@ -180,4 +180,20 @@ describe('accounts reducer', () => {
       assert(state.accounts[0].openingDate.toString().should.equal(openingDate.toString()));
     });
   });
+
+  describe('set account reconciles', () => {
+    it('sets account reconciles', () => {
+      const accountId = 'abc-123';
+      const userData = Immutable({
+        accounts: [{
+          id: accountId,
+          name: 'my account',
+        }],
+      });
+      const state = accountsReducer(userData,
+        actions.accountReconciles(accountId, true));
+
+      assert(state.accounts[0].accountReconciles.should.equal(true));
+    });
+  });
 });
