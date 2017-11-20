@@ -28,8 +28,6 @@ export const checkAccountReconciles = (account, dispatch, getState) => {
     });
 };
 
-export const checkAllAccountsReconcile = (dispatch, getState) => {
-  getState().userData.accounts.forEach(account =>
-    checkAccountReconciles(account, dispatch, getState));
-  return Promise.resolve();
-};
+export const checkAllAccountsReconcile = (dispatch, getState) =>
+  Promise.all(getState().userData.accounts.map(account =>
+    checkAccountReconciles(account, dispatch, getState)));
