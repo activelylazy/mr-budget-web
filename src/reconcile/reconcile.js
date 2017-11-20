@@ -1,3 +1,4 @@
+import { accountReconciles } from '../user-data/user-data-actions';
 
 export const accountNeedsReconcile = (account) => {
   if (account.lastReconcileDate === undefined) {
@@ -6,7 +7,13 @@ export const accountNeedsReconcile = (account) => {
   return account.lastReconcileDate < account.lastStatementDate;
 };
 
-export const checkAccountReconciles = (account, dispatch, getState) => undefined;
+export const checkAccountReconciles = (account, dispatch, getState) => {
+  if (account.lastStatementDate === undefined) {
+    dispatch(accountReconciles(true));
+    return Promise.resolve();
+  }
+  return undefined;
+};
 
 export const checkAllAccountsReconcile = (dispatch, getState) => {
   getState().userData.accounts.forEach(account =>

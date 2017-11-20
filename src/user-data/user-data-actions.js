@@ -54,3 +54,9 @@ export const updateAccountOpeningBalance = (startDate, openingBalance, accountId
   openingBalance,
   accountId,
 });
+
+export const ACCOUNT_RECONCILES = 'ACCOUNT_RECONCILES';
+export const accountReconciles = reconciles => ({
+  type: ACCOUNT_RECONCILES,
+  reconciles,
+});

@@ -1,6 +1,8 @@
 import { assert, should } from 'chai';
 import sinon from 'sinon';
+import { ACCOUNT_RECONCILES } from '../user-data/user-data-actions';
 import { checkAllAccountsReconcile, accountNeedsReconcile,
+  checkAccountReconciles,
   __RewireAPI__ as rewireApi } from './reconcile';
 
 should();
@@ -34,8 +36,8 @@ describe('reconcile', () => {
     });
   });
 
-  describe('check all accounts do reconcile', () => {
-    it('checks each account does reconcile', (done) => {
+  describe('check all accounts reconcile', () => {
+    it('checks each account reconciles', (done) => {
       const checkAccountReconcilesStub = sinon.stub();
       const account = sinon.stub();
       const accounts = [account];
@@ -56,7 +58,24 @@ describe('reconcile', () => {
     });
   });
 
-  describe('check account needs reconcile', () => {
-    it('');
+  describe('check account reconciles', () => {
+    it('dispatches account reconciles if no last statement date', (done) => {
+      const account = {
+        lastStatementDate: undefined,
+      };
+      const dispatch = sinon.stub();
+      const getState = sinon.stub();
+
+      checkAccountReconciles(account, dispatch, getState)
+        .then(() => {
+          assert(getState.notCalled);
+          assert(dispatch.calledWith(sinon.match({
+            type: ACCOUNT_RECONCILES,
+            reconciles: true,
+          })));
+          done();
+        })
+        .catch(done);
+    });
   });
 });
