@@ -8,15 +8,55 @@ should();
 
 describe('user data thunk', () => {
   describe('load user data', () => {
-    it('fetches user data then dispatches user data loaded', (done) => {
+    it('fetches user data', (done) => {
       const auth = sinon.stub();
       const dispatch = sinon.stub();
       const userData = sinon.stub();
-      const fetchUserDataStub = sinon.stub().returns(Promise.resolve(userData));
+      const getState = sinon.stub();
 
+      const fetchUserDataStub = sinon.stub().returns(Promise.resolve(userData));
       rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
 
-      loadUserData(auth)(dispatch)
+      loadUserData(auth)(dispatch, getState)
+        .then(() => {
+          done();
+        })
+        .catch(done);
+    });
+
+    it('checks all accounts reconcile', (done) => {
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const userData = sinon.stub();
+      const getState = sinon.stub();
+
+      const checkAllAccountsReconcileStub = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('checkAllAccountsReconcile', checkAllAccountsReconcileStub);
+
+      const fetchUserDataStub = sinon.stub().returns(Promise.resolve(userData));
+      rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
+
+      loadUserData(auth)(dispatch, getState)
+        .then(() => {
+          assert(checkAllAccountsReconcileStub.calledWith(dispatch, getState));
+          done();
+        })
+        .catch(done);
+    });
+
+    it('it dispatches user data loaded', (done) => {
+      const auth = sinon.stub();
+      const dispatch = sinon.stub();
+      const userData = sinon.stub();
+      const getState = sinon.stub();
+
+      const checkAllAccountsReconcileStub = sinon.stub().returns(Promise.resolve());
+      rewireApi.__Rewire__('checkAllAccountsReconcile', checkAllAccountsReconcileStub);
+
+      const fetchUserDataStub = sinon.stub().returns(Promise.resolve(userData));
+      rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
+
+      loadUserData(auth)(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({ type: USER_DATA_LOADED, userData })));
           done();
@@ -28,11 +68,12 @@ describe('user data thunk', () => {
       const error = new Error('testing');
       const auth = sinon.stub();
       const dispatch = sinon.stub();
-      const fetchUserDataStub = sinon.stub().returns(Promise.reject(error));
+      const getState = sinon.stub();
 
+      const fetchUserDataStub = sinon.stub().returns(Promise.reject(error));
       rewireApi.__Rewire__('fetchUserData', fetchUserDataStub);
 
-      loadUserData(auth)(dispatch)
+      loadUserData(auth)(dispatch, getState)
         .then(() => {
           assert(dispatch.calledWith(sinon.match({
             type: SHOW_ERROR,
