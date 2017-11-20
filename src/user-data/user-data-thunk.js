@@ -4,7 +4,7 @@ import { fetchUserData, userDataLoaded } from './user-data-actions';
 
 export const loadUserData = auth => (dispatch, getState) => // eslint-disable-line
   fetchUserData(auth)
-    .then(userData => checkAllAccountsReconcile(dispatch, getState).then(() => userData))
     .then(userData => dispatch(userDataLoaded(userData)))
+    .then(() => checkAllAccountsReconcile(dispatch, getState))
     .catch(error => onError(dispatch, 'Error loading user data', error));
 
