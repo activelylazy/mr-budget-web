@@ -1,6 +1,9 @@
 import { accountReconciles } from '../user-data/user-data-actions';
 
 export const accountNeedsReconcile = (account) => {
+  if (account.lastStatementDate === undefined) {
+    return false;
+  }
   if (account.lastReconcileDate === undefined) {
     return true;
   }

@@ -9,6 +9,14 @@ should();
 
 describe('reconcile', () => {
   describe('account needs reconcile', () => {
+    it('returns false if no last statement date', () => {
+      const account = {
+        lastStatementDate: undefined,
+      };
+
+      assert(accountNeedsReconcile(account).should.equal(false));
+    });
+
     it('returns true if no last reconcile date', () => {
       const account = {
         lastStatementDate: new Date(2017, 7, 3),
